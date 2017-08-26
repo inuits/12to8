@@ -1,0 +1,5 @@
+language: go
+go:
+- 1.8
+- 1.9
+go_import_path: github.com/inuits/12to8
