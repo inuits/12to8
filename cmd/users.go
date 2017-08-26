@@ -36,12 +36,12 @@ from 925r and displays it in a nice way.`,
 		url := fmt.Sprintf("%s/v1/users?page_size=9999", endpoint)
 		client := &http.Client{}
 		req, err := http.NewRequest("GET", url, nil)
-		req.SetBasicAuth(username, password)
-		resp, err := client.Do(req)
 		if err != nil {
 			log.Fatalf("Can prepare request: %v", err)
 			os.Exit(1)
 		}
+		req.SetBasicAuth(username, password)
+		resp, err := client.Do(req)
 		if err != nil {
 			log.Fatalf("Can not fetch users list: %v", err)
 			os.Exit(1)
@@ -50,9 +50,9 @@ from 925r and displays it in a nice way.`,
 			log.Fatalf("Received non-200 status code while fetching %s: %d", url, resp.StatusCode)
 			os.Exit(1)
 		}
-		users := api.UsersResponse{}
+		users := api.UsersList{}
 		json.NewDecoder(resp.Body).Decode(&users)
-		users.Print()
+		users.PrettyPrint()
 	},
 }
 
