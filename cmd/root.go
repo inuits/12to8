@@ -16,8 +16,13 @@ package cmd
 
 import (
 	"fmt"
+	//	"log"
 	"os"
 
+	"github.com/go-openapi/runtime"
+	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
+	"github.com/inuits/12to8/client"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -26,6 +31,8 @@ var cfgFile string
 var username string
 var password string
 var endpoint string
+var apiclient client.Ninetofiver
+var basicAuth runtime.ClientAuthInfoWriter
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -65,6 +72,16 @@ func init() {
 	viper.BindPFlag("password", RootCmd.PersistentFlags().Lookup("password"))
 	RootCmd.PersistentFlags().StringVarP(&endpoint, "endpoint", "e", "", "API endpoint (without /v1)")
 	viper.BindPFlag("endpoint", RootCmd.PersistentFlags().Lookup("endpoint"))
+}
+
+func initApiClient() {
+	apiclient = *client.NewHTTPClientWithConfig(
+		strfmt.Default,
+		&client.TransportConfig{
+			Host:    endpoint,
+			Schemes: []string{"https"},
+		})
+	basicAuth = httptransport.BasicAuth(username, password)
 }
 
 // initConfig reads in config file and ENV variables if set.

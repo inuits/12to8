@@ -15,13 +15,11 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
-	"github.com/inuits/12to8/api"
+	"github.com/inuits/12to8/client/users"
 	"github.com/spf13/cobra"
 )
 
@@ -32,27 +30,13 @@ var usersCmd = &cobra.Command{
 	Long: `This command fetches the list of users
 from 925r and displays it in a nice way.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
-		url := fmt.Sprintf("%s/v1/users?page_size=9999", endpoint)
-		client := &http.Client{}
-		req, err := http.NewRequest("GET", url, nil)
+		initApiClient()
+		resp, err := apiclient.Users.UsersList(users.NewUsersListParams(), basicAuth)
 		if err != nil {
-			log.Fatalf("Can prepare request: %v", err)
+			log.Fatal(err)
 			os.Exit(1)
 		}
-		req.SetBasicAuth(username, password)
-		resp, err := client.Do(req)
-		if err != nil {
-			log.Fatalf("Can not fetch users list: %v", err)
-			os.Exit(1)
-		}
-		if resp.StatusCode != 200 {
-			log.Fatalf("Received non-200 status code while fetching %s: %d", url, resp.StatusCode)
-			os.Exit(1)
-		}
-		users := api.UsersList{}
-		json.NewDecoder(resp.Body).Decode(&users)
-		users.PrettyPrint()
+		fmt.Printf("%#v\n", resp)
 	},
 }
 
