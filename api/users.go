@@ -32,12 +32,16 @@ type User struct {
 	redmine_id   int
 }
 
-type UsersResponse struct {
+type UsersList struct {
 	Users []User `json:"results"`
 }
 
-func (u *UsersResponse) Print() {
-	for _, user := range u.Users {
-		fmt.Printf("%s \"%s\" %s\n", user.FirstName, user.Username, user.LastName)
+func (r *UsersList) PrettyPrint() {
+	for _, u := range r.Users {
+		u.PrettyPrint()
 	}
+}
+
+func (u *User) PrettyPrint() {
+	fmt.Printf("%s \"%s\" %s\n", u.FirstName, u.Username, u.LastName)
 }
