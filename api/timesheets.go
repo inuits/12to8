@@ -45,7 +45,11 @@ func (ts *TimesheetsList) Fetch(c Client) error {
 }
 
 func (t *Timesheet) New(c Client) error {
-	_, err := c.PostRequest(fmt.Sprintf("%s/v1/my_timesheets/", c.Endpoint), t)
+	resp, err := c.PostRequest(fmt.Sprintf("%s/v1/my_timesheets/", c.Endpoint), t)
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(t)
 	if err != nil {
 		return err
 	}
