@@ -15,7 +15,6 @@
 package cmd
 
 import (
-	"errors"
 	"log"
 
 	"github.com/inuits/12to8/api"
@@ -33,7 +32,7 @@ Example:
 12to8 timesheet new 10
 12to8 timesheet new 9/2017
 `,
-	Args: newTimesheetArgs,
+	Args: validTimesheetArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		monthSpec := ""
 		if len(args) == 1 {
@@ -55,19 +54,6 @@ Example:
 		}
 		timesheet.PrettyPrint()
 	},
-}
-
-func newTimesheetArgs(cmd *cobra.Command, args []string) error {
-	if len(args) > 1 {
-		return errors.New("takes at most one argument")
-	}
-	if len(args) == 1 {
-		_, _, err := getMonthYearFromArg(args[0])
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }
 
 func init() {

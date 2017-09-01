@@ -20,6 +20,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/spf13/cobra"
 )
 
 func getMonthYearFromArg(arg string) (int, int, error) {
@@ -48,4 +50,17 @@ func getMonthYearFromArg(arg string) (int, int, error) {
 		return 0, 0, errors.New(fmt.Sprintf("bad month: %v", v[0]))
 	}
 	return m, y, nil
+}
+
+func validTimesheetArgs(cmd *cobra.Command, args []string) error {
+	if len(args) > 1 {
+		return errors.New("takes at most one argument")
+	}
+	if len(args) == 1 {
+		_, _, err := getMonthYearFromArg(args[0])
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
