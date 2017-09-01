@@ -29,3 +29,12 @@ Create new timesheet:
 12to8 new timesheet 9
 12to8 new timesheet 9/2017
 ```
+
+Release timesheet:
+```
+12to8 release timesheet
+12to8 release timesheet -f
+12to8 release timesheet 9
+12to8 release timesheet 9/2017
+```
+

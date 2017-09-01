@@ -15,6 +15,12 @@ type Client struct {
 	Password string
 }
 
+func (c *Client) PatchRequest(url string, i interface{}) (*http.Response, error) {
+	b := new(bytes.Buffer)
+	json.NewEncoder(b).Encode(i)
+	return c.Request("PATCH", url, 200, b)
+}
+
 func (c *Client) PostRequest(url string, i interface{}) (*http.Response, error) {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(i)
