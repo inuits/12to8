@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package api_test
-
-import "github.com/inuits/12to8/api"
+package api
 
 func ExampleTimesheet_PrettyPrint() {
-	t := &api.Timesheet{
+	t := &Timesheet{
 		Year:   2016,
 		Month:  7,
 		Status: "PENDING",
@@ -27,14 +25,14 @@ func ExampleTimesheet_PrettyPrint() {
 }
 
 func ExampleTimesheets_PrettyPrint() {
-	t := &api.TimesheetsList{
-		Timesheets: []api.Timesheet{
-			api.Timesheet{
+	t := &TimesheetsList{
+		Timesheets: []Timesheet{
+			Timesheet{
 				Year:   2007,
 				Month:  8,
 				Status: "APPROVED",
 			},
-			api.Timesheet{
+			Timesheet{
 				Year:   2016,
 				Month:  7,
 				Status: "PENDING",
