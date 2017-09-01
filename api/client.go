@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"runtime"
 )
 
 type Client struct {
@@ -39,6 +40,7 @@ func (c *Client) Request(verb, url string, code int, payload io.Reader) (*http.R
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", fmt.Sprintf("12to8/0.0.1 (%s)", runtime.Version()))
 	req.SetBasicAuth(c.Username, c.Password)
 	resp, err := client.Do(req)
 	if err != nil {
