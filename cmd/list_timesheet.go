@@ -23,15 +23,9 @@ import (
 )
 
 // timesheetListCmd represents the timesheetList command
-var timesheetListCmd = &cobra.Command{
-	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+var listTimesheetCmd = &cobra.Command{
+	Use:   "timesheets",
+	Short: "List all your timesheets",
 	Run: func(cmd *cobra.Command, args []string) {
 		timesheets := &api.TimesheetsList{}
 		c := NewApiClient()
@@ -45,5 +39,5 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	timesheetCmd.AddCommand(timesheetListCmd)
+	listCmd.AddCommand(listTimesheetCmd)
 }

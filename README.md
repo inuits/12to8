@@ -13,19 +13,19 @@ $ go get github.com/Inuits/12to8
 List users:
 
 ```
-12to8 users -e https://9TO5URL/api --user YOURUSER -p YOURPASS
+12to8 list users
 ```
 
 List timesheets:
 
 ```
-12to8 timesheet list
+12to8 list timesheets
 ```
 
 Create new timesheet:
 
 ```
-12to8 timesheet new
-12to8 timesheet new 9
-12to8 timesheet new 9/2017
+12to8 new timesheet
+12to8 new timesheet 9
+12to8 new timesheet 9/2017
 ```

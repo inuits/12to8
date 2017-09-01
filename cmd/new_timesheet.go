@@ -24,8 +24,8 @@ import (
 )
 
 // timesheetNewCmd represents the timesheetNew command
-var timesheetNewCmd = &cobra.Command{
-	Use:   "new [MM[/YYYY]]",
+var newTimesheetCmd = &cobra.Command{
+	Use:   "timesheet [MM[/YYYY]]",
 	Short: "Create a new timesheet",
 	Long: `Create a new timesheet for the given month and year.
 Example:
@@ -60,10 +60,6 @@ Example:
 	},
 }
 
-func init() {
-	timesheetCmd.AddCommand(timesheetNewCmd)
-}
-
 func newTimesheetArgs(cmd *cobra.Command, args []string) error {
 	if len(args) > 1 {
 		return errors.New("takes at most one argument")
@@ -75,4 +71,8 @@ func newTimesheetArgs(cmd *cobra.Command, args []string) error {
 		}
 	}
 	return nil
+}
+
+func init() {
+	newCmd.AddCommand(newTimesheetCmd)
 }

@@ -15,31 +15,15 @@
 package cmd
 
 import (
-	"log"
-	"os"
-
-	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
 
-// usersCmd represents the users command
-var usersCmd = &cobra.Command{
-	Use:   "users",
-	Short: "Fetch the list of users",
-	Long: `This command fetches the list of users
-from 925r and displays it in a nice way.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		users := &api.UsersList{}
-		c := NewApiClient()
-		err := users.Fetch(c)
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(-1)
-		}
-		users.PrettyPrint()
-	},
+// timesheetCmd represents the timesheet command
+var newCmd = &cobra.Command{
+	Use:   "new",
+	Short: "Create timesheets, performances, leaves...",
 }
 
 func init() {
-	listCmd.AddCommand(usersCmd)
+	RootCmd.AddCommand(newCmd)
 }

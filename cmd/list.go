@@ -19,11 +19,11 @@ import (
 )
 
 // timesheetCmd represents the timesheet command
-var timesheetCmd = &cobra.Command{
-	Use:   "timesheet",
-	Short: "Act around the timesheets",
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "Create timesheets, performances, leaves...",
 }
 
 func init() {
-	RootCmd.AddCommand(timesheetCmd)
+	RootCmd.AddCommand(listCmd)
 }
