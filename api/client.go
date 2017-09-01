@@ -39,7 +39,13 @@ func (c *Client) Request(verb, url string, code int, payload io.Reader) (*http.R
 		return resp, err
 	}
 	if resp.StatusCode != code {
-		return resp, errors.New(fmt.Sprintf("Received %d, expecting %d status code while fetching %s", resp.StatusCode, code, url))
+		var content []byte
+		out := make([]byte, 100)
+		_, err = resp.Body.Read(out)
+		if err == nil {
+			content = out
+		}
+		return resp, errors.New(fmt.Sprintf("Received %d, expecting %d status code while fetching %s\n%s", resp.StatusCode, code, url, string(content)))
 	}
 	return resp, err
 }
