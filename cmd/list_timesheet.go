@@ -16,7 +16,6 @@ package cmd
 
 import (
 	"log"
-	"os"
 
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
@@ -32,7 +31,6 @@ var listTimesheetCmd = &cobra.Command{
 		err := timesheets.Fetch(c)
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(-1)
 		}
 		timesheets.PrettyPrint()
 	},

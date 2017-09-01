@@ -17,7 +17,6 @@ package cmd
 import (
 	"errors"
 	"log"
-	"os"
 
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
@@ -43,7 +42,6 @@ Example:
 		month, year, err := getMonthYearFromArg(monthSpec)
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(-1)
 		}
 		timesheet := &api.Timesheet{
 			Month:  month,
@@ -54,7 +52,6 @@ Example:
 		err = timesheet.New(c)
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(-1)
 		}
 		timesheet.PrettyPrint()
 	},
