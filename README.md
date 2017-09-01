@@ -2,14 +2,15 @@
 
 A client for [9to5r](https://github.com/kalmanolah/925r)
 
-# Install
+## Install
 
 ```
 $ go get github.com/Inuits/12to8
 ```
 
-# Usage
+## Usage
 
+### Lists
 List users:
 
 ```
@@ -21,6 +22,15 @@ List timesheets:
 ```
 12to8 list timesheets
 ```
+
+List companies:
+
+```
+12to8 list companies
+```
+
+
+### Actions
 
 Create new timesheet:
 
