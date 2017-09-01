@@ -28,6 +28,7 @@ var cfgFile string
 var username string
 var password string
 var endpoint string
+var force bool
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{

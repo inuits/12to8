@@ -15,15 +15,27 @@
 package cmd
 
 import (
+	"log"
+
+	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
 
-// timesheetCmd represents the timesheet command
-var timesheetCmd = &cobra.Command{
-	Use:   "timesheet",
-	Short: "Act around the timesheets",
+// timesheetListCmd represents the timesheetList command
+var listTimesheetCmd = &cobra.Command{
+	Use:   "timesheets",
+	Short: "List all your timesheets",
+	Run: func(cmd *cobra.Command, args []string) {
+		timesheets := &api.TimesheetsList{}
+		c := NewApiClient()
+		err := timesheets.Fetch(c)
+		if err != nil {
+			log.Fatal(err)
+		}
+		timesheets.PrettyPrint()
+	},
 }
 
 func init() {
-	RootCmd.AddCommand(timesheetCmd)
+	listCmd.AddCommand(listTimesheetCmd)
 }

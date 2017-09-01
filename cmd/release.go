@@ -12,35 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package api
+package cmd
 
-func ExampleTimesheet_PrettyPrint() {
-	t := &Timesheet{
-		Year:   2016,
-		Month:  7,
-		Status: "PENDING",
-	}
-	t.PrettyPrint()
-	// Output: July 2016 [PENDING]
+import (
+	"github.com/spf13/cobra"
+)
+
+// timesheetCmd represents the timesheet command
+var releaseCmd = &cobra.Command{
+	Use:   "release",
+	Short: "release timesheets",
 }
 
-func ExampleTimesheets_PrettyPrint() {
-	t := &TimesheetsList{
-		Timesheets: []Timesheet{
-			Timesheet{
-				Year:   2007,
-				Month:  8,
-				Status: "APPROVED",
-			},
-			Timesheet{
-				Year:   2016,
-				Month:  7,
-				Status: "PENDING",
-			},
-		},
-	}
-	t.PrettyPrint()
-	// Output:
-	// August 2007 [APPROVED]
-	// July 2016 [PENDING]
+func init() {
+	RootCmd.AddCommand(releaseCmd)
 }

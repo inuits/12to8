@@ -16,34 +16,28 @@ package cmd
 
 import (
 	"log"
-	"os"
 
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
 
-// timesheetListCmd represents the timesheetList command
-var timesheetListCmd = &cobra.Command{
-	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+// usersCmd represents the users command
+var usersCmd = &cobra.Command{
+	Use:   "users",
+	Short: "Fetch the list of users",
+	Long: `This command fetches the list of users
+from 925r and displays it in a nice way.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		timesheets := &api.TimesheetsList{}
+		users := &api.UsersList{}
 		c := NewApiClient()
-		err := timesheets.Fetch(c)
+		err := users.Fetch(c)
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(-1)
 		}
-		timesheets.PrettyPrint()
+		users.PrettyPrint()
 	},
 }
 
 func init() {
-	timesheetCmd.AddCommand(timesheetListCmd)
+	listCmd.AddCommand(usersCmd)
 }
