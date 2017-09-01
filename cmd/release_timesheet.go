@@ -25,9 +25,9 @@ import (
 // timesheetReleaseCmd represents the timesheetRelease command
 var releaseTimesheetCmd = &cobra.Command{
 	Use:   "timesheet [MM[/YYYY]]",
-	Short: "Releate a timesheet to pending state",
+	Short: "Release a timesheet",
 	Long: `Release a timesheet for approval. Once you have done this,
-you can no longer make changes to the timesheet.`,
+the timesheet is locked and you can no longer make changes to it.`,
 	Args: validTimesheetArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		monthSpec := ""
