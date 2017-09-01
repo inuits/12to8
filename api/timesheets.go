@@ -49,7 +49,6 @@ func (t *Timesheet) New(c Client) error {
 	if err != nil {
 		return err
 	}
-	t.PrettyPrint()
 	return nil
 }
 
