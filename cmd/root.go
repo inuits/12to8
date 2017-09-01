@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -80,5 +81,13 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	}
+}
+
+func NewApiClient() api.Client {
+	return api.Client{
+		Username: username,
+		Password: password,
+		Endpoint: endpoint,
 	}
 }

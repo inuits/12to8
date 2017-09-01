@@ -14,7 +14,10 @@
 
 package api
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 type User struct {
 	Id           int
@@ -34,6 +37,15 @@ type User struct {
 
 type UsersList struct {
 	Users []User `json:"results"`
+}
+
+func (users *UsersList) Fetch(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/users?page_size=9999", c.Endpoint))
+	if err != nil {
+		return err
+	}
+	json.NewDecoder(resp.Body).Decode(users)
+	return nil
 }
 
 func (r *UsersList) PrettyPrint() {
