@@ -16,7 +16,6 @@ package cmd
 
 import (
 	"log"
-	"os"
 
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
@@ -34,7 +33,6 @@ from 925r and displays it in a nice way.`,
 		err := users.Fetch(c)
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(-1)
 		}
 		users.PrettyPrint()
 	},
