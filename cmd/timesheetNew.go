@@ -18,7 +18,6 @@ import (
 	"errors"
 	"log"
 	"os"
-	"strconv"
 
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
@@ -26,21 +25,22 @@ import (
 
 // timesheetNewCmd represents the timesheetNew command
 var timesheetNewCmd = &cobra.Command{
-	Use:   "new",
+	Use:   "new [MM[/YYYY]]",
 	Short: "Create a new timesheet",
 	Long: `Create a new timesheet for the given month and year.
 Example:
 
-12to8 timesheet new 2017 09
-12to8 timesheet new 2017 10 "My Timesheet"`,
+12to8 timesheet new
+12to8 timesheet new 10
+12to8 timesheet new 9/2017
+`,
 	Args: newTimesheetArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		year, err := strconv.Atoi(args[0])
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(-1)
+		monthSpec := ""
+		if len(args) == 1 {
+			monthSpec = args[0]
 		}
-		month, err := strconv.Atoi(args[1])
+		month, year, err := getMonthYearFromArg(monthSpec)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(-1)
@@ -48,7 +48,7 @@ Example:
 		timesheet := &api.Timesheet{
 			Month:  month,
 			Year:   year,
-			Status: "PENDING",
+			Status: "ACTIVE",
 		}
 		c := NewApiClient()
 		err = timesheet.New(c)
@@ -65,19 +65,14 @@ func init() {
 }
 
 func newTimesheetArgs(cmd *cobra.Command, args []string) error {
-	if len(args) != 2 {
-		return errors.New("requires exactly 2 args")
+	if len(args) > 1 {
+		return errors.New("takes at most one argument")
 	}
-	_, err := strconv.Atoi(args[0])
-	if err != nil {
-		return errors.New("year must be a number")
-	}
-	month, err := strconv.Atoi(args[1])
-	if err != nil {
-		return errors.New("month must be a number")
-	}
-	if month < 1 || month > 12 {
-		return errors.New("invalid month range")
+	if len(args) == 1 {
+		_, _, err := getMonthYearFromArg(args[0])
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

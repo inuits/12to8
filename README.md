@@ -25,5 +25,7 @@ List timesheets:
 Create new timesheet:
 
 ```
-12to8 timesheet new 2017 9
+12to8 timesheet new
+12to8 timesheet new 9
+12to8 timesheet new 9/2017
 ```
