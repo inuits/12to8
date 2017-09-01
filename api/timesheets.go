@@ -22,10 +22,10 @@ import (
 
 type Timesheet struct {
 	Id           int
-	Year         int
-	Month        int
+	Year         int    `json:"year"`
+	Month        int    `json:"month"`
 	DisplayLabel string `json:"display_label"`
-	Status       string
+	Status       string `json:"status"`
 }
 
 type TimesheetsList struct {
@@ -41,6 +41,15 @@ func (ts *TimesheetsList) Fetch(c Client) error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (t *Timesheet) New(c Client) error {
+	_, err := c.PostRequest(fmt.Sprintf("%s/v1/my_timesheets/", c.Endpoint), t)
+	if err != nil {
+		return err
+	}
+	t.PrettyPrint()
 	return nil
 }
 

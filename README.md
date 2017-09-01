@@ -21,3 +21,9 @@ List timesheets:
 ```
 12to8 timesheet list
 ```
+
+Create new timesheet:
+
+```
+12to8 timesheet new 2017 9
+```

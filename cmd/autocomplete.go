@@ -21,6 +21,35 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	bash_completion_func = `
+__12to8_timesheet_new_comp(){
+    if [[ ${#nouns[@]} -eq 0 ]]; then
+        COMPREPLY=( $( compgen -W "$(date -d '1 year ago' +%Y) $(date +%Y) $(date -d '1 year' +%Y)" -- "$cur" ) )
+        return 0
+    fi
+    if [[ ${#nouns[@]} -eq 1 ]]; then
+        COMPREPLY=( $( compgen -W "1 2 3 4 5 6 7 8 9 10 11" -- "$cur" ) )
+        return 0
+    fi
+    if [[ ${#nouns[@]} -gt 1 ]]; then
+        return 1
+    fi
+}
+
+__custom_func() {
+    case ${last_command} in
+        12to8_timesheet_new)
+            __12to8_timesheet_new_comp
+            return
+            ;;
+        *)
+            ;;
+    esac
+}
+`
+)
+
 // autocompleteCmd represents the autocomplete command
 var autocompleteCmd = &cobra.Command{
 	Use:   "autocomplete",
