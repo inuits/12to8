@@ -76,13 +76,13 @@ func initConfig() {
 
 	viper.SetConfigName(".12to8")          // name of config file (without extension)
 	viper.AddConfigPath(os.Getenv("HOME")) // adding home directory as first search path
-	//	viper.SetEnvPrefix("twelve_to_eight")  // env variables can't start with a number
-	viper.AutomaticEnv() // read in environment variables that match
+	viper.SetEnvPrefix("twelve_to_eight")  // env variables can't start with a number
+	viper.AutomaticEnv()                   // read in environment variables that match
 	viper.ReadInConfig()
 }
 
 func NewApiClient() api.Client {
-	username := viper.GetString("username")
+	username := viper.GetString("user")
 	password := viper.GetString("password")
 	endpoint := viper.GetString("endpoint")
 	if endpoint == "" {
