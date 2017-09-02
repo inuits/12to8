@@ -45,7 +45,7 @@ func (cs *CompaniesList) Fetch(c Client) error {
 // Get returns the Company from the server
 func (co *Company) Get(c Client) error {
 	cs := &CompaniesList{}
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/?name=%s", co.Name))
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/?name=%s", c.Endpoint, co.Name))
 	if err != nil {
 		return err
 	}
@@ -57,6 +57,20 @@ func (co *Company) Get(c Client) error {
 		return errors.New(fmt.Sprintf("Expected 1 company, got %d", len(cs.Companies)))
 	}
 	*co = cs.Companies[0]
+	return nil
+}
+
+// Get returns the Company from the server
+func (co *Company) GetById(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", c.Endpoint, co.Id))
+
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(co)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
