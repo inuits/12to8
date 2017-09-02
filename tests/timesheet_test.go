@@ -10,7 +10,7 @@ import (
 // when we do not give any argument
 func TestTimesheetCurrentMonth(t *testing.T) {
 	c := &dockerId{}
-	c.start925r(t)
+	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
 	(&CmdTestCase{
@@ -52,7 +52,7 @@ func TestTimesheetCurrentMonth(t *testing.T) {
 // when we give only the current month
 func TestTimesheetCurrentYear(t *testing.T) {
 	c := &dockerId{}
-	c.start925r(t)
+	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
 	(&CmdTestCase{
@@ -94,7 +94,7 @@ func TestTimesheetCurrentYear(t *testing.T) {
 // when we give only the month and the year
 func TestTimesheetFixedMonthYear(t *testing.T) {
 	c := &dockerId{}
-	c.start925r(t)
+	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
 	(&CmdTestCase{

@@ -2,6 +2,7 @@ package acceptance_tests
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -12,15 +13,22 @@ import (
 	"time"
 )
 
+var skip_docker bool
+
 type dockerId struct {
 	Id   string
 	Port int
 }
 
-func (d *dockerId) start925r(t *testing.T) {
+func (d *dockerId) start925r(t *testing.T, fixture string) {
+	if skip_docker {
+		t.Log("Not using docker.")
+		d.Port = 8000
+		return
+	}
 	t.Parallel()
 	// Start a Docker container
-	c := exec.Command("docker", "run", "-d", "-p", "8000", "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "--rm", "roidelapluie/925r", "/tests/run-925r.sh")
+	c := exec.Command("docker", "run", "-d", "-p", "8000", "-e", fmt.Sprintf("FIXTURE=%s", fixture), "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "--rm", "roidelapluie/925r", "/tests/run-925r.sh")
 	var stdout, stderr bytes.Buffer
 	c.Stdout = &stdout
 	c.Stderr = &stderr
@@ -80,4 +88,8 @@ func (d *dockerId) stop925r(t *testing.T) {
 
 func (d *dockerId) EndpointEnv() string {
 	return fmt.Sprintf("TWELVE_TO_EIGHT_ENDPOINT=http://127.0.0.1:%d/api", d.Port)
+}
+
+func init() {
+	flag.BoolVar(&skip_docker, "skip-docker", false, "Do not manage the 925r instances using docker. Make tests not parallel. Exects 925r on http://127.0.0.1:8000.")
 }
