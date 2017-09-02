@@ -1,0 +1,128 @@
+[
+   {
+      "fields" : {
+         "country" : "BE",
+         "created_at" : "2017-09-02T05:25:58.614Z",
+         "internal" : true,
+         "updated_at" : "2017-09-02T05:25:58.614Z",
+         "name" : "MyComp",
+         "vat_identification_number" : "BEXXXXX",
+         "address" : "HomeTown",
+         "polymorphic_ctype" : 18
+      },
+      "pk" : 1,
+      "model" : "ninetofiver.company"
+   },
+   {
+      "pk" : 2,
+      "model" : "ninetofiver.company",
+      "fields" : {
+         "address" : "Ouside",
+         "polymorphic_ctype" : 18,
+         "internal" : false,
+         "created_at" : "2017-09-02T05:26:48.459Z",
+         "country" : "US",
+         "vat_identification_number" : "BEYYYY",
+         "updated_at" : "2017-09-02T05:26:48.460Z",
+         "name" : "ExtComp"
+      }
+   },
+   {
+      "model" : "ninetofiver.company",
+      "pk" : 3,
+      "fields" : {
+         "address" : "Somewhere\r\nThere",
+         "polymorphic_ctype" : 18,
+         "created_at" : "2017-09-02T05:27:27.225Z",
+         "internal" : false,
+         "country" : "CN",
+         "vat_identification_number" : "ONEOTHER",
+         "name" : "One More Comp.",
+         "updated_at" : "2017-09-02T05:27:27.225Z"
+      }
+   },
+   {
+      "model" : "ninetofiver.performancetype",
+      "pk" : 1,
+      "fields" : {
+         "created_at" : "2017-09-02T05:29:16.763Z",
+         "label" : "Normal 100%",
+         "polymorphic_ctype" : 14,
+         "description" : "",
+         "multiplier" : "1.00",
+         "updated_at" : "2017-09-02T05:29:16.763Z"
+      }
+   },
+   {
+      "pk" : 2,
+      "model" : "ninetofiver.performancetype",
+      "fields" : {
+         "label" : "Extra 200%",
+         "created_at" : "2017-09-02T05:29:30.013Z",
+         "multiplier" : "2.00",
+         "updated_at" : "2017-09-02T05:29:30.013Z",
+         "description" : "",
+         "polymorphic_ctype" : 14
+      }
+   },
+   {
+      "pk" : 1,
+      "model" : "ninetofiver.contract",
+      "fields" : {
+         "contract_groups" : [],
+         "description" : "We save the day",
+         "updated_at" : "2017-09-02T05:30:19.141Z",
+         "company" : 1,
+         "created_at" : "2017-09-02T05:30:04.582Z",
+         "customer" : 2,
+         "redmine_id" : "",
+         "active" : true,
+         "label" : "Day Saver",
+         "polymorphic_ctype" : 29,
+         "attachments" : [],
+         "performance_types" : [
+            1,
+            2
+         ]
+      }
+   },
+   {
+      "model" : "ninetofiver.consultancycontract",
+      "pk" : 1,
+      "fields" : {
+         "day_rate" : "1000.00",
+         "performance_types" : [
+            1,
+            2
+         ],
+         "attachments" : [],
+         "ends_at" : null,
+         "starts_at" : "2016-09-02",
+         "duration" : null,
+         "contract_groups" : []
+      }
+   },
+   {
+      "fields" : {
+         "polymorphic_ctype" : 17,
+         "description" : "",
+         "updated_at" : "2017-09-02T05:30:00.116Z",
+         "created_at" : "2017-09-02T05:30:00.116Z",
+         "label" : "executor"
+      },
+      "model" : "ninetofiver.contractrole",
+      "pk" : 1
+   },
+   {
+      "fields" : {
+         "updated_at" : "2017-09-02T05:30:04.587Z",
+         "contract" : 1,
+         "polymorphic_ctype" : 32,
+         "created_at" : "2017-09-02T05:30:04.587Z",
+         "user" : 2,
+         "contract_role" : 1
+      },
+      "pk" : 1,
+      "model" : "ninetofiver.contractuser"
+   }
+]

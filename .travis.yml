@@ -3,3 +3,10 @@ go:
 - 1.8
 - 1.9
 go_import_path: github.com/inuits/12to8
+script: make
+sudo: true
+services:
+    - docker
+env:
+- TEST=unit
+- TEST=acceptance
