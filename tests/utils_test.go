@@ -2,6 +2,7 @@ package acceptance_tests
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
@@ -15,6 +16,7 @@ import (
 var RunAsAdmin []string
 var RunAsUser []string
 var DefaultCmd string
+var fixtures []string
 
 type CmdTestCase struct {
 	Name          string
@@ -27,6 +29,28 @@ type CmdTestCase struct {
 	OutText       string
 	ErrRegex      string
 	Env           []string
+}
+
+// TestMain pulls the docker image,
+// imports the fixtures, then commits them.
+func TestMain(m *testing.M) {
+	setup()
+	code := m.Run()
+	shutdown()
+	os.Exit(code)
+}
+
+func setup() {
+	flag.Parse()
+	for _, f := range fixtures {
+		createContainerWithFixture(f)
+	}
+}
+
+func shutdown() {
+	for _, f := range fixtures {
+		deleteContainerWithFixture(f)
+	}
 }
 
 func (t *CmdTestCase) Run(test *testing.T) {
@@ -93,6 +117,7 @@ func init() {
 		"TWELVE_TO_EIGHT_PASSWORD=pass",
 	}
 	DefaultCmd = path.Join(os.Getenv("PWD"), "..", "12to8")
+	fixtures = []string{"basic_projects"}
 }
 
 func newTimesheet(t *testing.T, c *dockerId) {
