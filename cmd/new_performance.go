@@ -119,8 +119,13 @@ It must follow the same syntax as in "12to8 list contracts".`,
 func init() {
 	newCmd.AddCommand(newPerformanceCmd)
 
+	annotation := make(map[string][]string)
+	annotation[cobra.BashCompCustom] = []string{"__12to8_contracts_comp"}
+
 	newPerformanceCmd.Flags().StringVarP(&project, "contract", "c", "", "Contract to use")
-	viper.BindPFlag("contract", newPerformanceCmd.Flags().Lookup("contract"))
+	c := newPerformanceCmd.Flags().Lookup("contract")
+	c.Annotations = annotation
+	viper.BindPFlag("contract", c)
 	newPerformanceCmd.Flags().StringVarP(&perf_type, "type", "t", "Activity", "Type: Activity/Standby")
 	viper.BindPFlag("type", newPerformanceCmd.Flags().Lookup("type"))
 	newPerformanceCmd.Flags().StringVarP(&multiplier, "multiplier", "m", "1.00", "Multiplier")

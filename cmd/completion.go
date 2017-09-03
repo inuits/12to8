@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +33,26 @@ __12to8_new_timesheet_comp(){
     if [[ ${#nouns[@]} -ge 1 ]]; then
 			COMPREPLY=(  $(compgen -W "" -- "$cur" ) )
         return 0
-    fi
+	fi
+}
+
+__12to8_contracts_comp(){
+	local IFS=$'\n'
+	COMPREPLY=( $( compgen -W "$(12to8 list contracts 2>/dev/null)" -- "$cur" ) )
+	local i=0
+	local r
+	for r in ${COMPREPLY[@]}
+	do
+		if [[ "${cur:0:1}" == "'" ]]; then
+			COMPREPLY[$i]="${r//\'/\'}"
+		elif [[ "${cur:0:1}" == '"' ]]; then
+			COMPREPLY[$i]="${r//\"/\\\"}"
+		else
+			COMPREPLY[$i]="\"${r//\"/\\\"}\""
+		fi
+		let i++
+	done
+	return 0
 }
 
 __custom_func() {
@@ -68,15 +88,31 @@ echo . ~/.12to8.complete >> ~/.bashrc
 	Run: func(cmd *cobra.Command, args []string) {
 		switch args[0] {
 		case "bash":
-			var out bytes.Buffer
-			RootCmd.GenBashCompletion(&out)
-			fmt.Print(out.String())
+			bashComplete()
+		case "contracts":
+			contractsComplete()
 		default:
 			log.Fatal("Unknown shell")
 		}
 	},
 }
 
+func bashComplete() {
+	var out bytes.Buffer
+	RootCmd.GenBashCompletion(&out)
+	fmt.Print(out.String())
+}
+
+// listContractsCmd represents the list contracts command
+func contractsComplete() {
+	contracts := &api.ContractsList{}
+	c := NewApiClient()
+	err := contracts.Fetch(c)
+	if err != nil {
+		log.Fatal(err)
+	}
+	contracts.PrettyPrint()
+}
 func init() {
 	RootCmd.AddCommand(autocompleteCmd)
 }

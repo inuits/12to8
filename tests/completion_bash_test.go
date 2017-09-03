@@ -58,15 +58,27 @@ func TestNewTimesheetCompletion(t *testing.T) {
 	testCompletion(t, nil, []string{"12to8", "new", "timesheet", ""}, possibleTimesheets)
 }
 
+func TestNewPerformanceContractCompletion(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	testCompletion(t, c, []string{"12to8", "new", "pe"}, []string{"performance"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", ""}, []string{`"Go Consultancy [Python & Co]"`, `"Internal Stuff (c) [Golang Tech]"`})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", `"`}, []string{"Go Consultancy [Python & Co]", "Internal Stuff (c) [Golang Tech]"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", `'`}, []string{"Go Consultancy [Python & Co]", "Internal Stuff (c) [Golang Tech]"})
+}
+
 func completionBashCode(cli []string) string {
-	flatcli := strings.Join(cli, " ")
+	flatcli := strings.Replace(strings.Join(cli, " "), `"`, `\"`, -1)
+	flatcli = strings.Replace(flatcli, "'", `\'`, -1)
 	words := len(cli) - 1
 	return fmt.Sprintf(`
+export PATH=..:$PATH
 . /usr/share/bash-completion/bash_completion
-. <(../12to8 completion bash)
+. <(12to8 completion bash)
 COMP_WORDS=(%s)
 COMP_CWORD=%d
-COMP_LINE='%s'
+COMP_LINE="%s"
 COMP_POINT=${#COMP_LINE}
 _xfunc 12to8 __start_12to8
 printf '%%s\n' "${COMPREPLY[@]}"
