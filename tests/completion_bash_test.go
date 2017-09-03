@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestTopCompletion(t *testing.T) {
@@ -24,6 +25,37 @@ func TestAddPerformanceCompletion(t *testing.T) {
 func TestReleaseTimesheetCompletion(t *testing.T) {
 	testCompletion(t, nil, []string{"12to8", "r"}, []string{"release"})
 	testCompletion(t, nil, []string{"12to8", "release", ""}, []string{"timesheet"})
+}
+
+func TestNewTimesheetCompletion(t *testing.T) {
+	testCompletion(t, nil, []string{"12to8", "n"}, []string{"new"})
+	testCompletion(t, nil, []string{"12to8", "new", "t"}, []string{"timesheet"})
+
+	now := time.Now()
+	year, month, _ := now.Date()
+	var prevMonth int
+	var prevYear int
+	var nextMonth int
+	var nextYear int
+	if int(month) == 1 {
+		prevMonth = 12
+		prevYear = year - 1
+	} else {
+		prevMonth = int(month) - 1
+		prevYear = year
+	}
+	if int(month) == 12 {
+		nextMonth = 1
+		nextYear = year + 1
+	} else {
+		nextMonth = int(month) + 1
+		nextYear = year
+	}
+	possibleTimesheets := []string{}
+	possibleTimesheets = append(possibleTimesheets, fmt.Sprintf("%02d/%d", prevMonth, prevYear))
+	possibleTimesheets = append(possibleTimesheets, fmt.Sprintf("%02d/%d", month, year))
+	possibleTimesheets = append(possibleTimesheets, fmt.Sprintf("%02d/%d", nextMonth, nextYear))
+	testCompletion(t, nil, []string{"12to8", "new", "timesheet", ""}, possibleTimesheets)
 }
 
 func completionBashCode(cli []string) string {

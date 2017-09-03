@@ -24,9 +24,9 @@ import (
 
 const (
 	bash_completion_func = `
-__12to8_timesheet_new_comp(){
+__12to8_new_timesheet_comp(){
     if [[ ${#nouns[@]} -eq 0 ]]; then
-        COMPREPLY=( $( compgen -W "$(date -d '1 year ago' +%Y) $(date +%Y) $(date -d '1 year' +%Y)" -- "$cur" ) )
+        COMPREPLY=( $( compgen -W "$(date -d "$(date -d "$(date +%Y-%m-01) - 1 day")" +%m/%Y) $(date +%m/%Y) $(date -d "$(date +"%Y-%m-01") 31 days" +%m/%Y)" -- "$cur" ) )
         return 0
     fi
     if [[ ${#nouns[@]} -eq 1 ]]; then
@@ -40,8 +40,8 @@ __12to8_timesheet_new_comp(){
 
 __custom_func() {
     case ${last_command} in
-        12to8_timesheet_new)
-            __12to8_timesheet_new_comp
+        12to8_new_timesheet)
+            __12to8_new_timesheet_comp
             return
             ;;
         *)
