@@ -29,12 +29,9 @@ __12to8_new_timesheet_comp(){
         COMPREPLY=( $( compgen -W "$(date -d "$(date -d "$(date +%Y-%m-01) - 1 day")" +%m/%Y) $(date +%m/%Y) $(date -d "$(date +"%Y-%m-01") 31 days" +%m/%Y)" -- "$cur" ) )
         return 0
     fi
-    if [[ ${#nouns[@]} -eq 1 ]]; then
-        COMPREPLY=( $( compgen -W "1 2 3 4 5 6 7 8 9 10 11" -- "$cur" ) )
+    if [[ ${#nouns[@]} -ge 1 ]]; then
+			COMPREPLY=(  $(compgen -W "" -- "$cur" ) )
         return 0
-    fi
-    if [[ ${#nouns[@]} -gt 1 ]]; then
-        return 1
     fi
 }
 
