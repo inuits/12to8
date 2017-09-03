@@ -11,9 +11,24 @@ func TestTopCompletion(t *testing.T) {
 	testCompletion(t, nil, []string{"12to8", ""}, []string{"completion", "list", "new", "release"})
 }
 
+func TestCompletionCompletion(t *testing.T) {
+	testCompletion(t, nil, []string{"12to8", "completion", ""}, []string{"bash"})
+}
+
+// TestAddPerformanceCompletion ensures that we can add a performance quickly (one letter + tab for each subcommand)
+func TestAddPerformanceCompletion(t *testing.T) {
+	testCompletion(t, nil, []string{"12to8", "n"}, []string{"new"})
+	testCompletion(t, nil, []string{"12to8", "new", "p"}, []string{"performance"})
+}
+
+func TestReleaseTimesheetCompletion(t *testing.T) {
+	testCompletion(t, nil, []string{"12to8", "r"}, []string{"release"})
+	testCompletion(t, nil, []string{"12to8", "release", ""}, []string{"timesheet"})
+}
+
 func completionBashCode(cli []string) string {
 	flatcli := strings.Join(cli, " ")
-	words := len(cli)
+	words := len(cli) - 1
 	return fmt.Sprintf(`
 . /usr/share/bash-completion/bash_completion
 . <(../12to8 completion bash)
@@ -35,7 +50,7 @@ func testCompletion(t *testing.T, c *dockerId, cli []string, expected []string) 
 		Name:     "Autocomplete",
 		Cmd:      "bash",
 		Args:     []string{"-c", completionBashCode(cli)},
-		OutLines: 4,
+		OutLines: len(expected),
 		OutText:  expectedOut.String(),
 	}
 	if c != nil {
