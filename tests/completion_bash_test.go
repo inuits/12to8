@@ -68,6 +68,22 @@ func TestNewPerformanceContractCompletion(t *testing.T) {
 	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", `'`}, []string{"Go Consultancy [Python & Co]", "Internal Stuff (c) [Golang Tech]"})
 }
 
+func TestNewPerformanceRateCompletion(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-m", ""}, []string{"1.00", "2.00"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-m", "1"}, []string{"1.00"})
+}
+
+func TestNewPerformanceStandbyCompletion(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-t", ""}, []string{"activity", "standby"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-t", "s"}, []string{"standby"})
+}
+
 func completionBashCode(cli []string) string {
 	flatcli := strings.Replace(strings.Join(cli, " "), `"`, `\"`, -1)
 	flatcli = strings.Replace(flatcli, "'", `\'`, -1)

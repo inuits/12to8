@@ -36,9 +36,9 @@ __12to8_new_timesheet_comp(){
 	fi
 }
 
-__12to8_contracts_comp(){
+__12to8_comp(){
 	local IFS=$'\n'
-	COMPREPLY=( $( compgen -W "$(12to8 list contracts 2>/dev/null)" -- "$cur" ) )
+	COMPREPLY=( $( compgen -W "$(12to8 completion $1 2>/dev/null)" -- "$cur" ) )
 	local i=0
 	local r
 	for r in ${COMPREPLY[@]}
@@ -48,7 +48,16 @@ __12to8_contracts_comp(){
 		elif [[ "${cur:0:1}" == '"' ]]; then
 			COMPREPLY[$i]="${r//\"/\\\"}"
 		else
-			COMPREPLY[$i]="\"${r//\"/\\\"}\""
+			case "$r" in
+			*\ *)
+			COMPREPLY[$i]="\"${r//\"/\\\"}\"" ;;
+			*\&*)
+			COMPREPLY[$i]="\"${r//\"/\\\"}\"" ;;
+			*\(*)
+			COMPREPLY[$i]="\"${r//\"/\\\"}\""  ;;
+			*\)*)
+			COMPREPLY[$i]="\"${r//\"/\\\"}\""  ;;
+			esac
 		fi
 		let i++
 	done
@@ -70,10 +79,11 @@ __custom_func() {
 
 // autocompleteCmd represents the autocomplete command
 var autocompleteCmd = &cobra.Command{
-	Use:       "completion SHELL",
-	Short:     "Output shell completion code for the specified shell.",
-	Args:      cobra.ExactArgs(1),
-	ValidArgs: []string{"bash"},
+	Use:        "completion SHELL",
+	Short:      "Output shell completion code for the specified shell.",
+	Args:       cobra.RangeArgs(1, 2),
+	ValidArgs:  []string{"bash"},
+	ArgAliases: []string{"contracts", "rates", "performance_types"},
 	Long: `To enable bash completion, run the following command or
 add it to your ~/.bashrc
 
@@ -91,6 +101,11 @@ echo . ~/.12to8.complete >> ~/.bashrc
 			bashComplete()
 		case "contracts":
 			contractsComplete()
+		case "rates":
+			ratesComplete()
+		case "performance_types":
+			fmt.Println("activity")
+			fmt.Println("standby")
 		default:
 			log.Fatal("Unknown shell")
 		}
@@ -115,4 +130,15 @@ func contractsComplete() {
 }
 func init() {
 	RootCmd.AddCommand(autocompleteCmd)
+}
+
+// listRatesCmd represents the list rates command
+func ratesComplete() {
+	pr := &api.PerformanceRatesList{}
+	c := NewApiClient()
+	err := pr.Fetch(c)
+	if err != nil {
+		log.Fatal(err)
+	}
+	pr.ShortPrint()
 }
