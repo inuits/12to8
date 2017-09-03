@@ -17,15 +17,16 @@ package cmd
 import (
 	"bytes"
 	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
 )
 
 const (
 	bash_completion_func = `
-__12to8_timesheet_new_comp(){
+__12to8_new_timesheet_comp(){
     if [[ ${#nouns[@]} -eq 0 ]]; then
-        COMPREPLY=( $( compgen -W "$(date -d '1 year ago' +%Y) $(date +%Y) $(date -d '1 year' +%Y)" -- "$cur" ) )
+        COMPREPLY=( $( compgen -W "$(date -d "$(date -d "$(date +%Y-%m-01) - 1 day")" +%m/%Y) $(date +%m/%Y) $(date -d "$(date +"%Y-%m-01") 31 days" +%m/%Y)" -- "$cur" ) )
         return 0
     fi
     if [[ ${#nouns[@]} -eq 1 ]]; then
@@ -39,8 +40,8 @@ __12to8_timesheet_new_comp(){
 
 __custom_func() {
     case ${last_command} in
-        12to8_timesheet_new)
-            __12to8_timesheet_new_comp
+        12to8_new_timesheet)
+            __12to8_new_timesheet_comp
             return
             ;;
         *)
@@ -52,19 +53,30 @@ __custom_func() {
 
 // autocompleteCmd represents the autocomplete command
 var autocompleteCmd = &cobra.Command{
-	Use:   "autocomplete",
-	Short: "Generate Bash autocomplete",
-	Long: `This command generates the bash completion.
+	Use:       "completion SHELL",
+	Short:     "Output shell completion code for the specified shell.",
+	Args:      cobra.ExactArgs(1),
+	ValidArgs: []string{"bash"},
+	Long: `To enable bash completion, run the following command or
+add it to your ~/.bashrc
 
-To enable it, simply run:
+. <(12to8 completion bash)
 
-	. <(12to8 autocomplete)
-	
-You can also add that to your ~/.bashrc file.`,
+or compile it to a static file:
+
+12to8 completion bash > ~/.12to8.complete
+echo . ~/.12to8.complete >> ~/.bashrc
+. ~/.bashrc
+`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var out bytes.Buffer
-		RootCmd.GenBashCompletion(&out)
-		fmt.Print(out.String())
+		switch args[0] {
+		case "bash":
+			var out bytes.Buffer
+			RootCmd.GenBashCompletion(&out)
+			fmt.Print(out.String())
+		default:
+			log.Fatal("Unknown shell")
+		}
 	},
 }
 

@@ -82,16 +82,57 @@ func (co *Contract) FetchCustomer(c Client) error {
 	return nil
 }
 
+func (cs *ContractsList) GetById(id int) *Contract {
+	for i := range cs.Contracts {
+		c := cs.Contracts[i]
+		if c.Id == id {
+			return &c
+		}
+	}
+	return nil
+}
+
+func (cs *ContractsList) GetByLabel(label string) (*Contract, error) {
+	var contract *Contract
+	for i := range cs.Contracts {
+		c := cs.Contracts[i]
+		if c.PrettyLabel() == label {
+			if contract != nil {
+				return nil, errors.New(fmt.Sprintf("Found 2 contracts with label %s", label))
+			}
+			contract = &c
+		}
+	}
+	return contract, nil
+}
+
+// GetById returns the Company from the server
+func (co *Contract) GetById(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/%d/", c.Endpoint, co.Id))
+
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(co)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (cs *ContractsList) PrettyPrint() {
 	for _, c := range cs.Contracts {
 		c.PrettyPrint()
 	}
 }
 
-func (c *Contract) PrettyPrint() {
+func (c *Contract) PrettyLabel() string {
 	if c.Customer == nil {
-		fmt.Printf("%s [%d]\n", c.Label, c.CustomerId)
-		return
+		return fmt.Sprintf("%s [%d]", c.Label, c.CustomerId)
 	}
-	fmt.Printf("%s [%s]\n", c.Label, c.Customer.Name)
+	return fmt.Sprintf("%s [%s]", c.Label, c.Customer.Name)
+}
+
+func (c *Contract) PrettyPrint() {
+	fmt.Println(c.PrettyLabel())
 }

@@ -43,6 +43,14 @@ to quickly create a Cobra application.`,
 	BashCompletionFunction: bash_completion_func,
 }
 
+type logWriter struct {
+}
+
+// a writer that logs without dates
+func (writer logWriter) Write(bytes []byte) (int, error) {
+	return fmt.Print(string(bytes))
+}
+
 // Execute adds all child commands to the root command sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
@@ -54,6 +62,8 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	log.SetFlags(0)
+	log.SetOutput(new(logWriter))
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,

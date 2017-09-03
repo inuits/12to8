@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -14,10 +15,63 @@ import (
 )
 
 var skip_docker bool
+var skip_docker_images bool
 
 type dockerId struct {
 	Id   string
 	Port int
+}
+
+func createContainerWithFixture(fixture string) {
+	if skip_docker || skip_docker_images {
+		return
+	}
+	// Create a docker container
+	c := exec.Command("docker", "run", "-d", "-e", fmt.Sprintf("FIXTURE=%s", fixture), "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "roidelapluie/925r", "/tests/run-925r.sh")
+	var stdout, stderr bytes.Buffer
+	c.Stdout = &stdout
+	c.Stderr = &stderr
+	err := c.Run()
+	if err != nil {
+		log.Fatalf("stdout:\n%s", stdout.String())
+		log.Fatalf("stderr:\n%s", stderr.String())
+		log.Fatal(err)
+	}
+	id := strings.TrimSpace(stdout.String())
+
+	// remove the container at the end
+	defer exec.Command("docker", "rm", id).Run()
+
+	// wait for the docker command to finish
+	err = exec.Command("docker", "attach", id).Run()
+	if err != nil {
+		log.Fatalf("container %s can't attach: %v", fixture, err)
+	}
+
+	// commit the image with the data
+	c = exec.Command("docker", "commit", id)
+	var commitStdout, commitStderr bytes.Buffer
+	c.Stdout = &commitStdout
+	c.Stderr = &commitStderr
+	err = c.Run()
+	if err != nil {
+		log.Fatalf("container %s can't commit: %v\n%s", fixture, err, commitStderr)
+	}
+	commitId := strings.TrimSpace(commitStdout.String())
+	err = exec.Command("docker", "tag", commitId, fmt.Sprintf("925r:%s", fixture)).Run()
+	if err != nil {
+		log.Fatalf("container %s can't tag: %v", fixture, err)
+	}
+}
+
+func deleteContainerWithFixture(fixture string) {
+	if skip_docker || skip_docker_images {
+		return
+	}
+	err := exec.Command("docker", "rmi", fmt.Sprintf("925r:%s", fixture)).Run()
+	if err != nil {
+		log.Print(err)
+	}
 }
 
 func (d *dockerId) start925r(t *testing.T, fixture string) {
@@ -28,7 +82,7 @@ func (d *dockerId) start925r(t *testing.T, fixture string) {
 	}
 	t.Parallel()
 	// Start a Docker container
-	c := exec.Command("docker", "run", "-d", "-p", "8000", "-e", fmt.Sprintf("FIXTURE=%s", fixture), "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "--rm", "roidelapluie/925r", "/tests/run-925r.sh")
+	c := exec.Command("docker", "run", "-d", "-e", "FIXTURE=", "-p", "8000", "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "--rm", fmt.Sprintf("925r:%s", fixture), "/tests/run-925r.sh")
 	var stdout, stderr bytes.Buffer
 	c.Stdout = &stdout
 	c.Stderr = &stderr
@@ -60,7 +114,7 @@ func (d *dockerId) start925r(t *testing.T, fixture string) {
 
 func (d *dockerId) waitFor925r(t *testing.T) {
 	tries := 1
-	maxTries := 60
+	maxTries := 10
 	addr := fmt.Sprintf("http://127.0.0.1:%d", d.Port)
 	t.Logf("Waiting for 925r on %s", addr)
 	for {
@@ -92,4 +146,5 @@ func (d *dockerId) EndpointEnv() string {
 
 func init() {
 	flag.BoolVar(&skip_docker, "skip-docker", false, "Do not manage the 925r instances using docker. Make tests not parallel. Exects 925r on http://127.0.0.1:8000.")
+	flag.BoolVar(&skip_docker_images, "skip-docker-images-creation", false, "Do not manage the 925r docker images with fixtures.")
 }

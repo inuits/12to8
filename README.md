@@ -48,3 +48,17 @@ Release timesheet:
 12to8 release timesheet 9/2017
 ```
 
+### Completion
+
+In your shell (& ~/.bashrc)
+
+```
+. <(12to8 completion bash)
+```
+
+or:
+
+```
+12to8 completion bash > ~/.12to8.complete
+echo . ~/.12to8.complete >> ~/.bashrc
+```

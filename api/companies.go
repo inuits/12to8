@@ -60,7 +60,7 @@ func (co *Company) Get(c Client) error {
 	return nil
 }
 
-// Get returns the Company from the server
+// GetById returns the Company from the server
 func (co *Company) GetById(c Client) error {
 	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", c.Endpoint, co.Id))
 

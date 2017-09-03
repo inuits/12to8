@@ -22,33 +22,77 @@ import (
 func TestGetMonthYearFromArg(t *testing.T) {
 	m, y, err := getMonthYearFromArg("10/2017")
 	if err != nil {
-		t.Fatal("(wanted) %v != (got) %v", nil, err)
+		t.Fatalf("(wanted) %v != (got) %v", nil, err)
 	}
 	if m != 10 {
-		t.Fatal("(wanted) %v != (got) %v", 10, m)
+		t.Fatalf("(wanted) %v != (got) %v", 10, m)
 	}
 	if y != 2017 {
-		t.Fatal("(wanted) %v != (got) %v", 2017, y)
+		t.Fatalf("(wanted) %v != (got) %v", 2017, y)
 	}
 	m, y, err = getMonthYearFromArg("09/2007")
 	if err != nil {
-		t.Fatal("(wanted) %v != (got) %v", nil, err)
+		t.Fatalf("(wanted) %v != (got) %v", nil, err)
 	}
 	if m != 9 {
-		t.Fatal("(wanted) %v != (got) %v", 9, m)
+		t.Fatalf("(wanted) %v != (got) %v", 9, m)
 	}
 	if y != 2007 {
-		t.Fatal("(wanted) %v != (got) %v", 2007, y)
+		t.Fatalf("(wanted) %v != (got) %v", 2007, y)
 	}
 	m, y, err = getMonthYearFromArg("9")
 	if err != nil {
-		t.Fatal("(wanted) %v != (got) %v", nil, err)
+		t.Fatalf("(wanted) %v != (got) %v", nil, err)
 	}
 	if m != 9 {
-		t.Fatal("(wanted) %v != (got) %v", 9, m)
+		t.Fatalf("(wanted) %v != (got) %v", 9, m)
 	}
 	currentYear := time.Now().Year()
 	if y != currentYear {
-		t.Fatal("(wanted) %v != (got) %v", currentYear, y)
+		t.Fatalf("(wanted) %v != (got) %v", currentYear, y)
+	}
+}
+
+func TestGetDaysMonthYearFromArg(t *testing.T) {
+	currentYear := time.Now().Year()
+	currentMonth := int(time.Now().Month())
+	d, m, y, err := getDaysMonthYearFromArg("1/10/2007")
+	if err != nil {
+		t.Fatalf("(wanted) %v != (got) %v", nil, err)
+	}
+	if d != 1 {
+		t.Fatalf("(wanted) %v != (got) %v", 1, d)
+	}
+	if m != 10 {
+		t.Fatalf("(wanted) %v != (got) %v", 10, m)
+	}
+	if y != 2007 {
+		t.Fatalf("(wanted) %v != (got) %v", 2007, y)
+	}
+	d, m, y, err = getDaysMonthYearFromArg("1/09")
+	if err != nil {
+		t.Fatalf("(wanted) %v != (got) %v", nil, err)
+	}
+	if d != 1 {
+		t.Fatalf("(wanted) %v != (got) %v", 1, d)
+	}
+	if m != 9 {
+		t.Fatalf("(wanted) %v != (got) %v", 9, m)
+	}
+	if y != currentYear {
+		t.Fatalf("(wanted) %v != (got) %v", currentYear, y)
+	}
+	d, m, y, err = getDaysMonthYearFromArg("2")
+	if err != nil {
+		t.Fatalf("(wanted) %v != (got) %v", nil, err)
+	}
+	if d != 2 {
+		t.Fatalf("(wanted) %v != (got) %v", 2, d)
+	}
+	if m != currentMonth {
+		t.Fatalf("(wanted) %v != (got) %v", currentMonth, m)
+	}
+	if y != currentYear {
+		t.Fatalf("(wanted) %v != (got) %v", currentYear, y)
 	}
 }
