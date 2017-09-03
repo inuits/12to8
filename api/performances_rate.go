@@ -15,6 +15,7 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -22,7 +23,7 @@ import (
 
 type PerformanceRate struct {
 	Id         int    `json:"id"`
-	Label      string `json:"type"`
+	Label      string `json:"label"`
 	Multiplier string `json:"multiplier"`
 }
 
@@ -66,6 +67,18 @@ func (pr *PerformanceRatesList) GetById(id int) *PerformanceRate {
 	return nil
 }
 
+func (p *PerformanceRate) PrettyList() string {
+	return fmt.Sprintf(" * %s : %s\n", p.Multiplier, p.Label)
+}
+
+func (pr *PerformanceRatesList) PrettyList() string {
+	var buffer bytes.Buffer
+	for _, p := range pr.PerformanceRates {
+		buffer.WriteString(p.PrettyList())
+	}
+	return buffer.String()
+}
+
 func (pr *PerformanceRatesList) PrettyPrint() error {
 	for _, p := range pr.PerformanceRates {
 		p.PrettyPrint()
@@ -74,5 +87,5 @@ func (pr *PerformanceRatesList) PrettyPrint() error {
 }
 
 func (p *PerformanceRate) PrettyPrint() {
-	fmt.Printf("%s [%s]\n", p.Label, p.Multiplier)
+	fmt.Printf("%s [%s]\n", p.Multiplier, p.Label)
 }

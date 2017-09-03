@@ -37,5 +37,5 @@ var listRatesCmd = &cobra.Command{
 }
 
 func init() {
-	listCmd.AddCommand(listCompaniesCmd)
+	listCmd.AddCommand(listRatesCmd)
 }
