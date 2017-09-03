@@ -68,7 +68,7 @@ It must follow the same syntax as in "12to8 list contracts".`,
 			log.Fatal(err)
 		}
 		if rate == nil {
-			log.Fatalf("Rate %s not found", multiplier)
+			log.Fatalf("Rate %s not found. Possible rates:\n%s", multiplier, rates.PrettyList())
 		}
 
 		var perfType api.PerformanceType

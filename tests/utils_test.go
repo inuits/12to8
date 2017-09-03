@@ -2,12 +2,14 @@ package acceptance_tests
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"os/exec"
 	"path"
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 )
 
 var RunAsAdmin []string
@@ -22,6 +24,7 @@ type CmdTestCase struct {
 	OutLines      int
 	ErrLines      int
 	OutRegex      string
+	OutText       string
 	ErrRegex      string
 	Env           []string
 }
@@ -44,9 +47,14 @@ func (t *CmdTestCase) Run(test *testing.T) {
 	result := err != nil
 	test.Logf("stdout:\n%s", stdout.String())
 	test.Logf("stderr:\n%s", stderr.String())
-	test.Logf("Errorful: %v", err == nil)
+
+	// Do this twice for better tests logs
 	if result != t.ExpectFailure {
-		test.Fatalf("Expected failure: %s, but got: %s", t.ExpectFailure, result)
+		if t.ExpectFailure {
+			test.Fatal("The command did not fail!")
+		} else {
+			test.Fatal("The command did fail!")
+		}
 	}
 
 	outLinesCount := strings.Count(stdout.String(), "\n")
@@ -56,6 +64,12 @@ func (t *CmdTestCase) Run(test *testing.T) {
 	errLinesCount := strings.Count(stderr.String(), "\n")
 	if errLinesCount != t.ErrLines {
 		test.Errorf("stderr: wanted %d lines, got %d", t.ErrLines, errLinesCount)
+	}
+
+	if t.OutText != "" {
+		if stdout.String() != t.OutText {
+			test.Errorf("stdout does not match expectation:\n%s", t.OutText)
+		}
 	}
 
 	if t.OutRegex != "" {
@@ -79,4 +93,16 @@ func init() {
 		"TWELVE_TO_EIGHT_PASSWORD=pass",
 	}
 	DefaultCmd = path.Join(os.Getenv("PWD"), "..", "12to8")
+}
+
+func newTimesheet(t *testing.T, c *dockerId) {
+	userEnv := append(RunAsUser, c.EndpointEnv())
+	currentTs := fmt.Sprintf("%s %d", time.Now().Month(), time.Now().Year())
+	(&CmdTestCase{
+		Name:     "Create timesheet",
+		Env:      userEnv,
+		Args:     []string{"new", "timesheet"},
+		OutLines: 1,
+		OutRegex: fmt.Sprintf("%s \\[ACTIVE\\]", currentTs),
+	}).Run(t)
 }
