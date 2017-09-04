@@ -77,11 +77,8 @@ func TestNewPerformanceRateCompletion(t *testing.T) {
 }
 
 func TestNewPerformanceStandbyCompletion(t *testing.T) {
-	c := &dockerId{}
-	c.start925r(t, "basic_projects")
-	defer c.stop925r(t)
-	testCompletion(t, c, []string{"12to8", "new", "performance", "-t", ""}, []string{"activity", "standby"})
-	testCompletion(t, c, []string{"12to8", "new", "performance", "-t", "s"}, []string{"standby"})
+	testCompletion(t, nil, []string{"12to8", "new", "performance", "-t", ""}, []string{"activity", "standby"})
+	testCompletion(t, nil, []string{"12to8", "new", "performance", "-t", "s"}, []string{"standby"})
 }
 
 func completionBashCode(cli []string) string {

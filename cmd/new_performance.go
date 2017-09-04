@@ -135,7 +135,7 @@ func init() {
 
 	// autocomplete
 	annotation = make(map[string][]string)
-	annotation[cobra.BashCompCustom] = []string{"__12to8_comp performance_types"}
+	annotation[cobra.BashCompCustom] = []string{"__12to8_comp_activity"}
 	c = newPerformanceCmd.Flags().Lookup("type")
 	c.Annotations = annotation
 

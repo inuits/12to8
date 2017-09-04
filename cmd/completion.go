@@ -36,6 +36,9 @@ __12to8_new_timesheet_comp(){
 	fi
 }
 
+__12to8_comp_activity(){
+	COMPREPLY=( $( compgen -W "activity standby" -- "$cur" ) )
+}
 __12to8_comp(){
 	local IFS=$'\n'
 	COMPREPLY=( $( compgen -W "$(12to8 completion $1 2>/dev/null)" -- "$cur" ) )
@@ -103,9 +106,6 @@ echo . ~/.12to8.complete >> ~/.bashrc
 			contractsComplete()
 		case "rates":
 			ratesComplete()
-		case "performance_types":
-			fmt.Println("activity")
-			fmt.Println("standby")
 		default:
 			log.Fatal("Unknown shell")
 		}
