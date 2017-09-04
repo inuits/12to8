@@ -81,6 +81,16 @@ func TestNewPerformanceStandbyCompletion(t *testing.T) {
 	testCompletion(t, nil, []string{"12to8", "new", "performance", "-t", "s"}, []string{"standby"})
 }
 
+func TestNewPerformanceCompletion(t *testing.T) {
+	var dates []string
+	for i := -5; i <= 5; i++ {
+		d := time.Now().AddDate(0, 0, i)
+		dates = append(dates, fmt.Sprintf("%02d/%02d/%d", d.Day(), int(d.Month()), d.Year()))
+	}
+	testCompletion(t, nil, []string{"12to8", "new", "performance", ""}, dates)
+	testCompletion(t, nil, []string{"12to8", "new", "performance", "1", ""}, []string{"8.0"})
+}
+
 func completionBashCode(cli []string) string {
 	flatcli := strings.Replace(strings.Join(cli, " "), `"`, `\"`, -1)
 	flatcli = strings.Replace(flatcli, "'", `\'`, -1)

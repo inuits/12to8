@@ -39,6 +39,25 @@ __12to8_new_timesheet_comp(){
 __12to8_comp_activity(){
 	COMPREPLY=( $( compgen -W "activity standby" -- "$cur" ) )
 }
+
+__12to8_comp_hours(){
+	COMPREPLY=( $( compgen -W "8.0" -- "$cur" ) )
+}
+__12to8_comp_close_dates(){
+	COMPREPLY=( $( compgen -W "$(for i in {-5..5}; do date -d "$i day" +%d/%m/%Y; done)" -- "$cur" ) )
+}
+
+__12to8_new_performance_comp(){
+    if [[ ${#nouns[@]} -eq 0 ]]; then
+		__12to8_comp_close_dates
+        return 0
+    fi
+    if [[ ${#nouns[@]} -eq 1 ]]; then
+		__12to8_comp_hours
+        return 0
+	fi
+}
+
 __12to8_comp(){
 	local IFS=$'\n'
 	COMPREPLY=( $( compgen -W "$(12to8 completion $1 2>/dev/null)" -- "$cur" ) )
@@ -69,10 +88,14 @@ __12to8_comp(){
 
 __custom_func() {
     case ${last_command} in
-        12to8_new_timesheet)
+        12to8_new_timesheet | 12to8_release_timesheet)
             __12to8_new_timesheet_comp
             return
             ;;
+		12to8_new_performance)
+			__12to8_new_performance_comp
+			return
+			;;
         *)
             ;;
     esac
