@@ -78,7 +78,7 @@ func validPerfAddArgs(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	_, err = strconv.Atoi(args[1])
+	_, err = strconv.ParseFloat(args[1], 64)
 	if err != nil {
 		return err
 	}

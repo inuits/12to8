@@ -78,3 +78,29 @@ func TestNewPerformanceWithWrongRate(t *testing.T) {
 `,
 	}).Run(t)
 }
+
+func TestNewPerformanceFloat(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	userEnv := append(RunAsUser, c.EndpointEnv())
+	dayInThisMonth := fmt.Sprintf("9/%d/%d", int(time.Now().Month()), time.Now().Year())
+	newTimesheet(t, c)
+	(&CmdTestCase{
+		Name: "Create performance",
+		Env:  userEnv,
+		Args: []string{"new", "performance", "-c", "Internal Stuff (c) [Golang Tech]", dayInThisMonth, "4.47", "implement float"},
+	}).Run(t)
+	(&CmdTestCase{
+		Name:     "List performances",
+		Env:      userEnv,
+		Args:     []string{"list", "performances"},
+		OutLines: 5,
+		OutText: `+-----+--------------------+-----------------+------+------+----------+
+| DAY |      PROJECT       |   DESCRIPTION   |  H   | RATE |   TYPE   |
++-----+--------------------+-----------------+------+------+----------+
+|   9 | Internal Stuff (c) | implement float | 4.47 | 1.00 | activity |
++-----+--------------------+-----------------+------+------+----------+
+`,
+	}).Run(t)
+}
