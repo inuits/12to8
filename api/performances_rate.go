@@ -79,11 +79,20 @@ func (pr *PerformanceRatesList) PrettyList() string {
 	return buffer.String()
 }
 
-func (pr *PerformanceRatesList) PrettyPrint() error {
+func (pr *PerformanceRatesList) PrettyPrint() {
 	for _, p := range pr.PerformanceRates {
 		p.PrettyPrint()
 	}
-	return nil
+}
+
+func (pr *PerformanceRatesList) ShortPrint() {
+	for _, p := range pr.PerformanceRates {
+		p.ShortPrint()
+	}
+}
+
+func (p *PerformanceRate) ShortPrint() {
+	fmt.Println(p.Multiplier)
 }
 
 func (p *PerformanceRate) PrettyPrint() {

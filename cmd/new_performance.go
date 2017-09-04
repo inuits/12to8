@@ -119,9 +119,35 @@ It must follow the same syntax as in "12to8 list contracts".`,
 func init() {
 	newCmd.AddCommand(newPerformanceCmd)
 
+	// contract
 	newPerformanceCmd.Flags().StringVarP(&project, "contract", "c", "", "Contract to use")
-	viper.BindPFlag("contract", newPerformanceCmd.Flags().Lookup("contract"))
+
+	// autocomplete
+	annotation := make(map[string][]string)
+	annotation[cobra.BashCompCustom] = []string{"__12to8_comp contracts"}
+	c := newPerformanceCmd.Flags().Lookup("contract")
+	c.Annotations = annotation
+
+	viper.BindPFlag("contract", c)
+
+	// type
 	newPerformanceCmd.Flags().StringVarP(&perf_type, "type", "t", "Activity", "Type: Activity/Standby")
-	viper.BindPFlag("type", newPerformanceCmd.Flags().Lookup("type"))
+
+	// autocomplete
+	annotation = make(map[string][]string)
+	annotation[cobra.BashCompCustom] = []string{"__12to8_comp_activity"}
+	c = newPerformanceCmd.Flags().Lookup("type")
+	c.Annotations = annotation
+
+	viper.BindPFlag("type", c)
+
+	// multiplier
 	newPerformanceCmd.Flags().StringVarP(&multiplier, "multiplier", "m", "1.00", "Multiplier")
+	// autocomplete
+	annotation = make(map[string][]string)
+	annotation[cobra.BashCompCustom] = []string{"__12to8_comp rates"}
+	c = newPerformanceCmd.Flags().Lookup("multiplier")
+	c.Annotations = annotation
+
+	viper.BindPFlag("multiplier", c)
 }

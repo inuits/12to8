@@ -58,15 +58,50 @@ func TestNewTimesheetCompletion(t *testing.T) {
 	testCompletion(t, nil, []string{"12to8", "new", "timesheet", ""}, possibleTimesheets)
 }
 
+func TestNewPerformanceContractCompletion(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	testCompletion(t, c, []string{"12to8", "new", "pe"}, []string{"performance"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", ""}, []string{`"Go Consultancy [Python & Co]"`, `"Internal Stuff (c) [Golang Tech]"`})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", `"`}, []string{"Go Consultancy [Python & Co]", "Internal Stuff (c) [Golang Tech]"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-c", `'`}, []string{"Go Consultancy [Python & Co]", "Internal Stuff (c) [Golang Tech]"})
+}
+
+func TestNewPerformanceRateCompletion(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-m", ""}, []string{"1.00", "2.00"})
+	testCompletion(t, c, []string{"12to8", "new", "performance", "-m", "1"}, []string{"1.00"})
+}
+
+func TestNewPerformanceStandbyCompletion(t *testing.T) {
+	testCompletion(t, nil, []string{"12to8", "new", "performance", "-t", ""}, []string{"activity", "standby"})
+	testCompletion(t, nil, []string{"12to8", "new", "performance", "-t", "s"}, []string{"standby"})
+}
+
+func TestNewPerformanceCompletion(t *testing.T) {
+	var dates []string
+	for i := -5; i <= 5; i++ {
+		d := time.Now().AddDate(0, 0, i)
+		dates = append(dates, fmt.Sprintf("%02d/%02d/%d", d.Day(), int(d.Month()), d.Year()))
+	}
+	testCompletion(t, nil, []string{"12to8", "new", "performance", ""}, dates)
+	testCompletion(t, nil, []string{"12to8", "new", "performance", "1", ""}, []string{"8.0"})
+}
+
 func completionBashCode(cli []string) string {
-	flatcli := strings.Join(cli, " ")
+	flatcli := strings.Replace(strings.Join(cli, " "), `"`, `\"`, -1)
+	flatcli = strings.Replace(flatcli, "'", `\'`, -1)
 	words := len(cli) - 1
 	return fmt.Sprintf(`
+export PATH=..:$PATH
 . /usr/share/bash-completion/bash_completion
-. <(../12to8 completion bash)
+. <(12to8 completion bash)
 COMP_WORDS=(%s)
 COMP_CWORD=%d
-COMP_LINE='%s'
+COMP_LINE="%s"
 COMP_POINT=${#COMP_LINE}
 _xfunc 12to8 __start_12to8
 printf '%%s\n' "${COMPREPLY[@]}"

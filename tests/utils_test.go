@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path"
 	"regexp"
 	"strings"
 	"testing"
@@ -116,7 +115,7 @@ func init() {
 		"TWELVE_TO_EIGHT_USER=user",
 		"TWELVE_TO_EIGHT_PASSWORD=pass",
 	}
-	DefaultCmd = path.Join(os.Getenv("PWD"), "..", "12to8")
+	DefaultCmd = "12to8"
 	fixtures = []string{"basic_projects"}
 }
 
