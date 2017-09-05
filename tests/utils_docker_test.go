@@ -27,7 +27,7 @@ func createContainerWithFixture(fixture string) {
 		return
 	}
 	// Create a docker container
-	c := exec.Command("docker", "run", "-d", "-e", fmt.Sprintf("FIXTURE=%s", fixture), "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "roidelapluie/925r", "/tests/run-925r.sh")
+	c := exec.Command("docker", "run", "-d", "-e", "CFG_FILE_PATH=/code/925r.yml", "-e", fmt.Sprintf("FIXTURE=%s", fixture), "-v", fmt.Sprintf("%s:/tests", os.Getenv("PWD")), "925r:upstream", "/tests/run-925r.sh")
 	var stdout, stderr bytes.Buffer
 	c.Stdout = &stdout
 	c.Stderr = &stderr
