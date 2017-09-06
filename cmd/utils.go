@@ -67,6 +67,31 @@ func validTimesheetArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func validTimesheetArgsWithColumns(cmd *cobra.Command, args []string) error {
+	if err := validTimesheetArgs(cmd, args); err != nil {
+		return err
+	}
+	var invalidColumns []string
+	for _, column := range strings.Split(columns, ",") {
+		if column == "" {
+			continue
+		}
+		found := false
+		for _, validColumn := range api.PerformancesColumns {
+			if validColumn == column {
+				found = true
+			}
+		}
+		if !found {
+			invalidColumns = append(invalidColumns, column)
+		}
+	}
+	if len(invalidColumns) > 0 {
+		return fmt.Errorf("invalid columns: %s", strings.Join(invalidColumns, ", "))
+	}
+	return nil
+}
+
 func validPerfAddArgs(cmd *cobra.Command, args []string) error {
 	if len(args) > 3 {
 		return errors.New("takes at most 3 argument")
