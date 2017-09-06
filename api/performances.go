@@ -25,14 +25,15 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-var PerformancesColumns = []string{"day", "contract", "description", "duration", "multiplier", "type"}
-var PerformancesColumnsDefault = []bool{true, true, true, true, false, false}
+var PerformancesColumns = []string{"day", "contract", "description", "duration", "multiplier", "type", "id"}
+var PerformancesColumnsDefault = []bool{true, true, true, true, false, false, false}
 
 type Performance struct {
 	Id          int             `json:"id"`
 	Type        PerformanceType `json:"type"`
-	Timesheet   int             `json:"timesheet"`
-	ContractId  int             `json:"contract"`
+	Timesheet   *Timesheet
+	TimesheetId int `json:"timesheet"`
+	ContractId  int `json:"contract"`
 	Contract    *Contract
 	Day         int    `json:"day"`
 	Description string `json:"description"`
@@ -79,6 +80,7 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 
 	for i := range ps.Performances {
 		p := &ps.Performances[i]
+		p.Timesheet = &t
 		p.Contract = contracts.GetById(p.ContractId)
 		p.Rate = rates.GetById(p.RateId)
 		if err != nil {
@@ -136,6 +138,18 @@ func (p *Performance) PrettyPrint() {
 	fmt.Printf("%d %s\n", p.Day, p.Description)
 }
 
+func (ps *PerformancesList) Porcelain() {
+	for _, p := range ps.Performances {
+		p.Porcelain()
+	}
+}
+
+func (p *Performance) Porcelain() {
+	fmt.Printf("%d,%02d/%02d/%d,%s,%s,%s,%s,%s\n",
+		p.Id, p.Day, p.Timesheet.Month, p.Timesheet.Year, p.Description,
+		p.Contract.Label, p.Duration, p.Rate.Multiplier, p.Type.String())
+}
+
 func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetColWidth(60)
@@ -155,6 +169,8 @@ func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 }
 func (p *PerformancesList) GetColumn(name string) string {
 	switch name {
+	case "id":
+		return "ID"
 	case "day":
 		return "Day"
 	case "contract":
@@ -173,6 +189,8 @@ func (p *PerformancesList) GetColumn(name string) string {
 
 func (p *Performance) GetColumn(name string) string {
 	switch name {
+	case "id":
+		return strconv.Itoa(p.Id)
 	case "day":
 		return strconv.Itoa(p.Day)
 	case "contract":

@@ -100,7 +100,7 @@ It must follow the same syntax as in "12to8 list contracts".`,
 		}
 
 		performance := &api.Performance{
-			Timesheet:   timesheet.Id,
+			TimesheetId: timesheet.Id,
 			Day:         day,
 			ContractId:  contract.Id,
 			Description: desc,
