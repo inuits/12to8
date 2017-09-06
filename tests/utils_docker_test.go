@@ -16,6 +16,7 @@ import (
 
 var skip_docker bool
 var skip_docker_images bool
+var skip_docker_images_deletion bool
 
 type dockerId struct {
 	Id   string
@@ -65,7 +66,7 @@ func createContainerWithFixture(fixture string) {
 }
 
 func deleteContainerWithFixture(fixture string) {
-	if skip_docker || skip_docker_images {
+	if skip_docker || skip_docker_images || skip_docker_images_deletion {
 		return
 	}
 	err := exec.Command("docker", "rmi", fmt.Sprintf("925r:%s", fixture)).Run()
@@ -147,4 +148,5 @@ func (d *dockerId) EndpointEnv() string {
 func init() {
 	flag.BoolVar(&skip_docker, "skip-docker", false, "Do not manage the 925r instances using docker. Make tests not parallel. Exects 925r on http://127.0.0.1:8000.")
 	flag.BoolVar(&skip_docker_images, "skip-docker-images-creation", false, "Do not manage the 925r docker images with fixtures.")
+	flag.BoolVar(&skip_docker_images_deletion, "skip-docker-images-deletion", false, "Do not delete the 925r docker images with fixtures after the tests.")
 }
