@@ -24,6 +24,7 @@ import (
 )
 
 var columns string
+var porcelain bool
 
 // list_performancesCmd represents the list_performances command
 var listPerformancesCmd = &cobra.Command{
@@ -42,12 +43,17 @@ If no timesheet is given, take the current month.`,
 		if err != nil {
 			log.Fatal(err)
 		}
+		if porcelain {
+			performances.Porcelain()
+			return
+		}
 		performances.PrettyPrintWithColumns(strings.Split(columns, ","))
 	},
 }
 
 func init() {
 	listCmd.AddCommand(listPerformancesCmd)
-	RootCmd.PersistentFlags().StringVarP(&columns, "columns", "C", api.GetDefaultPerformancesColumns(),
+	listPerformancesCmd.Flags().StringVarP(&columns, "columns", "C", api.GetDefaultPerformancesColumns(),
 		fmt.Sprintf("comma-separated columns to be displayed (%s)", strings.Join(api.PerformancesColumns, ",")))
+	listPerformancesCmd.Flags().BoolVarP(&porcelain, "porcelain", "P", false, "porcelain (usable in scripts) output")
 }
