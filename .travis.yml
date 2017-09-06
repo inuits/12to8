@@ -8,5 +8,11 @@ sudo: true
 services:
     - docker
 env:
-- TEST=unit
-- TEST=acceptance
+- TEST=unit       VERSION=locked
+- TEST=acceptance VERSION=locked
+- TEST=unit       VERSION=latest
+- TEST=acceptance VERSION=latest
+matrix:
+  allow_failures:
+    - env: TEST=unit       VERSION=latest
+    - env: TEST=acceptance VERSION=latest
