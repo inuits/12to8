@@ -28,6 +28,10 @@ func (c *Client) PostRequest(url string, i interface{}) (*http.Response, error) 
 	return c.Request("POST", url, 201, b)
 }
 
+func (c *Client) DeleteRequest(url string) (*http.Response, error) {
+	return c.Request("DELETE", url, 204, nil)
+}
+
 func (c *Client) GetRequest(url string) (*http.Response, error) {
 	return c.Request("GET", url, 200, nil)
 }

@@ -92,6 +92,17 @@ func validTimesheetArgsWithColumns(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
+func validIdArg(cmd *cobra.Command, args []string) error {
+	if len(args) != 1 {
+		return errors.New("takes exactly argument")
+	}
+	_, err := strconv.Atoi(args[0])
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func validPerfAddArgs(cmd *cobra.Command, args []string) error {
 	if len(args) > 3 {
 		return errors.New("takes at most 3 argument")
