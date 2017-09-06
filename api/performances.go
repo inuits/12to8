@@ -110,6 +110,26 @@ func (p *Performance) New(c Client) error {
 	return nil
 }
 
+func (p *Performance) GetById(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.Id))
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(p)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Performance) DeleteById(c Client) error {
+	_, err := c.DeleteRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.Id))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (p *Performance) FetchContract(c Client) error {
 	contract := &Contract{Id: p.ContractId}
 	err := contract.GetById(c)
