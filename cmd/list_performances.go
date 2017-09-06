@@ -15,17 +15,21 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
 
+var columns string
+
 // list_performancesCmd represents the list_performances command
 var listPerformancesCmd = &cobra.Command{
 	Use:   "performances [MM[/YYYY]]",
 	Short: "List the performances for the given timesheet",
-	Args:  validTimesheetArgs,
+	Args:  validTimesheetArgsWithColumns,
 	Long: `This command will show you all your performances for a
 given timesheet.
 
@@ -38,10 +42,12 @@ If no timesheet is given, take the current month.`,
 		if err != nil {
 			log.Fatal(err)
 		}
-		performances.PrettyPrint()
+		performances.PrettyPrintWithColumns(strings.Split(columns, ","))
 	},
 }
 
 func init() {
 	listCmd.AddCommand(listPerformancesCmd)
+	RootCmd.PersistentFlags().StringVarP(&columns, "columns", "C", api.GetDefaultPerformancesColumns(),
+		fmt.Sprintf("comma-separated columns to be displayed (%s)", strings.Join(api.PerformancesColumns, ",")))
 }

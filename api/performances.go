@@ -20,9 +20,13 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
+
+var PerformancesColumns = []string{"day", "contract", "description", "duration", "multiplier", "type"}
+var PerformancesColumnsDefault = []bool{true, true, true, true, false, false}
 
 type Performance struct {
 	Id          int             `json:"id"`
@@ -35,6 +39,16 @@ type Performance struct {
 	Duration    string `json:"duration"`
 	RateId      int    `json:"performance_type"`
 	Rate        *PerformanceRate
+}
+
+func GetDefaultPerformancesColumns() string {
+	var columns []string
+	for i, defValue := range PerformancesColumnsDefault {
+		if defValue {
+			columns = append(columns, PerformancesColumns[i])
+		}
+	}
+	return strings.Join(columns, ",")
 }
 
 type PerformancesList struct {
@@ -107,7 +121,7 @@ func (p *Performance) FetchContract(c Client) error {
 func (ps *PerformancesList) PrettyPrint() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetColWidth(60)
-	table.SetHeader([]string{"Day", "Project", "Description", "H", "Rate", "Type"})
+	table.SetHeader([]string{"Day", "Contract", "Description", "H", "Rate", "Type"})
 	for _, p := range ps.Performances {
 		table.Append([]string{strconv.Itoa(p.Day),
 			p.Contract.Label, p.Description, p.Duration,
@@ -120,4 +134,57 @@ func (ps *PerformancesList) PrettyPrint() {
 
 func (p *Performance) PrettyPrint() {
 	fmt.Printf("%d %s\n", p.Day, p.Description)
+}
+
+func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetColWidth(60)
+	var header []string
+	for _, c := range columns {
+		header = append(header, ps.GetColumn(c))
+	}
+	table.SetHeader(header)
+	for _, p := range ps.Performances {
+		var row []string
+		for _, c := range columns {
+			row = append(row, p.GetColumn(c))
+		}
+		table.Append(row)
+	}
+	table.Render()
+}
+func (p *PerformancesList) GetColumn(name string) string {
+	switch name {
+	case "day":
+		return "Day"
+	case "contract":
+		return "Contract"
+	case "description":
+		return "Description"
+	case "duration":
+		return "H"
+	case "multiplier":
+		return "x"
+	case "type":
+		return "Kind"
+	}
+	return ""
+}
+
+func (p *Performance) GetColumn(name string) string {
+	switch name {
+	case "day":
+		return strconv.Itoa(p.Day)
+	case "contract":
+		return p.Contract.Label
+	case "description":
+		return p.Description
+	case "duration":
+		return p.Duration
+	case "multiplier":
+		return p.Rate.Multiplier
+	case "type":
+		return p.Type.String()
+	}
+	return ""
 }

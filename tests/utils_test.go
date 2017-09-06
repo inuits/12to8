@@ -27,6 +27,7 @@ type CmdTestCase struct {
 	OutRegex      string
 	OutText       string
 	ErrRegex      string
+	ErrText       string
 	Env           []string
 }
 
@@ -92,6 +93,12 @@ func (t *CmdTestCase) Run(test *testing.T) {
 	if t.OutText != "" {
 		if stdout.String() != t.OutText {
 			test.Errorf("stdout does not match expectation:\n%s", t.OutText)
+		}
+	}
+
+	if t.ErrText != "" {
+		if stderr.String() != t.ErrText {
+			test.Errorf("stderr does not match expectation:\n%s", t.ErrText)
 		}
 	}
 

@@ -22,10 +22,10 @@ func TestNewPerformance(t *testing.T) {
 	(&CmdTestCase{
 		Name:     "List performances",
 		Env:      userEnv,
-		Args:     []string{"list", "performances"},
+		Args:     []string{"list", "performances", "-C", "day,contract,description,duration,multiplier,type"},
 		OutLines: 5,
 		OutText: `+-----+--------------------+-------------+------+------+----------+
-| DAY |      PROJECT       | DESCRIPTION |  H   | RATE |   TYPE   |
+| DAY |      CONTRACT      | DESCRIPTION |  H   |  X   |   KIND   |
 +-----+--------------------+-------------+------+------+----------+
 |   5 | Internal Stuff (c) | fix jenkins | 3.00 | 1.00 | activity |
 +-----+--------------------+-------------+------+------+----------+
@@ -48,10 +48,10 @@ func TestNewPerformanceWithDoubleRate(t *testing.T) {
 	(&CmdTestCase{
 		Name:     "List performances",
 		Env:      userEnv,
-		Args:     []string{"list", "performances"},
+		Args:     []string{"list", "performances", "-C", "day,contract,description,duration,multiplier,type"},
 		OutLines: 5,
 		OutText: `+-----+--------------------+-------------+------+------+----------+
-| DAY |      PROJECT       | DESCRIPTION |  H   | RATE |   TYPE   |
+| DAY |      CONTRACT      | DESCRIPTION |  H   |  X   |   KIND   |
 +-----+--------------------+-------------+------+------+----------+
 |   5 | Internal Stuff (c) | fix jenkins | 3.00 | 2.00 | activity |
 +-----+--------------------+-------------+------+------+----------+
@@ -94,10 +94,10 @@ func TestNewPerformanceFloat(t *testing.T) {
 	(&CmdTestCase{
 		Name:     "List performances",
 		Env:      userEnv,
-		Args:     []string{"list", "performances"},
+		Args:     []string{"list", "performances", "-C", "day,contract,description,duration,multiplier,type"},
 		OutLines: 5,
 		OutText: `+-----+--------------------+-----------------+------+------+----------+
-| DAY |      PROJECT       |   DESCRIPTION   |  H   | RATE |   TYPE   |
+| DAY |      CONTRACT      |   DESCRIPTION   |  H   |  X   |   KIND   |
 +-----+--------------------+-----------------+------+------+----------+
 |   9 | Internal Stuff (c) | implement float | 4.47 | 1.00 | activity |
 +-----+--------------------+-----------------+------+------+----------+
