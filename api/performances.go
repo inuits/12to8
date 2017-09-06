@@ -18,6 +18,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 
 	"github.com/olekukonko/tablewriter"
@@ -70,6 +71,14 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 			return err
 		}
 	}
+
+	sort.SliceStable(ps.Performances, func(i, j int) bool {
+		if ps.Performances[i].Day == ps.Performances[j].Day {
+			return ps.Performances[i].Contract.PrettyLabel() < ps.Performances[j].Contract.PrettyLabel()
+		} else {
+			return ps.Performances[i].Day < ps.Performances[j].Day
+		}
+	})
 	return nil
 }
 

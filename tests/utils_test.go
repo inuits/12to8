@@ -116,7 +116,7 @@ func init() {
 		"TWELVE_TO_EIGHT_PASSWORD=pass",
 	}
 	DefaultCmd = "12to8"
-	fixtures = []string{"basic_projects"}
+	fixtures = []string{"basic_projects", "rich_timesheet"}
 }
 
 func newTimesheet(t *testing.T, c *dockerId) {
