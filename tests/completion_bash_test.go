@@ -9,7 +9,7 @@ import (
 )
 
 func TestTopCompletion(t *testing.T) {
-	testCompletion(t, nil, []string{"12to8", ""}, []string{"completion", "list", "new", "release"})
+	testCompletion(t, nil, []string{"12to8", ""}, []string{"completion", "delete", "list", "new", "release"})
 }
 
 func TestCompletionCompletion(t *testing.T) {
