@@ -5,4 +5,3 @@ exec_subpackages(){
 }
 
 exec_subpackages go test -v '{}/...'
-exec_subpackages go vet '{}/...'
