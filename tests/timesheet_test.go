@@ -131,3 +131,120 @@ func TestTimesheetFixedMonthYear(t *testing.T) {
 		OutRegex: fmt.Sprintf("%s \\[PENDING\\]", currentTs),
 	}).Run(t)
 }
+
+func TestReleaseTimesheetY(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	userEnv := append(RunAsUser, c.EndpointEnv())
+	(&CmdTestCase{
+		Name:     "Create timesheet",
+		Env:      userEnv,
+		Args:     []string{"new", "timesheet"},
+		OutLines: 1,
+	}).Run(t)
+	currentTs := fmt.Sprintf("%s %d", time.Now().Month(), time.Now().Year())
+	(&CmdTestCase{
+		Name:     "Release Timesheet",
+		Env:      userEnv,
+		Input:    "y",
+		Args:     []string{"release", "timesheet"},
+		OutLines: 2,
+		OutRegex: fmt.Sprintf("%s \\[PENDING\\]", currentTs),
+	}).Run(t)
+	(&CmdTestCase{
+		Name:     "List timesheets",
+		Env:      userEnv,
+		Args:     []string{"list", "timesheets"},
+		OutLines: 1,
+		OutRegex: fmt.Sprintf("%s \\[PENDING\\]", currentTs),
+	}).Run(t)
+}
+
+func TestReleaseTimesheetYes(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	userEnv := append(RunAsUser, c.EndpointEnv())
+	(&CmdTestCase{
+		Name:     "Create timesheet",
+		Env:      userEnv,
+		Args:     []string{"new", "timesheet"},
+		OutLines: 1,
+	}).Run(t)
+	currentTs := fmt.Sprintf("%s %d", time.Now().Month(), time.Now().Year())
+	(&CmdTestCase{
+		Name:     "Release Timesheet",
+		Env:      userEnv,
+		Input:    "yes",
+		Args:     []string{"release", "timesheet"},
+		OutLines: 2,
+		OutRegex: fmt.Sprintf("%s \\[PENDING\\]", currentTs),
+	}).Run(t)
+	(&CmdTestCase{
+		Name:     "List timesheets",
+		Env:      userEnv,
+		Args:     []string{"list", "timesheets"},
+		OutLines: 1,
+		OutRegex: fmt.Sprintf("%s \\[PENDING\\]", currentTs),
+	}).Run(t)
+}
+
+func TestReleaseTimesheetNo(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	userEnv := append(RunAsUser, c.EndpointEnv())
+	(&CmdTestCase{
+		Name:     "Create timesheet",
+		Env:      userEnv,
+		Args:     []string{"new", "timesheet"},
+		OutLines: 1,
+	}).Run(t)
+	currentTs := fmt.Sprintf("%s %d", time.Now().Month(), time.Now().Year())
+	(&CmdTestCase{
+		Name:          "Release Timesheet",
+		Env:           userEnv,
+		Input:         "no",
+		Args:          []string{"release", "timesheet"},
+		OutLines:      2,
+		ExpectFailure: true,
+		OutRegex:      fmt.Sprintf("Aborted by user"),
+	}).Run(t)
+	(&CmdTestCase{
+		Name:     "List timesheets",
+		Env:      userEnv,
+		Args:     []string{"list", "timesheets"},
+		OutLines: 1,
+		OutRegex: fmt.Sprintf("%s \\[ACTIVE\\]", currentTs),
+	}).Run(t)
+}
+
+func TestReleaseTimesheetNoInput(t *testing.T) {
+	c := &dockerId{}
+	c.start925r(t, "basic_projects")
+	defer c.stop925r(t)
+	userEnv := append(RunAsUser, c.EndpointEnv())
+	(&CmdTestCase{
+		Name:     "Create timesheet",
+		Env:      userEnv,
+		Args:     []string{"new", "timesheet"},
+		OutLines: 1,
+	}).Run(t)
+	currentTs := fmt.Sprintf("%s %d", time.Now().Month(), time.Now().Year())
+	(&CmdTestCase{
+		Name:          "Release Timesheet",
+		Env:           userEnv,
+		Args:          []string{"release", "timesheet"},
+		OutLines:      2,
+		ExpectFailure: true,
+		OutRegex:      fmt.Sprintf("Aborted by user"),
+	}).Run(t)
+	(&CmdTestCase{
+		Name:     "List timesheets",
+		Env:      userEnv,
+		Args:     []string{"list", "timesheets"},
+		OutLines: 1,
+		OutRegex: fmt.Sprintf("%s \\[ACTIVE\\]", currentTs),
+	}).Run(t)
+}
