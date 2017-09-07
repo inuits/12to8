@@ -48,6 +48,12 @@ Release timesheet:
 12to8 release timesheet 9/2017
 ```
 
+Delete performance:
+```
+t list performances -P
+t delete performance 3
+```
+
 ### Completion
 
 In your shell (& ~/.bashrc)

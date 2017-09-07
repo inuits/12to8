@@ -75,6 +75,19 @@ func (t *Timesheet) Get(c Client) error {
 	return nil
 }
 
+// GetById returns the timesheet from the server by its id
+func (t *Timesheet) GetById(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_timesheets/%d/", c.Endpoint, t.Id))
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(t)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (t *Timesheet) Release(c Client) error {
 	if t.Id == 0 {
 		return errors.New("No ID for this timesheet")

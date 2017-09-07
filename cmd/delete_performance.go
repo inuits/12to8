@@ -15,6 +15,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -49,6 +50,34 @@ Use --force to avoid confirmation.`,
 		performance := &api.Performance{
 			Id:   id,
 			Type: perfType,
+		}
+		if !force {
+			err := performance.GetById(c)
+			if err != nil {
+				log.Fatal(err)
+			}
+			err = performance.FetchTimesheet(c)
+			if err != nil {
+				log.Fatal(err)
+			}
+			err = performance.FetchRate(c)
+			if err != nil {
+				log.Fatal(err)
+			}
+			err = performance.FetchContract(c)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("Performance: %s.\nAre you sure you want to delete that performance? [y/N] ",
+				performance.Sporcelain())
+			var response string
+			_, err = fmt.Scanln(&response)
+			if err != nil {
+				log.Fatal("Aborted by user")
+			}
+			if response != "yes" && response != "y" {
+				log.Fatal("Aborted by user")
+			}
 		}
 
 		err := performance.DeleteById(c)

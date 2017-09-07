@@ -67,6 +67,18 @@ func (pr *PerformanceRatesList) GetById(id int) *PerformanceRate {
 	return nil
 }
 
+func (p *PerformanceRate) Fetch(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.Id))
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(p)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (p *PerformanceRate) PrettyList() string {
 	return fmt.Sprintf(" * %s : %s\n", p.Multiplier, p.Label)
 }

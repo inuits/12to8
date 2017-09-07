@@ -22,6 +22,7 @@ type CmdTestCase struct {
 	ExpectFailure bool
 	Cmd           string
 	Args          []string
+	Input         string
 	OutLines      int
 	ErrLines      int
 	OutRegex      string
@@ -66,6 +67,11 @@ func (t *CmdTestCase) Run(test *testing.T) {
 	var stdout, stderr bytes.Buffer
 	c.Stdout = &stdout
 	c.Stderr = &stderr
+
+	if t.Input != "" {
+		test.Logf("Input: %s", t.Input)
+		c.Stdin = strings.NewReader(t.Input)
+	}
 
 	err := c.Run()
 	result := err != nil
