@@ -140,6 +140,26 @@ func (p *Performance) FetchContract(c Client) error {
 	return nil
 }
 
+func (p *Performance) FetchRate(c Client) error {
+	rate := &PerformanceRate{Id: p.RateId}
+	err := rate.Fetch(c)
+	if err != nil {
+		return err
+	}
+	p.Rate = rate
+	return nil
+}
+
+func (p *Performance) FetchTimesheet(c Client) error {
+	timesheet := &Timesheet{Id: p.TimesheetId}
+	err := timesheet.GetById(c)
+	if err != nil {
+		return err
+	}
+	p.Timesheet = timesheet
+	return nil
+}
+
 func (ps *PerformancesList) PrettyPrint() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetColWidth(60)
@@ -164,10 +184,13 @@ func (ps *PerformancesList) Porcelain() {
 	}
 }
 
-func (p *Performance) Porcelain() {
-	fmt.Printf("%d,%02d/%02d/%d,%s,%s,%s,%s,%s\n",
+func (p *Performance) Sporcelain() string {
+	return fmt.Sprintf("%d,%02d/%02d/%d,%s,%s,%s,%s,%s",
 		p.Id, p.Day, p.Timesheet.Month, p.Timesheet.Year, p.Description,
 		p.Contract.Label, p.Duration, p.Rate.Multiplier, p.Type.String())
+}
+func (p *Performance) Porcelain() {
+	fmt.Println(p.Sporcelain())
 }
 
 func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
