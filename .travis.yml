@@ -10,9 +10,11 @@ services:
 env:
 - TEST=unit       VERSION=locked
 - TEST=acceptance VERSION=locked
+- TEST=lint       VERSION=locked
 - TEST=unit       VERSION=latest
 - TEST=acceptance VERSION=latest
 matrix:
   allow_failures:
+    - env: TEST=lint       VERSION=locked
     - env: TEST=unit       VERSION=latest
     - env: TEST=acceptance VERSION=latest
