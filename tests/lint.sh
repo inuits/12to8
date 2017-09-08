@@ -6,4 +6,5 @@ exec_subpackages(){
 
 go get -u github.com/golang/lint/golint
 
+exec_subpackages go vet '%/...'
 exec_subpackages golint -set_exit_status '%/...'
