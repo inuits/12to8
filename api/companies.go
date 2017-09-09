@@ -16,7 +16,6 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -54,7 +53,7 @@ func (co *Company) Get(c Client) error {
 		return err
 	}
 	if len(cs.Companies) != 1 {
-		return errors.New(fmt.Sprintf("Expected 1 company, got %d", len(cs.Companies)))
+		return fmt.Errorf("Expected 1 company, got %d", len(cs.Companies))
 	}
 	*co = cs.Companies[0]
 	return nil

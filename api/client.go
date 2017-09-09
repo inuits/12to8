@@ -3,7 +3,6 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -57,7 +56,7 @@ func (c *Client) Request(verb, url string, code int, payload io.Reader) (*http.R
 		if err == nil {
 			content = out
 		}
-		return resp, errors.New(fmt.Sprintf("Received %d, expecting %d status code while fetching %s\n%s", resp.StatusCode, code, url, string(content)))
+		return resp, fmt.Errorf("Received %d, expecting %d status code while fetching %s\n%s", resp.StatusCode, code, url, string(content))
 	}
 	return resp, err
 }

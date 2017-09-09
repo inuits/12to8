@@ -32,7 +32,7 @@ func getMonthYearFromArg(arg string) (int, int, error) {
 	}
 	v := strings.Split(arg, "/")
 	if len(v) > 2 {
-		return 0, 0, errors.New(fmt.Sprintf("Too many / in %v", v))
+		return 0, 0, fmt.Errorf("Too many / in %v", v)
 	}
 	var y int
 	var err error
@@ -49,7 +49,7 @@ func getMonthYearFromArg(arg string) (int, int, error) {
 		return 0, 0, err
 	}
 	if m > 12 || m < 1 {
-		return 0, 0, errors.New(fmt.Sprintf("bad month: %v", v[0]))
+		return 0, 0, fmt.Errorf("bad month: %v", v[0])
 	}
 	return m, y, nil
 }
@@ -127,7 +127,7 @@ func getDaysMonthYearFromArg(arg string) (int, int, int, error) {
 	}
 	v := strings.Split(arg, "/")
 	if len(v) > 3 {
-		return 0, 0, 0, errors.New(fmt.Sprintf("Too many / in %v", v))
+		return 0, 0, 0, fmt.Errorf("Too many / in %v", v)
 	}
 	var m int
 	var y int
@@ -148,7 +148,7 @@ func getDaysMonthYearFromArg(arg string) (int, int, int, error) {
 			return 0, 0, 0, err
 		}
 		if m > 12 || m < 1 {
-			return 0, 0, 0, errors.New(fmt.Sprintf("bad month: %v", v[1]))
+			return 0, 0, 0, fmt.Errorf("bad month: %v", v[1])
 		}
 	}
 	d, err := strconv.Atoi(v[0])

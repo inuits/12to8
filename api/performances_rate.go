@@ -17,7 +17,6 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -49,7 +48,7 @@ func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*Performance
 		p := pr.PerformanceRates[i]
 		if p.Multiplier == multiplier {
 			if rate != nil {
-				return nil, errors.New(fmt.Sprintf("Found 2 rates with multiplier %s", multiplier))
+				return nil, fmt.Errorf("Found 2 rates with multiplier %s", multiplier)
 			}
 			rate = &p
 		}

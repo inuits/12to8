@@ -16,7 +16,6 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -62,7 +61,7 @@ func (co *Contract) Get(c Client) error {
 		return err
 	}
 	if len(cs.Contracts) != 1 {
-		return errors.New(fmt.Sprintf("Expected 1 contract, got %d", len(cs.Contracts)))
+		return fmt.Errorf("Expected 1 contract, got %d", len(cs.Contracts))
 	}
 	*co = cs.Contracts[0]
 	err = co.FetchCustomer(c)
@@ -98,7 +97,7 @@ func (cs *ContractsList) GetByLabel(label string) (*Contract, error) {
 		c := cs.Contracts[i]
 		if c.PrettyLabel() == label {
 			if contract != nil {
-				return nil, errors.New(fmt.Sprintf("Found 2 contracts with label %s", label))
+				return nil, fmt.Errorf("Found 2 contracts with label %s", label)
 			}
 			contract = &c
 		}

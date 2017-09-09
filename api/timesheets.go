@@ -69,7 +69,7 @@ func (t *Timesheet) Get(c Client) error {
 		return err
 	}
 	if len(ts.Timesheets) != 1 {
-		return errors.New(fmt.Sprintf("Expected 1 timesheet, got %d", len(ts.Timesheets)))
+		return fmt.Errorf("Expected 1 timesheet, got %d", len(ts.Timesheets))
 	}
 	*t = ts.Timesheets[0]
 	return nil
