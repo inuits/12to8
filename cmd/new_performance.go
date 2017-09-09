@@ -24,7 +24,7 @@ import (
 
 var project string
 var multiplier string
-var perf_type string
+var perfType string
 
 // newPerformanceCmd represents the newPerformance command
 var newPerformanceCmd = &cobra.Command{
@@ -131,7 +131,7 @@ func init() {
 	viper.BindPFlag("contract", c)
 
 	// type
-	newPerformanceCmd.Flags().StringVarP(&perf_type, "type", "t", "Activity", "Type: Activity/Standby")
+	newPerformanceCmd.Flags().StringVarP(&perfType, "type", "t", "Activity", "Type: Activity/Standby")
 
 	// autocomplete
 	annotation = make(map[string][]string)

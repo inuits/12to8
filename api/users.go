@@ -32,7 +32,7 @@ type User struct {
 	Gender       string
 	BirthDate    string
 	JoinDate     string
-	redmine_id   int
+	redmineId    int `json:"redmine_id"`
 }
 
 type UsersList struct {

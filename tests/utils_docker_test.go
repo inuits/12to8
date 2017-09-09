@@ -14,9 +14,9 @@ import (
 	"time"
 )
 
-var skip_docker bool
-var skip_docker_images bool
-var skip_docker_images_deletion bool
+var skipDocker bool
+var skipDockerImages bool
+var skipDockerImagesDeletion bool
 
 type dockerId struct {
 	Id   string
@@ -24,7 +24,7 @@ type dockerId struct {
 }
 
 func createContainerWithFixture(fixture string) {
-	if skip_docker || skip_docker_images {
+	if skipDocker || skipDockerImages {
 		return
 	}
 	// Create a docker container
@@ -66,7 +66,7 @@ func createContainerWithFixture(fixture string) {
 }
 
 func deleteContainerWithFixture(fixture string) {
-	if skip_docker || skip_docker_images || skip_docker_images_deletion {
+	if skipDocker || skipDockerImages || skipDockerImagesDeletion {
 		return
 	}
 	err := exec.Command("docker", "rmi", fmt.Sprintf("925r:%s", fixture)).Run()
@@ -76,7 +76,7 @@ func deleteContainerWithFixture(fixture string) {
 }
 
 func (d *dockerId) start925r(t *testing.T, fixture string) {
-	if skip_docker {
+	if skipDocker {
 		t.Log("Not using docker.")
 		d.Port = 8000
 		return
@@ -146,7 +146,7 @@ func (d *dockerId) EndpointEnv() string {
 }
 
 func init() {
-	flag.BoolVar(&skip_docker, "skip-docker", false, "Do not manage the 925r instances using docker. Make tests not parallel. Exects 925r on http://127.0.0.1:8000.")
-	flag.BoolVar(&skip_docker_images, "skip-docker-images-creation", false, "Do not manage the 925r docker images with fixtures.")
-	flag.BoolVar(&skip_docker_images_deletion, "skip-docker-images-deletion", false, "Do not delete the 925r docker images with fixtures after the tests.")
+	flag.BoolVar(&skipDocker, "skip-docker", false, "Do not manage the 925r instances using docker. Make tests not parallel. Exects 925r on http://127.0.0.1:8000.")
+	flag.BoolVar(&skipDockerImages, "skip-docker-images-creation", false, "Do not manage the 925r docker images with fixtures.")
+	flag.BoolVar(&skipDockerImagesDeletion, "skip-docker-images-deletion", false, "Do not delete the 925r docker images with fixtures after the tests.")
 }

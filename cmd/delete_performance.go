@@ -93,7 +93,7 @@ func init() {
 	deletePerformanceCmd.Flags().BoolVarP(&force, "force", "f", false, "Do not prompt before deleting")
 
 	// type
-	deletePerformanceCmd.Flags().StringVarP(&perf_type, "type", "t", "Activity", "Type: Activity/Standby")
+	deletePerformanceCmd.Flags().StringVarP(&perfType, "type", "t", "Activity", "Type: Activity/Standby")
 	// autocomplete
 	annotation := make(map[string][]string)
 	annotation[cobra.BashCompCustom] = []string{"__12to8_comp_activity"}
