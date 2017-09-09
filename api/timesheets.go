@@ -33,18 +33,6 @@ type TimesheetsList struct {
 	Timesheets []Timesheet `json:"results"`
 }
 
-func (ts *TimesheetsList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_timesheets?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(ts)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (t *Timesheet) New(c Client) error {
 	resp, err := c.PostRequest(fmt.Sprintf("%s/v1/my_timesheets/", c.Endpoint), t)
 	if err != nil {
@@ -55,6 +43,10 @@ func (t *Timesheet) New(c Client) error {
 		return err
 	}
 	return nil
+}
+
+func (ts *TimesheetsList) apiURL() string {
+	return "v1/my_timesheets"
 }
 
 // Get returns the timesheets from the server

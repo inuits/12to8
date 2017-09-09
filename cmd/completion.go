@@ -159,7 +159,7 @@ func init() {
 func ratesComplete() {
 	pr := &api.PerformanceRatesList{}
 	c := NewAPIClient()
-	err := pr.Fetch(c)
+	err := c.FetchList(pr)
 	if err != nil {
 		log.Fatal(err)
 	}

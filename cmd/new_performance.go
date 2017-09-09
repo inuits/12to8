@@ -62,7 +62,7 @@ It must follow the same syntax as in "12to8 list contracts".`,
 		}
 
 		rates := &api.PerformanceRatesList{}
-		err = rates.Fetch(c)
+		err = c.FetchList(rates)
 		rate, err := rates.GetByMultiplier(multiplier)
 		if err != nil {
 			log.Fatal(err)

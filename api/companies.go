@@ -29,16 +29,8 @@ type CompaniesList struct {
 	Companies []Company `json:"results"`
 }
 
-func (cs *CompaniesList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(cs)
-	if err != nil {
-		return err
-	}
-	return nil
+func (cs *CompaniesList) apiURL() string {
+	return "v1/companies"
 }
 
 // Get returns the Company from the server

@@ -73,7 +73,7 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	}
 
 	rates := &PerformanceRatesList{}
-	err = rates.Fetch(c)
+	err = c.FetchList(rates)
 	if err != nil {
 		return err
 	}

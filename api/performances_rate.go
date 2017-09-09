@@ -30,16 +30,8 @@ type PerformanceRatesList struct {
 	PerformanceRates []PerformanceRate `json:"results"`
 }
 
-func (pr *PerformanceRatesList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(pr)
-	if err != nil {
-		return err
-	}
-	return nil
+func (pr *PerformanceRatesList) apiURL() string {
+	return "v1/performance_types"
 }
 
 func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*PerformanceRate, error) {

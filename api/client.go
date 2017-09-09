@@ -15,6 +15,23 @@ type Client struct {
 	Password string
 }
 
+type modelList interface {
+	apiURL() string
+}
+
+// FetchList fetches a list of objects from the backend
+func (c *Client) FetchList(m modelList) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/%s/?page_size=9999", c.Endpoint, m.apiURL()))
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(m)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (c *Client) PatchRequest(url string, i interface{}) (*http.Response, error) {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(i)
