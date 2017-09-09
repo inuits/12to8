@@ -50,9 +50,9 @@ func (cs *ContractsList) Fetch(c Client) error {
 }
 
 // Get returns the Contract from the server
-func (co *Contract) Get(c Client) error {
+func (c *Contract) Get(client Client) error {
 	cs := &ContractsList{}
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/?label=%s", c.Endpoint, co.Label))
+	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/my_contracts/?label=%s", client.Endpoint, c.Label))
 	if err != nil {
 		return err
 	}
@@ -63,21 +63,21 @@ func (co *Contract) Get(c Client) error {
 	if len(cs.Contracts) != 1 {
 		return fmt.Errorf("Expected 1 contract, got %d", len(cs.Contracts))
 	}
-	*co = cs.Contracts[0]
-	err = co.FetchCustomer(c)
+	*c = cs.Contracts[0]
+	err = c.FetchCustomer(client)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (co *Contract) FetchCustomer(c Client) error {
-	customer := &Company{ID: co.CustomerID}
-	err := customer.GetByID(c)
+func (c *Contract) FetchCustomer(client Client) error {
+	customer := &Company{ID: c.CustomerID}
+	err := customer.GetByID(client)
 	if err != nil {
 		return err
 	}
-	co.Customer = customer
+	c.Customer = customer
 	return nil
 }
 
@@ -106,13 +106,13 @@ func (cs *ContractsList) GetByLabel(label string) (*Contract, error) {
 }
 
 // GetByID returns the Company from the server
-func (co *Contract) GetByID(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/%d/", c.Endpoint, co.ID))
+func (c *Contract) GetByID(client Client) error {
+	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/my_contracts/%d/", client.Endpoint, c.ID))
 
 	if err != nil {
 		return err
 	}
-	err = json.NewDecoder(resp.Body).Decode(co)
+	err = json.NewDecoder(resp.Body).Decode(c)
 	if err != nil {
 		return err
 	}

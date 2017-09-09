@@ -48,8 +48,8 @@ func (users *UsersList) Fetch(c Client) error {
 	return nil
 }
 
-func (r *UsersList) PrettyPrint() {
-	for _, u := range r.Users {
+func (users *UsersList) PrettyPrint() {
+	for _, u := range users.Users {
 		u.PrettyPrint()
 	}
 }

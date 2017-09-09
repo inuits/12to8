@@ -91,9 +91,8 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	sort.SliceStable(ps.Performances, func(i, j int) bool {
 		if ps.Performances[i].Day == ps.Performances[j].Day {
 			return ps.Performances[i].Contract.PrettyLabel() < ps.Performances[j].Contract.PrettyLabel()
-		} else {
-			return ps.Performances[i].Day < ps.Performances[j].Day
 		}
+		return ps.Performances[i].Day < ps.Performances[j].Day
 	})
 	return nil
 }
@@ -210,7 +209,7 @@ func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 	}
 	table.Render()
 }
-func (p *PerformancesList) GetColumn(name string) string {
+func (ps *PerformancesList) GetColumn(name string) string {
 	switch name {
 	case "id":
 		return "ID"
