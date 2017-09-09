@@ -56,7 +56,7 @@ func createContainerWithFixture(fixture string) {
 	c.Stderr = &commitStderr
 	err = c.Run()
 	if err != nil {
-		log.Fatalf("container %s can't commit: %v\n%s", fixture, err, commitStderr)
+		log.Fatalf("container %s can't commit: %v\n%s", fixture, err, commitStderr.String())
 	}
 	commitId := strings.TrimSpace(commitStdout.String())
 	err = exec.Command("docker", "tag", commitId, fmt.Sprintf("925r:%s", fixture)).Run()

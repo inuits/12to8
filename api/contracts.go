@@ -53,7 +53,7 @@ func (cs *ContractsList) Fetch(c Client) error {
 // Get returns the Contract from the server
 func (co *Contract) Get(c Client) error {
 	cs := &ContractsList{}
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/?label=%s", co.Label))
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/?label=%s", c.Endpoint, co.Label))
 	if err != nil {
 		return err
 	}

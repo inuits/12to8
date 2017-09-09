@@ -24,7 +24,7 @@ func ExampleTimesheet_PrettyPrint() {
 	// Output: July 2016 [PENDING]
 }
 
-func ExampleTimesheets_PrettyPrint() {
+func ExampleTimesheetsList_PrettyPrint() {
 	t := &TimesheetsList{
 		Timesheets: []Timesheet{
 			Timesheet{
