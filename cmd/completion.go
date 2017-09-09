@@ -144,7 +144,7 @@ func bashComplete() {
 // listContractsCmd represents the list contracts command
 func contractsComplete() {
 	contracts := &api.ContractsList{}
-	c := NewApiClient()
+	c := NewAPIClient()
 	err := contracts.Fetch(c)
 	if err != nil {
 		log.Fatal(err)
@@ -158,7 +158,7 @@ func init() {
 // listRatesCmd represents the list rates command
 func ratesComplete() {
 	pr := &api.PerformanceRatesList{}
-	c := NewApiClient()
+	c := NewAPIClient()
 	err := pr.Fetch(c)
 	if err != nil {
 		log.Fatal(err)

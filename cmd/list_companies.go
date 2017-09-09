@@ -27,7 +27,7 @@ var listCompaniesCmd = &cobra.Command{
 	Short: "List all the companies",
 	Run: func(cmd *cobra.Command, args []string) {
 		companies := &api.CompaniesList{}
-		c := NewApiClient()
+		c := NewAPIClient()
 		err := companies.Fetch(c)
 		if err != nil {
 			log.Fatal(err)

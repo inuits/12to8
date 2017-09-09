@@ -29,7 +29,7 @@ var usersCmd = &cobra.Command{
 from 925r and displays it in a nice way.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		users := &api.UsersList{}
-		c := NewApiClient()
+		c := NewAPIClient()
 		err := users.Fetch(c)
 		if err != nil {
 			log.Fatal(err)

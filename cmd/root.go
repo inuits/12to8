@@ -91,7 +91,7 @@ func initConfig() {
 	viper.ReadInConfig()
 }
 
-func NewApiClient() api.Client {
+func NewAPIClient() api.Client {
 	username := viper.GetString("user")
 	password := viper.GetString("password")
 	endpoint := viper.GetString("endpoint")

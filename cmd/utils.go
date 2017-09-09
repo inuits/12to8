@@ -171,7 +171,7 @@ func fetchTimesheetFromArgs(args []string) *api.Timesheet {
 		Month: month,
 		Year:  year,
 	}
-	c := NewApiClient()
+	c := NewAPIClient()
 	err = timesheet.Get(c)
 	if err != nil {
 		log.Fatal(err)

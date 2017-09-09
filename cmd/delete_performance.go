@@ -44,7 +44,7 @@ Use --force to avoid confirmation.`,
 			perfType = api.StandbyPerformance
 		}
 
-		c := NewApiClient()
+		c := NewAPIClient()
 
 		id, _ := strconv.Atoi(args[0])
 		performance := &api.Performance{

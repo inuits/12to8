@@ -49,7 +49,7 @@ It must follow the same syntax as in "12to8 list contracts".`,
 			log.Fatal("You must specify a type in CLI, env variable or config file.")
 		}
 
-		c := NewApiClient()
+		c := NewAPIClient()
 
 		contracts := &api.ContractsList{}
 		err := contracts.Fetch(c)
