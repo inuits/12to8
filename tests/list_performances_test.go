@@ -6,7 +6,7 @@ import (
 
 // TestListPerformance tests that we can list performances and that the list keeps order
 func TestListPerformance(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -46,7 +46,7 @@ func TestListPerformance(t *testing.T) {
 // TestListPerformanceWithColums tests that we can list performances
 // even with specific columns
 func TestListPerformanceWithColumns(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -86,7 +86,7 @@ func TestListPerformanceWithColumns(t *testing.T) {
 // TestListPerformanceWithWrongColums tests that we can not list performances
 // when the columns list is not correct
 func TestListPerformanceWithWrongColumns(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -119,7 +119,7 @@ Global Flags:
 // TestListPerformancePorcelain tests that we can list performances with
 // an output suitable for scripts
 func TestListPerformancePorcelain(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())

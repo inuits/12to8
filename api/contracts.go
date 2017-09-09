@@ -20,9 +20,9 @@ import (
 )
 
 type Contract struct {
-	Id         int    `json:"id"`
+	ID         int    `json:"id"`
 	Label      string `json:"label"`
-	CustomerId int    `json:"customer"`
+	CustomerID int    `json:"customer"`
 	Customer   *Company
 }
 
@@ -72,8 +72,8 @@ func (co *Contract) Get(c Client) error {
 }
 
 func (co *Contract) FetchCustomer(c Client) error {
-	customer := &Company{Id: co.CustomerId}
-	err := customer.GetById(c)
+	customer := &Company{ID: co.CustomerID}
+	err := customer.GetByID(c)
 	if err != nil {
 		return err
 	}
@@ -81,10 +81,10 @@ func (co *Contract) FetchCustomer(c Client) error {
 	return nil
 }
 
-func (cs *ContractsList) GetById(id int) *Contract {
+func (cs *ContractsList) GetByID(id int) *Contract {
 	for i := range cs.Contracts {
 		c := cs.Contracts[i]
-		if c.Id == id {
+		if c.ID == id {
 			return &c
 		}
 	}
@@ -105,9 +105,9 @@ func (cs *ContractsList) GetByLabel(label string) (*Contract, error) {
 	return contract, nil
 }
 
-// GetById returns the Company from the server
-func (co *Contract) GetById(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/%d/", c.Endpoint, co.Id))
+// GetByID returns the Company from the server
+func (co *Contract) GetByID(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts/%d/", c.Endpoint, co.ID))
 
 	if err != nil {
 		return err
@@ -127,7 +127,7 @@ func (cs *ContractsList) PrettyPrint() {
 
 func (c *Contract) PrettyLabel() string {
 	if c.Customer == nil {
-		return fmt.Sprintf("%s [%d]", c.Label, c.CustomerId)
+		return fmt.Sprintf("%s [%d]", c.Label, c.CustomerID)
 	}
 	return fmt.Sprintf("%s [%s]", c.Label, c.Customer.Name)
 }

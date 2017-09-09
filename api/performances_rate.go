@@ -21,7 +21,7 @@ import (
 )
 
 type PerformanceRate struct {
-	Id         int    `json:"id"`
+	ID         int    `json:"id"`
 	Label      string `json:"label"`
 	Multiplier string `json:"multiplier"`
 }
@@ -56,10 +56,10 @@ func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*Performance
 	return rate, nil
 }
 
-func (pr *PerformanceRatesList) GetById(id int) *PerformanceRate {
+func (pr *PerformanceRatesList) GetByID(id int) *PerformanceRate {
 	for i := range pr.PerformanceRates {
 		p := pr.PerformanceRates[i]
-		if p.Id == id {
+		if p.ID == id {
 			return &p
 		}
 	}
@@ -67,7 +67,7 @@ func (pr *PerformanceRatesList) GetById(id int) *PerformanceRate {
 }
 
 func (p *PerformanceRate) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.Id))
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.ID))
 	if err != nil {
 		return err
 	}

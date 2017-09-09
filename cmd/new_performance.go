@@ -100,13 +100,13 @@ It must follow the same syntax as in "12to8 list contracts".`,
 		}
 
 		performance := &api.Performance{
-			TimesheetId: timesheet.Id,
+			TimesheetID: timesheet.ID,
 			Day:         day,
-			ContractId:  contract.Id,
+			ContractID:  contract.ID,
 			Description: desc,
 			Type:        perfType,
 			Duration:    args[1],
-			RateId:      rate.Id,
+			RateID:      rate.ID,
 		}
 
 		err = performance.New(c)

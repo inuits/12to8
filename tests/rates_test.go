@@ -6,7 +6,7 @@ import (
 
 // TestListCompanies tests the list rates command
 func TestListRates(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())

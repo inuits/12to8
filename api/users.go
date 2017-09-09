@@ -20,7 +20,7 @@ import (
 )
 
 type User struct {
-	Id           int
+	ID           int
 	Username     string
 	Email        string
 	Groups       []string
@@ -32,7 +32,7 @@ type User struct {
 	Gender       string
 	BirthDate    string
 	JoinDate     string
-	redmineId    int `json:"redmine_id"`
+	redmineID    int `json:"redmine_id"`
 }
 
 type UsersList struct {

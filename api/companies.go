@@ -20,7 +20,7 @@ import (
 )
 
 type Company struct {
-	Id      int    `json:"id"`
+	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Country string `json:"country"`
 }
@@ -59,9 +59,9 @@ func (co *Company) Get(c Client) error {
 	return nil
 }
 
-// GetById returns the Company from the server
-func (co *Company) GetById(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", c.Endpoint, co.Id))
+// GetByID returns the Company from the server
+func (co *Company) GetByID(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", c.Endpoint, co.ID))
 
 	if err != nil {
 		return err

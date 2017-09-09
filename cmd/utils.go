@@ -92,7 +92,7 @@ func validTimesheetArgsWithColumns(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func validIdArg(cmd *cobra.Command, args []string) error {
+func validIDArg(cmd *cobra.Command, args []string) error {
 	if len(args) != 1 {
 		return errors.New("takes exactly argument")
 	}

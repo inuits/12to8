@@ -59,7 +59,7 @@ func TestNewTimesheetCompletion(t *testing.T) {
 }
 
 func TestNewPerformanceContractCompletion(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	testCompletion(t, c, []string{"12to8", "new", "pe"}, []string{"performance"})
@@ -69,7 +69,7 @@ func TestNewPerformanceContractCompletion(t *testing.T) {
 }
 
 func TestNewPerformanceRateCompletion(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	testCompletion(t, c, []string{"12to8", "new", "performance", "-m", ""}, []string{"1.00", "2.00"})
@@ -108,7 +108,7 @@ printf '%%s\n' "${COMPREPLY[@]}"
 `, flatcli, words, flatcli)
 }
 
-func testCompletion(t *testing.T, c *dockerId, cli []string, expected []string) {
+func testCompletion(t *testing.T, c *dockerID, cli []string, expected []string) {
 	var expectedOut bytes.Buffer
 	for _, expectedLine := range expected {
 		expectedOut.WriteString(fmt.Sprintf("%s\n", expectedLine))

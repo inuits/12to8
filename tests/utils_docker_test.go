@@ -18,8 +18,8 @@ var skipDocker bool
 var skipDockerImages bool
 var skipDockerImagesDeletion bool
 
-type dockerId struct {
-	Id   string
+type dockerID struct {
+	ID   string
 	Port int
 }
 
@@ -58,8 +58,8 @@ func createContainerWithFixture(fixture string) {
 	if err != nil {
 		log.Fatalf("container %s can't commit: %v\n%s", fixture, err, commitStderr.String())
 	}
-	commitId := strings.TrimSpace(commitStdout.String())
-	err = exec.Command("docker", "tag", commitId, fmt.Sprintf("925r:%s", fixture)).Run()
+	commitID := strings.TrimSpace(commitStdout.String())
+	err = exec.Command("docker", "tag", commitID, fmt.Sprintf("925r:%s", fixture)).Run()
 	if err != nil {
 		log.Fatalf("container %s can't tag: %v", fixture, err)
 	}
@@ -75,7 +75,7 @@ func deleteContainerWithFixture(fixture string) {
 	}
 }
 
-func (d *dockerId) start925r(t *testing.T, fixture string) {
+func (d *dockerID) start925r(t *testing.T, fixture string) {
 	if skipDocker {
 		t.Log("Not using docker.")
 		d.Port = 8000
@@ -93,11 +93,11 @@ func (d *dockerId) start925r(t *testing.T, fixture string) {
 		t.Logf("stderr:\n%s", stderr.String())
 		t.Fatal(err)
 	}
-	d.Id = strings.TrimSpace(stdout.String())
+	d.ID = strings.TrimSpace(stdout.String())
 
 	time.Sleep(time.Second * 3)
 	var stdoutInspect, stderrInspect bytes.Buffer
-	c = exec.Command("docker", "inspect", d.Id, "-f", `{{index (index (index .NetworkSettings.Ports "8000/tcp") 0) "HostPort"}}`)
+	c = exec.Command("docker", "inspect", d.ID, "-f", `{{index (index (index .NetworkSettings.Ports "8000/tcp") 0) "HostPort"}}`)
 	c.Stdout = &stdoutInspect
 	c.Stderr = &stderrInspect
 	err = c.Run()
@@ -113,7 +113,7 @@ func (d *dockerId) start925r(t *testing.T, fixture string) {
 	d.waitFor925r(t)
 }
 
-func (d *dockerId) waitFor925r(t *testing.T) {
+func (d *dockerID) waitFor925r(t *testing.T) {
 	tries := 1
 	maxTries := 10
 	addr := fmt.Sprintf("http://127.0.0.1:%d", d.Port)
@@ -133,15 +133,15 @@ func (d *dockerId) waitFor925r(t *testing.T) {
 	}
 }
 
-func (d *dockerId) stop925r(t *testing.T) {
-	if d == nil || d.Id == "" {
+func (d *dockerID) stop925r(t *testing.T) {
+	if d == nil || d.ID == "" {
 		return
 	}
-	c := exec.Command("docker", "kill", d.Id)
+	c := exec.Command("docker", "kill", d.ID)
 	c.Run()
 }
 
-func (d *dockerId) EndpointEnv() string {
+func (d *dockerID) EndpointEnv() string {
 	return fmt.Sprintf("TWELVE_TO_EIGHT_ENDPOINT=http://127.0.0.1:%d/api", d.Port)
 }
 

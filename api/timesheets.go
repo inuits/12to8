@@ -22,7 +22,7 @@ import (
 )
 
 type Timesheet struct {
-	Id           int    `json:"id"`
+	ID           int    `json:"id"`
 	Year         int    `json:"year"`
 	Month        int    `json:"month"`
 	DisplayLabel string `json:"display_label"`
@@ -75,9 +75,9 @@ func (t *Timesheet) Get(c Client) error {
 	return nil
 }
 
-// GetById returns the timesheet from the server by its id
-func (t *Timesheet) GetById(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_timesheets/%d/", c.Endpoint, t.Id))
+// GetByID returns the timesheet from the server by its id
+func (t *Timesheet) GetByID(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_timesheets/%d/", c.Endpoint, t.ID))
 	if err != nil {
 		return err
 	}
@@ -89,11 +89,11 @@ func (t *Timesheet) GetById(c Client) error {
 }
 
 func (t *Timesheet) Release(c Client) error {
-	if t.Id == 0 {
+	if t.ID == 0 {
 		return errors.New("No ID for this timesheet")
 	}
 	t.Status = "PENDING"
-	resp, err := c.PatchRequest(fmt.Sprintf("%s/v1/my_timesheets/%d/", c.Endpoint, t.Id), t)
+	resp, err := c.PatchRequest(fmt.Sprintf("%s/v1/my_timesheets/%d/", c.Endpoint, t.ID), t)
 	if err != nil {
 		return err
 	}

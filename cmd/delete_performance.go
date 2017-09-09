@@ -30,7 +30,7 @@ var deletePerformanceCmd = &cobra.Command{
 	Short: "delete a performance",
 	Long: `Delete a performance by its id.
 Use --force to avoid confirmation.`,
-	Args: validIdArg,
+	Args: validIDArg,
 	Run: func(cmd *cobra.Command, args []string) {
 		perfTypeString := viper.GetString("type")
 		if perfTypeString == "" {
@@ -48,11 +48,11 @@ Use --force to avoid confirmation.`,
 
 		id, _ := strconv.Atoi(args[0])
 		performance := &api.Performance{
-			Id:   id,
+			ID:   id,
 			Type: perfType,
 		}
 		if !force {
-			err := performance.GetById(c)
+			err := performance.GetByID(c)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -80,7 +80,7 @@ Use --force to avoid confirmation.`,
 			}
 		}
 
-		err := performance.DeleteById(c)
+		err := performance.DeleteByID(c)
 		if err != nil {
 			log.Fatal(err)
 		}
