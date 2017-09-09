@@ -38,7 +38,7 @@ If no timesheet is given, take the current month.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		timesheet := fetchTimesheetFromArgs(args)
 		performances := &api.PerformancesList{}
-		c := NewApiClient()
+		c := NewAPIClient()
 		err := performances.Fetch(c, *timesheet)
 		if err != nil {
 			log.Fatal(err)

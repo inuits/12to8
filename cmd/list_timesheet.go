@@ -27,8 +27,8 @@ var listTimesheetCmd = &cobra.Command{
 	Short: "List all your timesheets",
 	Run: func(cmd *cobra.Command, args []string) {
 		timesheets := &api.TimesheetsList{}
-		c := NewApiClient()
-		err := timesheets.Fetch(c)
+		c := NewAPIClient()
+		err := c.FetchList(timesheets)
 		if err != nil {
 			log.Fatal(err)
 		}

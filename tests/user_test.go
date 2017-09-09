@@ -1,4 +1,4 @@
-package acceptance_tests
+package tests
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 
 // TestListUsers tests the list users command
 func TestListUsers(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())

@@ -24,7 +24,7 @@ import (
 
 var project string
 var multiplier string
-var perf_type string
+var perfType string
 
 // newPerformanceCmd represents the newPerformance command
 var newPerformanceCmd = &cobra.Command{
@@ -49,7 +49,7 @@ It must follow the same syntax as in "12to8 list contracts".`,
 			log.Fatal("You must specify a type in CLI, env variable or config file.")
 		}
 
-		c := NewApiClient()
+		c := NewAPIClient()
 
 		contracts := &api.ContractsList{}
 		err := contracts.Fetch(c)
@@ -62,7 +62,7 @@ It must follow the same syntax as in "12to8 list contracts".`,
 		}
 
 		rates := &api.PerformanceRatesList{}
-		err = rates.Fetch(c)
+		err = c.FetchList(rates)
 		rate, err := rates.GetByMultiplier(multiplier)
 		if err != nil {
 			log.Fatal(err)
@@ -100,13 +100,13 @@ It must follow the same syntax as in "12to8 list contracts".`,
 		}
 
 		performance := &api.Performance{
-			TimesheetId: timesheet.Id,
+			TimesheetID: timesheet.ID,
 			Day:         day,
-			ContractId:  contract.Id,
+			ContractID:  contract.ID,
 			Description: desc,
 			Type:        perfType,
 			Duration:    args[1],
-			RateId:      rate.Id,
+			RateID:      rate.ID,
 		}
 
 		err = performance.New(c)
@@ -131,7 +131,7 @@ func init() {
 	viper.BindPFlag("contract", c)
 
 	// type
-	newPerformanceCmd.Flags().StringVarP(&perf_type, "type", "t", "Activity", "Type: Activity/Standby")
+	newPerformanceCmd.Flags().StringVarP(&perfType, "type", "t", "Activity", "Type: Activity/Standby")
 
 	// autocomplete
 	annotation = make(map[string][]string)

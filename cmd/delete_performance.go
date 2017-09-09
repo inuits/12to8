@@ -30,7 +30,7 @@ var deletePerformanceCmd = &cobra.Command{
 	Short: "delete a performance",
 	Long: `Delete a performance by its id.
 Use --force to avoid confirmation.`,
-	Args: validIdArg,
+	Args: validIDArg,
 	Run: func(cmd *cobra.Command, args []string) {
 		perfTypeString := viper.GetString("type")
 		if perfTypeString == "" {
@@ -44,15 +44,15 @@ Use --force to avoid confirmation.`,
 			perfType = api.StandbyPerformance
 		}
 
-		c := NewApiClient()
+		c := NewAPIClient()
 
 		id, _ := strconv.Atoi(args[0])
 		performance := &api.Performance{
-			Id:   id,
+			ID:   id,
 			Type: perfType,
 		}
 		if !force {
-			err := performance.GetById(c)
+			err := performance.GetByID(c)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -80,7 +80,7 @@ Use --force to avoid confirmation.`,
 			}
 		}
 
-		err := performance.DeleteById(c)
+		err := performance.DeleteByID(c)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -93,7 +93,7 @@ func init() {
 	deletePerformanceCmd.Flags().BoolVarP(&force, "force", "f", false, "Do not prompt before deleting")
 
 	// type
-	deletePerformanceCmd.Flags().StringVarP(&perf_type, "type", "t", "Activity", "Type: Activity/Standby")
+	deletePerformanceCmd.Flags().StringVarP(&perfType, "type", "t", "Activity", "Type: Activity/Standby")
 	// autocomplete
 	annotation := make(map[string][]string)
 	annotation[cobra.BashCompCustom] = []string{"__12to8_comp_activity"}

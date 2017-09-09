@@ -15,12 +15,11 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
 type User struct {
-	Id           int
+	ID           int
 	Username     string
 	Email        string
 	Groups       []string
@@ -32,24 +31,19 @@ type User struct {
 	Gender       string
 	BirthDate    string
 	JoinDate     string
-	redmine_id   int
+	redmineID    int `json:"redmine_id"`
 }
 
 type UsersList struct {
 	Users []User `json:"results"`
 }
 
-func (users *UsersList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/users?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	json.NewDecoder(resp.Body).Decode(users)
-	return nil
+func (users *UsersList) apiURL() string {
+	return "v1/users"
 }
 
-func (r *UsersList) PrettyPrint() {
-	for _, u := range r.Users {
+func (users *UsersList) PrettyPrint() {
+	for _, u := range users.Users {
 		u.PrettyPrint()
 	}
 }

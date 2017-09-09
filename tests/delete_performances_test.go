@@ -1,11 +1,11 @@
-package acceptance_tests
+package tests
 
 import (
 	"testing"
 )
 
 func TestDeletePerformance(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -22,7 +22,7 @@ Are you sure you want to delete that performance? [y/N] Aborted by user
 }
 
 func TestDeletePerformanceY(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -46,7 +46,7 @@ Are you sure you want to delete that performance? [y/N] `,
 }
 
 func TestDeletePerformanceYes(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -70,7 +70,7 @@ Are you sure you want to delete that performance? [y/N] `,
 }
 
 func TestDeletePerformanceNo(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -91,7 +91,7 @@ Are you sure you want to delete that performance? [y/N] Aborted by user
 }
 
 func TestDeletePerformanceForce(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "rich_timesheet")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())

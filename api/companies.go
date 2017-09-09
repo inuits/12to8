@@ -16,12 +16,11 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
 type Company struct {
-	Id      int    `json:"id"`
+	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Country string `json:"country"`
 }
@@ -30,22 +29,14 @@ type CompaniesList struct {
 	Companies []Company `json:"results"`
 }
 
-func (cs *CompaniesList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(cs)
-	if err != nil {
-		return err
-	}
-	return nil
+func (cs *CompaniesList) apiURL() string {
+	return "v1/companies"
 }
 
 // Get returns the Company from the server
-func (co *Company) Get(c Client) error {
+func (c *Company) Get(client Client) error {
 	cs := &CompaniesList{}
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/?name=%s", c.Endpoint, co.Name))
+	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/companies/?name=%s", client.Endpoint, c.Name))
 	if err != nil {
 		return err
 	}
@@ -54,20 +45,20 @@ func (co *Company) Get(c Client) error {
 		return err
 	}
 	if len(cs.Companies) != 1 {
-		return errors.New(fmt.Sprintf("Expected 1 company, got %d", len(cs.Companies)))
+		return fmt.Errorf("Expected 1 company, got %d", len(cs.Companies))
 	}
-	*co = cs.Companies[0]
+	*c = cs.Companies[0]
 	return nil
 }
 
-// GetById returns the Company from the server
-func (co *Company) GetById(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", c.Endpoint, co.Id))
+// GetByID returns the Company from the server
+func (c *Company) GetByID(client Client) error {
+	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", client.Endpoint, c.ID))
 
 	if err != nil {
 		return err
 	}
-	err = json.NewDecoder(resp.Body).Decode(co)
+	err = json.NewDecoder(resp.Body).Decode(c)
 	if err != nil {
 		return err
 	}

@@ -1,4 +1,4 @@
-package acceptance_tests
+package tests
 
 import (
 	"bytes"
@@ -132,7 +132,7 @@ func init() {
 	fixtures = []string{"basic_projects", "rich_timesheet"}
 }
 
-func newTimesheet(t *testing.T, c *dockerId) {
+func newTimesheet(t *testing.T, c *dockerID) {
 	userEnv := append(RunAsUser, c.EndpointEnv())
 	currentTs := fmt.Sprintf("%s %d", time.Now().Month(), time.Now().Year())
 	(&CmdTestCase{

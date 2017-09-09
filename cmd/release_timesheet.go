@@ -42,7 +42,7 @@ the timesheet is locked and you can no longer make changes to it.`,
 			Month: month,
 			Year:  year,
 		}
-		c := NewApiClient()
+		c := NewAPIClient()
 		err = timesheet.Get(c)
 		if err != nil {
 			log.Fatal(err)

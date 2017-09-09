@@ -1,4 +1,4 @@
-package acceptance_tests
+package tests
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 // TestNewPerformance tests that we can add a new performance
 func TestNewPerformance(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -34,7 +34,7 @@ func TestNewPerformance(t *testing.T) {
 }
 
 func TestNewPerformanceWithDoubleRate(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -60,7 +60,7 @@ func TestNewPerformanceWithDoubleRate(t *testing.T) {
 }
 
 func TestNewPerformanceWithWrongRate(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -80,7 +80,7 @@ func TestNewPerformanceWithWrongRate(t *testing.T) {
 }
 
 func TestNewPerformanceFloat(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())

@@ -23,7 +23,7 @@ func ExampleCompany_PrettyPrint() {
 	// Output: Inuits [BE]
 }
 
-func ExampleCompanies_PrettyPrint() {
+func ExampleCompaniesList_PrettyPrint() {
 	t := &CompaniesList{
 		Companies: []Company{
 			Company{

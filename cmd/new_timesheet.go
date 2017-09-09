@@ -47,7 +47,7 @@ Example:
 			Year:   year,
 			Status: "ACTIVE",
 		}
-		c := NewApiClient()
+		c := NewAPIClient()
 		err = timesheet.New(c)
 		if err != nil {
 			log.Fatal(err)

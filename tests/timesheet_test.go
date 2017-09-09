@@ -1,4 +1,4 @@
-package acceptance_tests
+package tests
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 // TestTimesheetCurrentMonth Tests the lifecycle of a timesheet
 // when we do not give any argument
 func TestTimesheetCurrentMonth(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -51,7 +51,7 @@ func TestTimesheetCurrentMonth(t *testing.T) {
 // TestTimesheetCurrentYear Tests the lifecycle of a timesheet
 // when we give only the current month
 func TestTimesheetCurrentYear(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -93,7 +93,7 @@ func TestTimesheetCurrentYear(t *testing.T) {
 // TestTimesheetFixedMonthYear Tests the lifecycle of a timesheet
 // when we give only the month and the year
 func TestTimesheetFixedMonthYear(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -133,7 +133,7 @@ func TestTimesheetFixedMonthYear(t *testing.T) {
 }
 
 func TestReleaseTimesheetY(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -162,7 +162,7 @@ func TestReleaseTimesheetY(t *testing.T) {
 }
 
 func TestReleaseTimesheetYes(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -191,7 +191,7 @@ func TestReleaseTimesheetYes(t *testing.T) {
 }
 
 func TestReleaseTimesheetNo(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())
@@ -221,7 +221,7 @@ func TestReleaseTimesheetNo(t *testing.T) {
 }
 
 func TestReleaseTimesheetNoInput(t *testing.T) {
-	c := &dockerId{}
+	c := &dockerID{}
 	c.start925r(t, "basic_projects")
 	defer c.stop925r(t)
 	userEnv := append(RunAsUser, c.EndpointEnv())

@@ -27,8 +27,8 @@ var listRatesCmd = &cobra.Command{
 	Short: "List all the rates",
 	Run: func(cmd *cobra.Command, args []string) {
 		pr := &api.PerformanceRatesList{}
-		c := NewApiClient()
-		err := pr.Fetch(c)
+		c := NewAPIClient()
+		err := c.FetchList(pr)
 		if err != nil {
 			log.Fatal(err)
 		}

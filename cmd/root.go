@@ -40,7 +40,7 @@ examples and usage of using your application. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	BashCompletionFunction: bash_completion_func,
+	BashCompletionFunction: bashCompletionFunc,
 }
 
 type logWriter struct {
@@ -91,7 +91,7 @@ func initConfig() {
 	viper.ReadInConfig()
 }
 
-func NewApiClient() api.Client {
+func NewAPIClient() api.Client {
 	username := viper.GetString("user")
 	password := viper.GetString("password")
 	endpoint := viper.GetString("endpoint")

@@ -17,12 +17,11 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
 type PerformanceRate struct {
-	Id         int    `json:"id"`
+	ID         int    `json:"id"`
 	Label      string `json:"label"`
 	Multiplier string `json:"multiplier"`
 }
@@ -31,16 +30,8 @@ type PerformanceRatesList struct {
 	PerformanceRates []PerformanceRate `json:"results"`
 }
 
-func (pr *PerformanceRatesList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(pr)
-	if err != nil {
-		return err
-	}
-	return nil
+func (pr *PerformanceRatesList) apiURL() string {
+	return "v1/performance_types"
 }
 
 func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*PerformanceRate, error) {
@@ -49,7 +40,7 @@ func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*Performance
 		p := pr.PerformanceRates[i]
 		if p.Multiplier == multiplier {
 			if rate != nil {
-				return nil, errors.New(fmt.Sprintf("Found 2 rates with multiplier %s", multiplier))
+				return nil, fmt.Errorf("Found 2 rates with multiplier %s", multiplier)
 			}
 			rate = &p
 		}
@@ -57,10 +48,10 @@ func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*Performance
 	return rate, nil
 }
 
-func (pr *PerformanceRatesList) GetById(id int) *PerformanceRate {
+func (pr *PerformanceRatesList) GetByID(id int) *PerformanceRate {
 	for i := range pr.PerformanceRates {
 		p := pr.PerformanceRates[i]
-		if p.Id == id {
+		if p.ID == id {
 			return &p
 		}
 	}
@@ -68,7 +59,7 @@ func (pr *PerformanceRatesList) GetById(id int) *PerformanceRate {
 }
 
 func (p *PerformanceRate) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.Id))
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.ID))
 	if err != nil {
 		return err
 	}

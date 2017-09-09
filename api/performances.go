@@ -29,16 +29,16 @@ var PerformancesColumns = []string{"day", "contract", "description", "duration",
 var PerformancesColumnsDefault = []bool{true, true, true, true, false, false, false}
 
 type Performance struct {
-	Id          int             `json:"id"`
+	ID          int             `json:"id"`
 	Type        PerformanceType `json:"type"`
 	Timesheet   *Timesheet
-	TimesheetId int `json:"timesheet"`
-	ContractId  int `json:"contract"`
+	TimesheetID int `json:"timesheet"`
+	ContractID  int `json:"contract"`
 	Contract    *Contract
 	Day         int    `json:"day"`
 	Description string `json:"description"`
 	Duration    string `json:"duration"`
-	RateId      int    `json:"performance_type"`
+	RateID      int    `json:"performance_type"`
 	Rate        *PerformanceRate
 }
 
@@ -57,7 +57,7 @@ type PerformancesList struct {
 }
 
 func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances?timesheet=%d&page_size=9999", c.Endpoint, t.Id))
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances?timesheet=%d&page_size=9999", c.Endpoint, t.ID))
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	}
 
 	rates := &PerformanceRatesList{}
-	err = rates.Fetch(c)
+	err = c.FetchList(rates)
 	if err != nil {
 		return err
 	}
@@ -81,8 +81,8 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	for i := range ps.Performances {
 		p := &ps.Performances[i]
 		p.Timesheet = &t
-		p.Contract = contracts.GetById(p.ContractId)
-		p.Rate = rates.GetById(p.RateId)
+		p.Contract = contracts.GetByID(p.ContractID)
+		p.Rate = rates.GetByID(p.RateID)
 		if err != nil {
 			return err
 		}
@@ -91,9 +91,8 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	sort.SliceStable(ps.Performances, func(i, j int) bool {
 		if ps.Performances[i].Day == ps.Performances[j].Day {
 			return ps.Performances[i].Contract.PrettyLabel() < ps.Performances[j].Contract.PrettyLabel()
-		} else {
-			return ps.Performances[i].Day < ps.Performances[j].Day
 		}
+		return ps.Performances[i].Day < ps.Performances[j].Day
 	})
 	return nil
 }
@@ -110,8 +109,8 @@ func (p *Performance) New(c Client) error {
 	return nil
 }
 
-func (p *Performance) GetById(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.Id))
+func (p *Performance) GetByID(c Client) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.ID))
 	if err != nil {
 		return err
 	}
@@ -122,8 +121,8 @@ func (p *Performance) GetById(c Client) error {
 	return nil
 }
 
-func (p *Performance) DeleteById(c Client) error {
-	_, err := c.DeleteRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.Id))
+func (p *Performance) DeleteByID(c Client) error {
+	_, err := c.DeleteRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.ID))
 	if err != nil {
 		return err
 	}
@@ -131,8 +130,8 @@ func (p *Performance) DeleteById(c Client) error {
 }
 
 func (p *Performance) FetchContract(c Client) error {
-	contract := &Contract{Id: p.ContractId}
-	err := contract.GetById(c)
+	contract := &Contract{ID: p.ContractID}
+	err := contract.GetByID(c)
 	if err != nil {
 		return err
 	}
@@ -141,7 +140,7 @@ func (p *Performance) FetchContract(c Client) error {
 }
 
 func (p *Performance) FetchRate(c Client) error {
-	rate := &PerformanceRate{Id: p.RateId}
+	rate := &PerformanceRate{ID: p.RateID}
 	err := rate.Fetch(c)
 	if err != nil {
 		return err
@@ -151,8 +150,8 @@ func (p *Performance) FetchRate(c Client) error {
 }
 
 func (p *Performance) FetchTimesheet(c Client) error {
-	timesheet := &Timesheet{Id: p.TimesheetId}
-	err := timesheet.GetById(c)
+	timesheet := &Timesheet{ID: p.TimesheetID}
+	err := timesheet.GetByID(c)
 	if err != nil {
 		return err
 	}
@@ -186,7 +185,7 @@ func (ps *PerformancesList) Porcelain() {
 
 func (p *Performance) Sporcelain() string {
 	return fmt.Sprintf("%d,%02d/%02d/%d,%s,%s,%s,%s,%s",
-		p.Id, p.Day, p.Timesheet.Month, p.Timesheet.Year, p.Description,
+		p.ID, p.Day, p.Timesheet.Month, p.Timesheet.Year, p.Description,
 		p.Contract.Label, p.Duration, p.Rate.Multiplier, p.Type.String())
 }
 func (p *Performance) Porcelain() {
@@ -210,7 +209,7 @@ func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 	}
 	table.Render()
 }
-func (p *PerformancesList) GetColumn(name string) string {
+func (ps *PerformancesList) GetColumn(name string) string {
 	switch name {
 	case "id":
 		return "ID"
@@ -233,7 +232,7 @@ func (p *PerformancesList) GetColumn(name string) string {
 func (p *Performance) GetColumn(name string) string {
 	switch name {
 	case "id":
-		return strconv.Itoa(p.Id)
+		return strconv.Itoa(p.ID)
 	case "day":
 		return strconv.Itoa(p.Day)
 	case "contract":

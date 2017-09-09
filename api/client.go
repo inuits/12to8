@@ -3,7 +3,6 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,6 +13,23 @@ type Client struct {
 	Endpoint string
 	Username string
 	Password string
+}
+
+type modelList interface {
+	apiURL() string
+}
+
+// FetchList fetches a list of objects from the backend
+func (c *Client) FetchList(m modelList) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/%s/?page_size=9999", c.Endpoint, m.apiURL()))
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(m)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (c *Client) PatchRequest(url string, i interface{}) (*http.Response, error) {
@@ -57,7 +73,7 @@ func (c *Client) Request(verb, url string, code int, payload io.Reader) (*http.R
 		if err == nil {
 			content = out
 		}
-		return resp, errors.New(fmt.Sprintf("Received %d, expecting %d status code while fetching %s\n%s", resp.StatusCode, code, url, string(content)))
+		return resp, fmt.Errorf("Received %d, expecting %d status code while fetching %s\n%s", resp.StatusCode, code, url, string(content))
 	}
 	return resp, err
 }
