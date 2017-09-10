@@ -66,17 +66,11 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 		return err
 	}
 
-	rates := &PerformanceRatesList{}
-	err = c.FetchList(rates)
-	if err != nil {
-		return err
-	}
-
 	for i := range ps.Performances {
 		p := &ps.Performances[i]
 		p.Timesheet = &t
 		p.Contract = Contracts.GetByID(p.ContractID)
-		p.Rate = rates.GetByID(p.RateID)
+		p.Rate = PerformancesRates.GetByID(p.RateID)
 		if err != nil {
 			return err
 		}
@@ -129,12 +123,7 @@ func (p *Performance) FetchContract(c Client) error {
 }
 
 func (p *Performance) FetchRate(c Client) error {
-	rate := &PerformanceRate{ID: p.RateID}
-	err := rate.Fetch(c)
-	if err != nil {
-		return err
-	}
-	p.Rate = rate
+	p.Rate = PerformancesRates.GetByID(p.RateID)
 	return nil
 }
 

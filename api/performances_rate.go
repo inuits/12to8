@@ -16,9 +16,10 @@ package api
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 )
+
+var PerformancesRates = &PerformanceRatesList{}
 
 type PerformanceRate struct {
 	ID         int    `json:"id"`
@@ -66,18 +67,6 @@ func (pr *PerformanceRatesList) GetByID(id int) *PerformanceRate {
 	return nil
 }
 
-func (p *PerformanceRate) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.ID))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(p)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (p *PerformanceRate) PrettyList() string {
 	return fmt.Sprintf(" * %s : %s\n", p.Multiplier, p.Label)
 }
@@ -108,4 +97,8 @@ func (p *PerformanceRate) ShortPrint() {
 
 func (p *PerformanceRate) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", p.Multiplier, p.Label)
+}
+
+func init() {
+	cache.register(PerformancesRates)
 }
