@@ -90,6 +90,8 @@ func initConfig() {
 	viper.ReadInConfig()
 }
 
+// NewAPIClient creates a new API client and populate its cache
+// It gets endpoint, user, password from viper
 func NewAPIClient() api.Client {
 	username := viper.GetString("user")
 	password := viper.GetString("password")
