@@ -187,6 +187,8 @@ func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 	}
 	table.Render()
 }
+
+// GetColumn returns the header of a column for performances
 func (ps *PerformancesList) GetColumn(name string) string {
 	switch name {
 	case "id":
@@ -207,6 +209,7 @@ func (ps *PerformancesList) GetColumn(name string) string {
 	return ""
 }
 
+// GetColumn returns the content of a column for a performance
 func (p *Performance) GetColumn(name string) string {
 	switch name {
 	case "id":
