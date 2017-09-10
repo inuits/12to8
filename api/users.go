@@ -18,6 +18,7 @@ import (
 	"fmt"
 )
 
+// User represents a ninetofiver user
 type User struct {
 	ID           int
 	Username     string
@@ -34,6 +35,7 @@ type User struct {
 	RedmineID    int `json:"redmine_id"`
 }
 
+// UsersList is a list of ninetofiver users
 type UsersList struct {
 	Users []User `json:"results"`
 }
@@ -50,12 +52,14 @@ func (users *UsersList) augment() error {
 	return nil
 }
 
+// PrettyPrint prints users in a nice way to the console
 func (users *UsersList) PrettyPrint() {
 	for _, u := range users.Users {
 		u.PrettyPrint()
 	}
 }
 
+// PrettyPrint prints user in a nice way to the console
 func (u *User) PrettyPrint() {
 	fmt.Printf("%s \"%s\" %s\n", u.FirstName, u.Username, u.LastName)
 }
