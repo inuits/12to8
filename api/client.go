@@ -9,6 +9,10 @@ import (
 	"runtime"
 )
 
+var cache = &modelsCache{}
+
+// Client is the nine-to-fiver client, responsible for
+// fetching and update items
 type Client struct {
 	Endpoint string
 	Username string
@@ -17,6 +21,36 @@ type Client struct {
 
 type modelList interface {
 	apiURL() string
+	slug() string
+	augment() error
+}
+
+type modelsCache struct {
+	models []modelList
+}
+
+func (c *modelsCache) register(m modelList) {
+	c.models = append(c.models, m)
+}
+
+func (c *modelsCache) fetch(client *Client) error {
+	for _, m := range c.models {
+		err := client.FetchList(m)
+		if err != nil {
+			return err
+		}
+	}
+	for _, m := range c.models {
+		err := m.augment()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (c *Client) FetchCache() error {
+	return cache.fetch(c)
 }
 
 // FetchList fetches a list of objects from the backend

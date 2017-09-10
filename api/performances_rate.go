@@ -34,6 +34,14 @@ func (pr *PerformanceRatesList) apiURL() string {
 	return "v1/performance_types"
 }
 
+func (pr *PerformanceRatesList) slug() string {
+	return "performance_types"
+}
+
+func (pr *PerformanceRatesList) augment() error {
+	return nil
+}
+
 func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*PerformanceRate, error) {
 	var rate *PerformanceRate
 	for i := range pr.PerformanceRates {

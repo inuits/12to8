@@ -97,9 +97,14 @@ func NewAPIClient() api.Client {
 	if endpoint == "" {
 		log.Fatal("Endpoint is not set!")
 	}
-	return api.Client{
+	c := api.Client{
 		Username: username,
 		Password: password,
 		Endpoint: endpoint,
 	}
+	err := c.FetchCache()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return c
 }

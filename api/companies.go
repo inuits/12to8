@@ -19,6 +19,8 @@ import (
 	"fmt"
 )
 
+var companies = &CompaniesList{}
+
 type Company struct {
 	ID      int    `json:"id"`
 	Name    string `json:"name"`
@@ -31,6 +33,14 @@ type CompaniesList struct {
 
 func (cs *CompaniesList) apiURL() string {
 	return "v1/companies"
+}
+
+func (cs *CompaniesList) slug() string {
+	return "companies"
+}
+
+func (cs *CompaniesList) augment() error {
+	return nil
 }
 
 // Get returns the Company from the server
@@ -73,4 +83,8 @@ func (cs *CompaniesList) PrettyPrint() {
 
 func (c *Company) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", c.Name, c.Country)
+}
+
+func init() {
+	cache.register(companies)
 }

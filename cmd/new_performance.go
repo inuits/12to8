@@ -51,18 +51,13 @@ It must follow the same syntax as in "12to8 list contracts".`,
 
 		c := NewAPIClient()
 
-		contracts := &api.ContractsList{}
-		err := contracts.Fetch(c)
-		contract, err := contracts.GetByLabel(contractLabel)
-		if err != nil {
-			log.Fatal(err)
-		}
+		contract := api.Contracts.GetByLabel(contractLabel)
 		if contract == nil {
 			log.Fatalf("Contract %s not found", contractLabel)
 		}
 
 		rates := &api.PerformanceRatesList{}
-		err = c.FetchList(rates)
+		err := c.FetchList(rates)
 		rate, err := rates.GetByMultiplier(multiplier)
 		if err != nil {
 			log.Fatal(err)

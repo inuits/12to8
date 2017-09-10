@@ -31,15 +31,23 @@ type User struct {
 	Gender       string
 	BirthDate    string
 	JoinDate     string
-	redmineID    int `json:"redmine_id"`
+	RedmineID    int `json:"redmine_id"`
 }
 
 type UsersList struct {
 	Users []User `json:"results"`
 }
 
+func (users *UsersList) slug() string {
+	return "users"
+}
+
 func (users *UsersList) apiURL() string {
 	return "v1/users"
+}
+
+func (users *UsersList) augment() error {
+	return nil
 }
 
 func (users *UsersList) PrettyPrint() {

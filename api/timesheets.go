@@ -49,6 +49,14 @@ func (ts *TimesheetsList) apiURL() string {
 	return "v1/my_timesheets"
 }
 
+func (ts *TimesheetsList) slug() string {
+	return "timesheets"
+}
+
+func (ts *TimesheetsList) augment() error {
+	return nil
+}
+
 // Get returns the timesheets from the server
 func (t *Timesheet) Get(c Client) error {
 	ts := &TimesheetsList{}
