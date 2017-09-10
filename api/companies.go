@@ -75,12 +75,14 @@ func (c *Company) GetByID(client Client) error {
 	return nil
 }
 
+// PrettyPrint prints companies in a nice way to the console
 func (cs *CompaniesList) PrettyPrint() {
 	for _, c := range cs.Companies {
 		c.PrettyPrint()
 	}
 }
 
+// PrettyPrint prints company in a nice way to the console
 func (c *Company) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", c.Name, c.Country)
 }
