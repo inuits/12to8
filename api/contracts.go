@@ -72,12 +72,15 @@ func (cs *ContractsList) augment() error {
 	return nil
 }
 
+// PrettyPrint prints contracts in a nice way to the console
 func (cs *ContractsList) PrettyPrint() {
 	for _, c := range cs.Contracts {
 		c.PrettyPrint()
 	}
 }
 
+// PrettyLabel returns the label of a contract that can be used
+// in CLI etc.. to identify a contract. It contains the customer.
 func (c *Contract) PrettyLabel() string {
 	if c.Customer == nil {
 		return fmt.Sprintf("%s [%d]", c.Label, c.CustomerID)
@@ -85,6 +88,7 @@ func (c *Contract) PrettyLabel() string {
 	return fmt.Sprintf("%s [%s]", c.Label, c.Customer.Name)
 }
 
+// PrettyPrint prints contract in a nice way to the console
 func (c *Contract) PrettyPrint() {
 	fmt.Println(c.PrettyLabel())
 }
