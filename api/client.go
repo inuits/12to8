@@ -49,6 +49,8 @@ func (c *modelsCache) fetch(client *Client) error {
 	return nil
 }
 
+// FetchCache will fill the cache with content from
+// localdisk or ninetofiver instance
 func (c *Client) FetchCache() error {
 	return cache.fetch(c)
 }
@@ -66,26 +68,36 @@ func (c *Client) FetchList(m modelList) error {
 	return nil
 }
 
+// PatchRequest will make a PATCH request for a given model
+// and expect error code to be 200
 func (c *Client) PatchRequest(url string, i interface{}) (*http.Response, error) {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(i)
 	return c.Request("PATCH", url, 200, b)
 }
 
+// PostRequest will make a POST request for a given model
+// and expect error code to be 201
 func (c *Client) PostRequest(url string, i interface{}) (*http.Response, error) {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(i)
 	return c.Request("POST", url, 201, b)
 }
 
+// DeleteRequest will make a DELETE request for a given model
+// and expect error code to be 204
 func (c *Client) DeleteRequest(url string) (*http.Response, error) {
 	return c.Request("DELETE", url, 204, nil)
 }
 
+// GetRequest will make a GET request for a given model
+// and expect error code to be 200
 func (c *Client) GetRequest(url string) (*http.Response, error) {
 	return c.Request("GET", url, 200, nil)
 }
 
+// Request makes a requests, sets the correct headers,
+// and checks the return code of the response.
 func (c *Client) Request(verb, url string, code int, payload io.Reader) (*http.Response, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest(verb, url, payload)
