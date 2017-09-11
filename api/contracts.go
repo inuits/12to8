@@ -18,8 +18,10 @@ import (
 	"fmt"
 )
 
+// Contracts stores the contracts we have in cache or fetched from the server.
 var Contracts = &ContractsList{}
 
+// Contract is a contract as seen in the ninetofiver api.
 type Contract struct {
 	ID         int    `json:"id"`
 	Label      string `json:"label"`
@@ -27,6 +29,7 @@ type Contract struct {
 	Customer   *Company
 }
 
+// ContractsList is a list of contrats as seen in the ninetofiver api.
 type ContractsList struct {
 	Contracts []Contract `json:"results"`
 }
@@ -49,7 +52,7 @@ func (cs *ContractsList) GetByID(id int) *Contract {
 	return nil
 }
 
-// GetByID returns the contract with the given id
+// GetByLabel returns the contract with the given label
 func (cs *ContractsList) GetByLabel(label string) *Contract {
 	for _, c := range cs.Contracts {
 		if c.PrettyLabel() == label {

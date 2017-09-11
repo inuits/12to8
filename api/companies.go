@@ -21,12 +21,14 @@ import (
 
 var companies = &CompaniesList{}
 
+// Company is a company as seen in the ninetofiver api
 type Company struct {
 	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Country string `json:"country"`
 }
 
+// CompaniesList is a list of companies in the ninetofiver api
 type CompaniesList struct {
 	Companies []Company `json:"results"`
 }

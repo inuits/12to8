@@ -15,6 +15,5 @@ env:
 - TEST=acceptance VERSION=latest
 matrix:
   allow_failures:
-    - env: TEST=lint       VERSION=locked
     - env: TEST=unit       VERSION=latest
     - env: TEST=acceptance VERSION=latest

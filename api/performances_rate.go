@@ -19,14 +19,17 @@ import (
 	"fmt"
 )
 
+// PerformancesRates stores the performances rates we get from the cache or the remote server
 var PerformancesRates = &PerformanceRatesList{}
 
+// PerformanceRate represents a Performance Rate in the ninetofiver api.
 type PerformanceRate struct {
 	ID         int    `json:"id"`
 	Label      string `json:"label"`
 	Multiplier string `json:"multiplier"`
 }
 
+// PerformanceRatesList represents a list of Performances Rates as we get them from the server.
 type PerformanceRatesList struct {
 	PerformanceRates []PerformanceRate `json:"results"`
 }
@@ -43,6 +46,8 @@ func (pr *PerformanceRatesList) augment() error {
 	return nil
 }
 
+// GetByMultiplier fills a performance given its multiplier.
+// It will error if multiple performances rates are found with the same multiplier.
 func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*PerformanceRate, error) {
 	var rate *PerformanceRate
 	for i := range pr.PerformanceRates {
@@ -57,6 +62,7 @@ func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*Performance
 	return rate, nil
 }
 
+// GetByID fills a performance given its ID.
 func (pr *PerformanceRatesList) GetByID(id int) *PerformanceRate {
 	for i := range pr.PerformanceRates {
 		p := pr.PerformanceRates[i]
@@ -67,10 +73,14 @@ func (pr *PerformanceRatesList) GetByID(id int) *PerformanceRate {
 	return nil
 }
 
+// PrettyList returns a short list of performances rates, used in error messages
+// (when a user specifies an unknown multiplier)
 func (p *PerformanceRate) PrettyList() string {
 	return fmt.Sprintf(" * %s : %s\n", p.Multiplier, p.Label)
 }
 
+// PrettyList returns a string with all the performances rates displayed
+// as a short list.
 func (pr *PerformanceRatesList) PrettyList() string {
 	var buffer bytes.Buffer
 	for _, p := range pr.PerformanceRates {
@@ -79,22 +89,26 @@ func (pr *PerformanceRatesList) PrettyList() string {
 	return buffer.String()
 }
 
+// PrettyPrint prints the performances rates in a nice way.
 func (pr *PerformanceRatesList) PrettyPrint() {
 	for _, p := range pr.PerformanceRates {
 		p.PrettyPrint()
 	}
 }
 
+// ShortPrint prints all the multipliers of the performance rates in the list, and only that.
 func (pr *PerformanceRatesList) ShortPrint() {
 	for _, p := range pr.PerformanceRates {
 		p.ShortPrint()
 	}
 }
 
+// ShortPrint the multiplier of the performance rate, and only that.
 func (p *PerformanceRate) ShortPrint() {
 	fmt.Println(p.Multiplier)
 }
 
+// PrettyPrint prints the performance rate in a nice way.
 func (p *PerformanceRate) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", p.Multiplier, p.Label)
 }

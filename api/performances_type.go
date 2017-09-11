@@ -20,13 +20,17 @@ import (
 	"fmt"
 )
 
+// PerformanceType represents a Performance Type (standby/activity)
 type PerformanceType int
 
 const (
+	// ActivityPerformance represents the Activity Performance type
 	ActivityPerformance PerformanceType = iota
+	// StandbyPerformance represents the Standby Performance Type
 	StandbyPerformance
 )
 
+// String returns the performance type as a string
 func (p PerformanceType) String() string {
 	switch p {
 	case ActivityPerformance:
@@ -37,6 +41,7 @@ func (p PerformanceType) String() string {
 	return fmt.Sprintf("PerformanceType(%d)", p)
 }
 
+// UnmarshalJSON returns the performance type as an integer, like we expect it for PerformanceType
 func (p *PerformanceType) UnmarshalJSON(b []byte) error {
 	var textValue string
 	err := json.Unmarshal(b, &textValue)
