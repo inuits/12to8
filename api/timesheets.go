@@ -60,6 +60,10 @@ func (ts *TimesheetsList) augment() error {
 	return nil
 }
 
+func (ts *TimesheetsList) isEmpty() bool {
+	return len(ts.Timesheets) == 0
+}
+
 // Get returns the timesheets from the server
 func (t *Timesheet) Get(c Client) error {
 	ts := &TimesheetsList{}

@@ -42,6 +42,10 @@ func (cs *ContractsList) slug() string {
 	return "contracts"
 }
 
+func (cs *ContractsList) isEmpty() bool {
+	return len(cs.Contracts) == 0
+}
+
 // GetByID returns the contract with the given id
 func (cs *ContractsList) GetByID(id int) *Contract {
 	for _, c := range cs.Contracts {

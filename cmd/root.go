@@ -69,6 +69,8 @@ func init() {
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.12to8.yaml)")
 	RootCmd.PersistentFlags().String("cache", "~/.cache/12to8", "config file (default is $HOME/.cache/12to8)")
 	viper.BindPFlag("cache", RootCmd.PersistentFlags().Lookup("cache"))
+	RootCmd.PersistentFlags().Bool("no-cache", false, "do not use cache, fetch from 925r as needed")
+	viper.BindPFlag("no-cache", RootCmd.PersistentFlags().Lookup("no-cache"))
 	RootCmd.PersistentFlags().StringP("user", "u", "", "username")
 	viper.BindPFlag("user", RootCmd.PersistentFlags().Lookup("user"))
 	RootCmd.PersistentFlags().StringP("password", "p", "", "password")
@@ -96,6 +98,8 @@ func NewAPIClient() api.Client {
 	username := viper.GetString("user")
 	password := viper.GetString("password")
 	endpoint := viper.GetString("endpoint")
+	noCache := viper.GetBool("no-cache")
+	cache := viper.GetString("cache")
 	if endpoint == "" {
 		log.Fatal("Endpoint is not set!")
 	}
@@ -103,6 +107,8 @@ func NewAPIClient() api.Client {
 		Username: username,
 		Password: password,
 		Endpoint: endpoint,
+		NoCache:  noCache,
+		CacheDir: cache,
 	}
 	err := c.FetchCache()
 	if err != nil {

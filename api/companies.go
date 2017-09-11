@@ -45,6 +45,10 @@ func (cs *CompaniesList) augment() error {
 	return nil
 }
 
+func (cs *CompaniesList) isEmpty() bool {
+	return len(cs.Companies) == 0
+}
+
 // Get returns the Company from the server
 func (c *Company) Get(client Client) error {
 	cs := &CompaniesList{}
