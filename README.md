@@ -54,6 +54,33 @@ t list performances -P
 t delete performance 3
 ```
 
+Create a performance:
+```
+12to8 new performance 10/09/2017 8.0 -c "Consult [Zero Ci]"
+```
+
+
+### Configuration
+
+You can create a config file `~/.12to8.yml` (or another path with `--config`).
+We also support JSON, TOML, HCL, and Java properties config files. The choice is
+yours.
+
+```
+---
+endpoint: https://ninetofiver.example.com/api
+user: your_username
+password: your_password
+```
+
+If you do not want to set your password in a file, you can also set the password
+as an env variable:
+
+```
+export TWELVE_TO_EIGHT_PASSWORD=your_password
+```
+
+
 ### Completion
 
 In your shell (& ~/.bashrc)
