@@ -52,6 +52,10 @@ func (users *UsersList) augment() error {
 	return nil
 }
 
+func (users *UsersList) isEmpty() bool {
+	return len(users.Users) == 0
+}
+
 // PrettyPrint prints users in a nice way to the console
 func (users *UsersList) PrettyPrint() {
 	for _, u := range users.Users {

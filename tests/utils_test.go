@@ -123,10 +123,12 @@ func init() {
 	RunAsAdmin = []string{
 		"TWELVE_TO_EIGHT_USER=admin",
 		"TWELVE_TO_EIGHT_PASSWORD=pass",
+		"TWELVE_TO_EIGHT_CACHE=/tmp/12to8-tests",
 	}
 	RunAsUser = []string{
 		"TWELVE_TO_EIGHT_USER=user",
 		"TWELVE_TO_EIGHT_PASSWORD=pass",
+		"TWELVE_TO_EIGHT_CACHE=/tmp/12to8-tests",
 	}
 	DefaultCmd = "12to8"
 	fixtures = []string{"basic_projects", "rich_timesheet"}

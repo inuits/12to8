@@ -46,6 +46,10 @@ func (pr *PerformanceRatesList) augment() error {
 	return nil
 }
 
+func (pr *PerformanceRatesList) isEmpty() bool {
+	return len(pr.PerformanceRates) == 0
+}
+
 // GetByMultiplier fills a performance given its multiplier.
 // It will error if multiple performances rates are found with the same multiplier.
 func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*PerformanceRate, error) {
