@@ -25,9 +25,14 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+// PerformancesColumns are all the columns we can show for performances.
 var PerformancesColumns = []string{"day", "contract", "description", "duration", "multiplier", "type", "id"}
+
+// PerformancesColumnsDefault is a list of booleans. true means column will be shown by default.
+// Each boolean represents the column at the same place in the PerformancesColumns list.
 var PerformancesColumnsDefault = []bool{true, true, true, true, false, false, false}
 
+// Performance represents one performance we get in the ninetofoiver app
 type Performance struct {
 	ID          int             `json:"id"`
 	Type        PerformanceType `json:"type"`
@@ -42,6 +47,8 @@ type Performance struct {
 	Rate        *PerformanceRate
 }
 
+// GetDefaultPerformancesColumns returns the columns to be printed by default
+// for performances.
 func GetDefaultPerformancesColumns() string {
 	var columns []string
 	for i, defValue := range PerformancesColumnsDefault {
@@ -52,10 +59,12 @@ func GetDefaultPerformancesColumns() string {
 	return strings.Join(columns, ",")
 }
 
+// PerformancesList represents a list of performances we get from the ninetofiver server
 type PerformancesList struct {
 	Performances []Performance `json:"results"`
 }
 
+// Fetch fetches the performances from the server for a given timesheet, then augment it.
 func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances?timesheet=%d&page_size=9999", c.Endpoint, t.ID))
 	if err != nil {
@@ -85,6 +94,7 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 	return nil
 }
 
+// New creates a new performance on the server
 func (p *Performance) New(c Client) error {
 	resp, err := c.PostRequest(fmt.Sprintf("%s/v1/my_performances/%s/", c.Endpoint, p.Type.String()), p)
 	if err != nil {
@@ -97,6 +107,7 @@ func (p *Performance) New(c Client) error {
 	return nil
 }
 
+// GetByID gets the performance from the server given its it
 func (p *Performance) GetByID(c Client) error {
 	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.ID))
 	if err != nil {
@@ -109,6 +120,7 @@ func (p *Performance) GetByID(c Client) error {
 	return nil
 }
 
+// DeleteByID deletes this performance from the server
 func (p *Performance) DeleteByID(c Client) error {
 	_, err := c.DeleteRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.ID))
 	if err != nil {
@@ -117,16 +129,19 @@ func (p *Performance) DeleteByID(c Client) error {
 	return nil
 }
 
+// FetchContract fills the contract field of this performance
 func (p *Performance) FetchContract(c Client) error {
 	p.Contract = Contracts.GetByID(p.ContractID)
 	return nil
 }
 
+// FetchRate fills the rate field of this performance
 func (p *Performance) FetchRate(c Client) error {
 	p.Rate = PerformancesRates.GetByID(p.RateID)
 	return nil
 }
 
+// FetchTimesheet fills the timesheet field of this performance
 func (p *Performance) FetchTimesheet(c Client) error {
 	timesheet := &Timesheet{ID: p.TimesheetID}
 	err := timesheet.GetByID(c)
@@ -137,39 +152,28 @@ func (p *Performance) FetchTimesheet(c Client) error {
 	return nil
 }
 
-func (ps *PerformancesList) PrettyPrint() {
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetColWidth(60)
-	table.SetHeader([]string{"Day", "Contract", "Description", "H", "Rate", "Type"})
-	for _, p := range ps.Performances {
-		table.Append([]string{strconv.Itoa(p.Day),
-			p.Contract.Label, p.Description, p.Duration,
-			p.Rate.Multiplier,
-			p.Type.String(),
-		})
-	}
-	table.Render()
-}
-
-func (p *Performance) PrettyPrint() {
-	fmt.Printf("%d %s\n", p.Day, p.Description)
-}
-
+// Porcelain prints out the porcelain version of the performances
 func (ps *PerformancesList) Porcelain() {
 	for _, p := range ps.Performances {
 		p.Porcelain()
 	}
 }
 
+// Sporcelain creates a parsable string for the performance.
+// Useful for scripting.
 func (p *Performance) Sporcelain() string {
 	return fmt.Sprintf("%d,%02d/%02d/%d,%s,%s,%s,%s,%s",
 		p.ID, p.Day, p.Timesheet.Month, p.Timesheet.Year, p.Description,
 		p.Contract.Label, p.Duration, p.Rate.Multiplier, p.Type.String())
 }
+
+// Porcelain prints out the porcelain version of the performance
 func (p *Performance) Porcelain() {
 	fmt.Println(p.Sporcelain())
 }
 
+// PrettyPrintWithColumns prints a list of performances as a table
+// which columns specified as parameter
 func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetColWidth(60)
