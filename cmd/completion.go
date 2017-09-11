@@ -143,14 +143,10 @@ func bashComplete() {
 
 // listContractsCmd represents the list contracts command
 func contractsComplete() {
-	contracts := &api.ContractsList{}
-	c := NewAPIClient()
-	err := contracts.Fetch(c)
-	if err != nil {
-		log.Fatal(err)
-	}
-	contracts.PrettyPrint()
+	NewAPIClient()
+	api.Contracts.PrettyPrint()
 }
+
 func init() {
 	RootCmd.AddCommand(autocompleteCmd)
 }

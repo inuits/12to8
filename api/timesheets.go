@@ -21,6 +21,7 @@ import (
 	"time"
 )
 
+// Timesheet represents a ninetofiver timesheet
 type Timesheet struct {
 	ID           int    `json:"id"`
 	Year         int    `json:"year"`
@@ -29,10 +30,12 @@ type Timesheet struct {
 	Status       string `json:"status"`
 }
 
+// TimesheetsList represents a list of ninetofiver timesheet
 type TimesheetsList struct {
 	Timesheets []Timesheet `json:"results"`
 }
 
+// New creates a new timesheet on the server
 func (t *Timesheet) New(c Client) error {
 	resp, err := c.PostRequest(fmt.Sprintf("%s/v1/my_timesheets/", c.Endpoint), t)
 	if err != nil {
@@ -47,6 +50,14 @@ func (t *Timesheet) New(c Client) error {
 
 func (ts *TimesheetsList) apiURL() string {
 	return "v1/my_timesheets"
+}
+
+func (ts *TimesheetsList) slug() string {
+	return "timesheets"
+}
+
+func (ts *TimesheetsList) augment() error {
+	return nil
 }
 
 // Get returns the timesheets from the server
@@ -80,6 +91,7 @@ func (t *Timesheet) GetByID(c Client) error {
 	return nil
 }
 
+// Release sends a request to ninetofiver to mark the timesheet as PENDING.
 func (t *Timesheet) Release(c Client) error {
 	if t.ID == 0 {
 		return errors.New("No ID for this timesheet")
@@ -96,16 +108,19 @@ func (t *Timesheet) Release(c Client) error {
 	return nil
 }
 
+// PrettyPrint prints timesheets in a nice way to the console
 func (ts *TimesheetsList) PrettyPrint() {
 	for _, t := range ts.Timesheets {
 		t.PrettyPrint()
 	}
 }
 
+// Name returns the timesheet name (English month name + year)
 func (t *Timesheet) Name() string {
 	return fmt.Sprintf("%s %d", time.Month(t.Month), t.Year)
 }
 
+// PrettyPrint prints timesheet in a nice way to the console
 func (t *Timesheet) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", t.Name(), t.Status)
 }

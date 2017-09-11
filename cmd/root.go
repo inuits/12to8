@@ -25,9 +25,6 @@ import (
 )
 
 var cfgFile string
-var username string
-var password string
-var endpoint string
 var force bool
 
 // RootCmd represents the base command when called without any subcommands
@@ -70,11 +67,13 @@ func init() {
 	// will be global for your application.
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.12to8.yaml)")
-	RootCmd.PersistentFlags().StringVarP(&username, "user", "u", "", "username")
+	RootCmd.PersistentFlags().String("cache", "~/.cache/12to8", "config file (default is $HOME/.cache/12to8)")
+	viper.BindPFlag("cache", RootCmd.PersistentFlags().Lookup("cache"))
+	RootCmd.PersistentFlags().StringP("user", "u", "", "username")
 	viper.BindPFlag("user", RootCmd.PersistentFlags().Lookup("user"))
-	RootCmd.PersistentFlags().StringVarP(&password, "password", "p", "", "password")
+	RootCmd.PersistentFlags().StringP("password", "p", "", "password")
 	viper.BindPFlag("password", RootCmd.PersistentFlags().Lookup("password"))
-	RootCmd.PersistentFlags().StringVarP(&endpoint, "endpoint", "e", "", "API endpoint (without /v1)")
+	RootCmd.PersistentFlags().StringP("endpoint", "e", "", "API endpoint (without /v1)")
 	viper.BindPFlag("endpoint", RootCmd.PersistentFlags().Lookup("endpoint"))
 }
 
@@ -91,6 +90,8 @@ func initConfig() {
 	viper.ReadInConfig()
 }
 
+// NewAPIClient creates a new API client and populate its cache
+// It gets endpoint, user, password from viper
 func NewAPIClient() api.Client {
 	username := viper.GetString("user")
 	password := viper.GetString("password")
@@ -98,9 +99,14 @@ func NewAPIClient() api.Client {
 	if endpoint == "" {
 		log.Fatal("Endpoint is not set!")
 	}
-	return api.Client{
+	c := api.Client{
 		Username: username,
 		Password: password,
 		Endpoint: endpoint,
 	}
+	err := c.FetchCache()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return c
 }

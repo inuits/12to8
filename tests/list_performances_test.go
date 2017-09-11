@@ -96,7 +96,7 @@ func TestListPerformanceWithWrongColumns(t *testing.T) {
 		Args:          []string{"list", "performances", "09/2017", "-C", "duration,day,nonexisting,extra,,,"},
 		ExpectFailure: true,
 		OutLines:      1,
-		ErrLines:      15,
+		ErrLines:      16,
 		ErrText: `Error: invalid columns: nonexisting, extra
 Usage:
   12to8 list performances [MM[/YYYY]] [flags]
@@ -107,6 +107,7 @@ Flags:
   -P, --porcelain        porcelain (usable in scripts) output
 
 Global Flags:
+      --cache string      config file (default is $HOME/.cache/12to8) (default "~/.cache/12to8")
       --config string     config file (default is $HOME/.12to8.yaml)
   -e, --endpoint string   API endpoint (without /v1)
   -p, --password string   password

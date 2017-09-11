@@ -15,9 +15,10 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 )
+
+var Contracts = &ContractsList{}
 
 type Contract struct {
 	ID         int    `json:"id"`
@@ -30,60 +31,17 @@ type ContractsList struct {
 	Contracts []Contract `json:"results"`
 }
 
-func (cs *ContractsList) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_contracts?page_size=9999", c.Endpoint))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(cs)
-	if err != nil {
-		return err
-	}
-	for i := range cs.Contracts {
-		co := &cs.Contracts[i]
-		err = co.FetchCustomer(c)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
+func (cs *ContractsList) apiURL() string {
+	return "v1/my_contracts"
 }
 
-// Get returns the Contract from the server
-func (c *Contract) Get(client Client) error {
-	cs := &ContractsList{}
-	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/my_contracts/?label=%s", client.Endpoint, c.Label))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(cs)
-	if err != nil {
-		return err
-	}
-	if len(cs.Contracts) != 1 {
-		return fmt.Errorf("Expected 1 contract, got %d", len(cs.Contracts))
-	}
-	*c = cs.Contracts[0]
-	err = c.FetchCustomer(client)
-	if err != nil {
-		return err
-	}
-	return nil
+func (cs *ContractsList) slug() string {
+	return "contracts"
 }
 
-func (c *Contract) FetchCustomer(client Client) error {
-	customer := &Company{ID: c.CustomerID}
-	err := customer.GetByID(client)
-	if err != nil {
-		return err
-	}
-	c.Customer = customer
-	return nil
-}
-
+// GetByID returns the contract with the given id
 func (cs *ContractsList) GetByID(id int) *Contract {
-	for i := range cs.Contracts {
-		c := cs.Contracts[i]
+	for _, c := range cs.Contracts {
 		if c.ID == id {
 			return &c
 		}
@@ -91,40 +49,38 @@ func (cs *ContractsList) GetByID(id int) *Contract {
 	return nil
 }
 
-func (cs *ContractsList) GetByLabel(label string) (*Contract, error) {
-	var contract *Contract
-	for i := range cs.Contracts {
-		c := cs.Contracts[i]
+// GetByID returns the contract with the given id
+func (cs *ContractsList) GetByLabel(label string) *Contract {
+	for _, c := range cs.Contracts {
 		if c.PrettyLabel() == label {
-			if contract != nil {
-				return nil, fmt.Errorf("Found 2 contracts with label %s", label)
-			}
-			contract = &c
+			return &c
 		}
-	}
-	return contract, nil
-}
-
-// GetByID returns the Company from the server
-func (c *Contract) GetByID(client Client) error {
-	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/my_contracts/%d/", client.Endpoint, c.ID))
-
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(c)
-	if err != nil {
-		return err
 	}
 	return nil
 }
 
+func (cs *ContractsList) augment() error {
+	for i := range cs.Contracts {
+		co := &cs.Contracts[i]
+		for _, customer := range companies.Companies {
+			if customer.ID == co.CustomerID {
+				co.Customer = &customer
+				break
+			}
+		}
+	}
+	return nil
+}
+
+// PrettyPrint prints contracts in a nice way to the console
 func (cs *ContractsList) PrettyPrint() {
 	for _, c := range cs.Contracts {
 		c.PrettyPrint()
 	}
 }
 
+// PrettyLabel returns the label of a contract that can be used
+// in CLI etc.. to identify a contract. It contains the customer.
 func (c *Contract) PrettyLabel() string {
 	if c.Customer == nil {
 		return fmt.Sprintf("%s [%d]", c.Label, c.CustomerID)
@@ -132,6 +88,11 @@ func (c *Contract) PrettyLabel() string {
 	return fmt.Sprintf("%s [%s]", c.Label, c.Customer.Name)
 }
 
+// PrettyPrint prints contract in a nice way to the console
 func (c *Contract) PrettyPrint() {
 	fmt.Println(c.PrettyLabel())
+}
+
+func init() {
+	cache.register(Contracts)
 }

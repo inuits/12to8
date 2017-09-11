@@ -16,9 +16,10 @@ package api
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 )
+
+var PerformancesRates = &PerformanceRatesList{}
 
 type PerformanceRate struct {
 	ID         int    `json:"id"`
@@ -32,6 +33,14 @@ type PerformanceRatesList struct {
 
 func (pr *PerformanceRatesList) apiURL() string {
 	return "v1/performance_types"
+}
+
+func (pr *PerformanceRatesList) slug() string {
+	return "performance_types"
+}
+
+func (pr *PerformanceRatesList) augment() error {
+	return nil
 }
 
 func (pr *PerformanceRatesList) GetByMultiplier(multiplier string) (*PerformanceRate, error) {
@@ -54,18 +63,6 @@ func (pr *PerformanceRatesList) GetByID(id int) *PerformanceRate {
 		if p.ID == id {
 			return &p
 		}
-	}
-	return nil
-}
-
-func (p *PerformanceRate) Fetch(c Client) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/performance_types/%d/", c.Endpoint, p.ID))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(p)
-	if err != nil {
-		return err
 	}
 	return nil
 }
@@ -100,4 +97,8 @@ func (p *PerformanceRate) ShortPrint() {
 
 func (p *PerformanceRate) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", p.Multiplier, p.Label)
+}
+
+func init() {
+	cache.register(PerformancesRates)
 }

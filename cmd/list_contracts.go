@@ -15,8 +15,6 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
@@ -26,13 +24,8 @@ var listContractsCmd = &cobra.Command{
 	Use:   "contracts",
 	Short: "List all your contracts",
 	Run: func(cmd *cobra.Command, args []string) {
-		contracts := &api.ContractsList{}
-		c := NewAPIClient()
-		err := contracts.Fetch(c)
-		if err != nil {
-			log.Fatal(err)
-		}
-		contracts.PrettyPrint()
+		NewAPIClient()
+		api.Contracts.PrettyPrint()
 	},
 }
 

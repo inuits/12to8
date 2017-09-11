@@ -66,23 +66,11 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 		return err
 	}
 
-	contracts := &ContractsList{}
-	err = contracts.Fetch(c)
-	if err != nil {
-		return err
-	}
-
-	rates := &PerformanceRatesList{}
-	err = c.FetchList(rates)
-	if err != nil {
-		return err
-	}
-
 	for i := range ps.Performances {
 		p := &ps.Performances[i]
 		p.Timesheet = &t
-		p.Contract = contracts.GetByID(p.ContractID)
-		p.Rate = rates.GetByID(p.RateID)
+		p.Contract = Contracts.GetByID(p.ContractID)
+		p.Rate = PerformancesRates.GetByID(p.RateID)
 		if err != nil {
 			return err
 		}
@@ -130,22 +118,12 @@ func (p *Performance) DeleteByID(c Client) error {
 }
 
 func (p *Performance) FetchContract(c Client) error {
-	contract := &Contract{ID: p.ContractID}
-	err := contract.GetByID(c)
-	if err != nil {
-		return err
-	}
-	p.Contract = contract
+	p.Contract = Contracts.GetByID(p.ContractID)
 	return nil
 }
 
 func (p *Performance) FetchRate(c Client) error {
-	rate := &PerformanceRate{ID: p.RateID}
-	err := rate.Fetch(c)
-	if err != nil {
-		return err
-	}
-	p.Rate = rate
+	p.Rate = PerformancesRates.GetByID(p.RateID)
 	return nil
 }
 
@@ -209,6 +187,8 @@ func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
 	}
 	table.Render()
 }
+
+// GetColumn returns the header of a column for performances
 func (ps *PerformancesList) GetColumn(name string) string {
 	switch name {
 	case "id":
@@ -229,6 +209,7 @@ func (ps *PerformancesList) GetColumn(name string) string {
 	return ""
 }
 
+// GetColumn returns the content of a column for a performance
 func (p *Performance) GetColumn(name string) string {
 	switch name {
 	case "id":
