@@ -41,7 +41,7 @@
   branch = "master"
   name = "github.com/olekukonko/tablewriter"
   packages = ["."]
-  revision = "be5337e7b39e64e5f91445ce7e721888dbab7387"
+  revision = "0fd34425a5aee40ff3f260b34e6c3b0d59f58c66"
 
 [[projects]]
   name = "github.com/pelletier/go-buffruneio"
@@ -95,7 +95,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "9aade4d3a3b7e6d876cd3823ad20ec45fc035402"
+  revision = "a5054c7c1385fd50d9394475365355a87a7873ec"
 
 [[projects]]
   branch = "master"
