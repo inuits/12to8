@@ -1,1 +1,1046 @@
-[{"model": "ninetofiver.company", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "company"], "created_at": "2017-09-05T19:07:50.751Z", "updated_at": "2017-09-05T19:07:50.751Z", "vat_identification_number": "BEXXX", "name": "Com Dot Com", "address": "DevOps City", "country": "FR", "internal": true}}, {"model": "ninetofiver.company", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "company"], "created_at": "2017-09-05T19:15:40.542Z", "updated_at": "2017-09-05T19:15:40.542Z", "vat_identification_number": "BEXXXY", "name": "Zero Ci", "address": "0ci", "country": "FR", "internal": false}}, {"model": "ninetofiver.company", "pk": 3, "fields": {"polymorphic_ctype": ["ninetofiver", "company"], "created_at": "2017-09-05T19:16:11.693Z", "updated_at": "2017-09-05T19:16:11.693Z", "vat_identification_number": "AL88", "name": "ALWAYS UP!", "address": "Uppy uppy", "country": "LV", "internal": false}}, {"model": "ninetofiver.company", "pk": 4, "fields": {"polymorphic_ctype": ["ninetofiver", "company"], "created_at": "2017-09-05T19:17:00.868Z", "updated_at": "2017-09-05T19:17:00.868Z", "vat_identification_number": "AWE99", "name": "Awesome Company", "address": "NO IDEA", "country": "GE", "internal": false}}, {"model": "ninetofiver.company", "pk": 5, "fields": {"polymorphic_ctype": ["ninetofiver", "company"], "created_at": "2017-09-05T19:17:42.326Z", "updated_at": "2017-09-05T19:17:42.326Z", "vat_identification_number": "BE00", "name": "ONEMORE", "address": "1 more 1 more\r\nyeah\r\nyeah", "country": "BE", "internal": false}}, {"model": "ninetofiver.workschedule", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "workschedule"], "created_at": "2017-09-05T19:26:41.223Z", "updated_at": "2017-09-05T19:26:48.111Z", "label": "ONE FIFTH NO FRIDAY", "monday": "8.00", "tuesday": "8.00", "wednesday": "8.00", "thursday": "8.00", "friday": "0.00", "saturday": "0.00", "sunday": "0.00"}}, {"model": "ninetofiver.employmentcontracttype", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "employmentcontracttype"], "created_at": "2017-09-05T19:29:44.061Z", "updated_at": "2017-09-05T19:29:44.061Z", "label": "almost full"}}, {"model": "ninetofiver.employmentcontract", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "employmentcontract"], "created_at": "2017-09-05T19:29:55.352Z", "updated_at": "2017-09-05T19:29:55.352Z", "user": ["user"], "company": 1, "employment_contract_type": 1, "work_schedule": 1, "started_at": "2017-07-09", "ended_at": null}}, {"model": "ninetofiver.userinfo", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "userinfo"], "created_at": "2017-09-05T19:25:37.281Z", "updated_at": "2017-09-05T19:26:11.485Z", "user": ["user"], "birth_date": "1996-09-15", "gender": "m", "country": "BE", "redmine_id": "None"}}, {"model": "ninetofiver.timesheet", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "timesheet"], "created_at": "2017-09-05T19:06:53.881Z", "updated_at": "2017-09-05T19:06:53.881Z", "user": ["user"], "month": 8, "year": 2017, "status": "ACTIVE"}}, {"model": "ninetofiver.timesheet", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "timesheet"], "created_at": "2017-09-05T19:24:35.848Z", "updated_at": "2017-09-05T19:24:35.848Z", "user": ["user"], "month": 9, "year": 2017, "status": "ACTIVE"}}, {"model": "ninetofiver.holiday", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "holiday"], "created_at": "2017-09-05T19:28:38.078Z", "updated_at": "2017-09-05T19:28:38.078Z", "name": "Thirtheen day off", "date": "2017-09-13", "country": "BE"}}, {"model": "ninetofiver.leavetype", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "leavetype"], "created_at": "2017-09-05T19:22:32.253Z", "updated_at": "2017-09-05T19:22:32.253Z", "label": "NORMAL", "description": ""}}, {"model": "ninetofiver.leavetype", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "leavetype"], "created_at": "2017-09-05T19:22:45.362Z", "updated_at": "2017-09-05T19:22:45.362Z", "label": "NOT PAID", "description": ""}}, {"model": "ninetofiver.leavetype", "pk": 3, "fields": {"polymorphic_ctype": ["ninetofiver", "leavetype"], "created_at": "2017-09-05T19:23:02.379Z", "updated_at": "2017-09-05T19:23:02.380Z", "label": "sick :(", "description": ""}}, {"model": "ninetofiver.leave", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "leave"], "created_at": "2017-09-05T19:24:38.157Z", "updated_at": "2017-09-05T19:24:38.157Z", "user": ["user"], "leave_type": 1, "description": "", "status": "APPROVED", "attachments": []}}, {"model": "ninetofiver.leavedate", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "leavedate"], "created_at": "2017-09-05T19:24:38.159Z", "updated_at": "2017-09-05T19:24:38.159Z", "leave": 1, "timesheet": 2, "starts_at": "2017-09-05T06:00:00Z", "ends_at": "2017-09-05T14:00:00Z"}}, {"model": "ninetofiver.performancetype", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "performancetype"], "created_at": "2017-09-05T19:18:58.789Z", "updated_at": "2017-09-05T19:18:58.789Z", "label": "normal", "description": "", "multiplier": "1.00"}}, {"model": "ninetofiver.performancetype", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "performancetype"], "created_at": "2017-09-05T19:19:10.246Z", "updated_at": "2017-09-05T19:19:10.246Z", "label": "middle", "description": "", "multiplier": "1.50"}}, {"model": "ninetofiver.performancetype", "pk": 3, "fields": {"polymorphic_ctype": ["ninetofiver", "performancetype"], "created_at": "2017-09-05T19:19:16.975Z", "updated_at": "2017-09-05T19:32:23.001Z", "label": "hard work", "description": "", "multiplier": "3.00"}}, {"model": "ninetofiver.contract", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "projectcontract"], "created_at": "2017-09-05T19:19:46.668Z", "updated_at": "2017-09-05T19:19:46.668Z", "label": "Webby", "description": "", "customer": 4, "company": 1, "active": true, "redmine_id": "None", "performance_types": [1, 2, 3], "contract_groups": [], "attachments": []}}, {"model": "ninetofiver.contract", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "supportcontract"], "created_at": "2017-09-05T19:20:42.630Z", "updated_at": "2017-09-05T19:20:42.630Z", "label": "keep it up!!", "description": "KIU", "customer": 5, "company": 1, "active": true, "redmine_id": "None", "performance_types": [1, 2, 3], "contract_groups": [], "attachments": []}}, {"model": "ninetofiver.contract", "pk": 3, "fields": {"polymorphic_ctype": ["ninetofiver", "consultancycontract"], "created_at": "2017-09-05T19:21:45.684Z", "updated_at": "2017-09-05T19:21:45.684Z", "label": "Consult", "description": "", "customer": 2, "company": 1, "active": true, "redmine_id": "", "performance_types": [1, 2, 3], "contract_groups": [], "attachments": []}}, {"model": "ninetofiver.projectcontract", "pk": 1, "fields": {"fixed_fee": "5000.00", "starts_at": "2017-09-03", "ends_at": "2017-09-21", "performance_types": [1, 2, 3], "contract_groups": [], "attachments": []}}, {"model": "ninetofiver.consultancycontract", "pk": 3, "fields": {"starts_at": "2015-09-05", "ends_at": null, "duration": null, "day_rate": "300.00", "performance_types": [1, 2, 3], "contract_groups": [], "attachments": []}}, {"model": "ninetofiver.supportcontract", "pk": 2, "fields": {"day_rate": "200.00", "fixed_fee": "300.00", "fixed_fee_period": "MONTHLY", "starts_at": "2017-06-04", "ends_at": null, "performance_types": [1, 2, 3], "contract_groups": [], "attachments": []}}, {"model": "ninetofiver.contractrole", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "contractrole"], "created_at": "2017-09-05T19:19:43.082Z", "updated_at": "2017-09-05T19:19:43.082Z", "label": "dev", "description": ""}}, {"model": "ninetofiver.contractuser", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "contractuser"], "created_at": "2017-09-05T19:19:46.676Z", "updated_at": "2017-09-05T19:19:46.676Z", "user": ["user"], "contract": 1, "contract_role": 1}}, {"model": "ninetofiver.contractuser", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "contractuser"], "created_at": "2017-09-05T19:20:42.635Z", "updated_at": "2017-09-05T19:20:42.635Z", "user": ["user"], "contract": 2, "contract_role": 1}}, {"model": "ninetofiver.contractuser", "pk": 3, "fields": {"polymorphic_ctype": ["ninetofiver", "contractuser"], "created_at": "2017-09-05T19:21:45.690Z", "updated_at": "2017-09-05T19:21:45.690Z", "user": ["user"], "contract": 3, "contract_role": 1}}, {"model": "ninetofiver.performance", "pk": 1, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:32:24.925Z", "updated_at": "2017-09-05T19:32:24.925Z", "timesheet": 2, "day": 4, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 2, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:32:32.303Z", "updated_at": "2017-09-05T19:32:32.303Z", "timesheet": 2, "day": 6, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 3, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:32:38.229Z", "updated_at": "2017-09-05T19:32:38.229Z", "timesheet": 2, "day": 7, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 4, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:32:52.662Z", "updated_at": "2017-09-05T19:32:52.662Z", "timesheet": 2, "day": 10, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 5, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:33:12.120Z", "updated_at": "2017-09-05T19:33:12.120Z", "timesheet": 2, "day": 11, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 6, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:33:24.012Z", "updated_at": "2017-09-05T19:33:24.012Z", "timesheet": 2, "day": 12, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 7, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:34:12.887Z", "updated_at": "2017-09-05T19:34:12.887Z", "timesheet": 2, "day": 12, "redmine_id": null, "contract": 2}}, {"model": "ninetofiver.performance", "pk": 8, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:34:23.758Z", "updated_at": "2017-09-05T19:34:23.758Z", "timesheet": 2, "day": 14, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 9, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:34:36.575Z", "updated_at": "2017-09-05T19:34:36.575Z", "timesheet": 2, "day": 28, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 10, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:34:41.233Z", "updated_at": "2017-09-05T19:34:41.233Z", "timesheet": 2, "day": 27, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 11, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:34:45.519Z", "updated_at": "2017-09-05T19:34:45.519Z", "timesheet": 2, "day": 25, "redmine_id": null, "contract": 1}}, {"model": "ninetofiver.performance", "pk": 12, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:07.421Z", "updated_at": "2017-09-05T19:35:07.421Z", "timesheet": 2, "day": 25, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 14, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:15.631Z", "updated_at": "2017-09-05T19:35:15.632Z", "timesheet": 2, "day": 26, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 15, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:31.026Z", "updated_at": "2017-09-05T19:35:31.026Z", "timesheet": 2, "day": 25, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 16, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:37.836Z", "updated_at": "2017-09-05T19:35:37.836Z", "timesheet": 2, "day": 21, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 17, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:41.955Z", "updated_at": "2017-09-05T19:35:41.955Z", "timesheet": 2, "day": 20, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 18, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:46.129Z", "updated_at": "2017-09-05T19:35:46.129Z", "timesheet": 2, "day": 17, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 19, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:53.626Z", "updated_at": "2017-09-05T19:35:53.626Z", "timesheet": 2, "day": 18, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 20, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:35:56.643Z", "updated_at": "2017-09-05T19:35:56.643Z", "timesheet": 2, "day": 19, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.performance", "pk": 21, "fields": {"polymorphic_ctype": ["ninetofiver", "activityperformance"], "created_at": "2017-09-05T19:37:15.772Z", "updated_at": "2017-09-05T19:37:15.772Z", "timesheet": 2, "day": 27, "redmine_id": null, "contract": 3}}, {"model": "ninetofiver.activityperformance", "pk": 1, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 2, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 3, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 4, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 5, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 6, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 7, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 8, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 9, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 10, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "4.00"}}, {"model": "ninetofiver.activityperformance", "pk": 11, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "4.00"}}, {"model": "ninetofiver.activityperformance", "pk": 12, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "4.00"}}, {"model": "ninetofiver.activityperformance", "pk": 14, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "4.00"}}, {"model": "ninetofiver.activityperformance", "pk": 15, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "12.00"}}, {"model": "ninetofiver.activityperformance", "pk": 16, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "3.00"}}, {"model": "ninetofiver.activityperformance", "pk": 17, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 18, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 19, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 20, "fields": {"performance_type": 1, "contract_role": null, "description": "", "duration": "8.00"}}, {"model": "ninetofiver.activityperformance", "pk": 21, "fields": {"performance_type": 1, "contract_role": null, "description": "YES", "duration": "4.00"}}]
+[
+   {
+      "fields" : {
+         "vat_identification_number" : "BEXXX",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "company"
+         ],
+         "internal" : true,
+         "country" : "FR",
+         "updated_at" : "2017-09-05T19:07:50.751Z",
+         "address" : "DevOps City",
+         "created_at" : "2017-09-05T19:07:50.751Z",
+         "name" : "Com Dot Com"
+      },
+      "model" : "ninetofiver.company",
+      "pk" : 1
+   },
+   {
+      "model" : "ninetofiver.company",
+      "fields" : {
+         "updated_at" : "2017-09-05T19:15:40.542Z",
+         "address" : "0ci",
+         "created_at" : "2017-09-05T19:15:40.542Z",
+         "name" : "Zero Ci",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "company"
+         ],
+         "vat_identification_number" : "BEXXXY",
+         "internal" : false,
+         "country" : "FR"
+      },
+      "pk" : 2
+   },
+   {
+      "pk" : 3,
+      "model" : "ninetofiver.company",
+      "fields" : {
+         "vat_identification_number" : "AL88",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "company"
+         ],
+         "internal" : false,
+         "country" : "LV",
+         "address" : "Uppy uppy",
+         "created_at" : "2017-09-05T19:16:11.693Z",
+         "updated_at" : "2017-09-05T19:16:11.693Z",
+         "name" : "ALWAYS UP!"
+      }
+   },
+   {
+      "model" : "ninetofiver.company",
+      "fields" : {
+         "internal" : false,
+         "country" : "GE",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "company"
+         ],
+         "vat_identification_number" : "AWE99",
+         "name" : "Awesome Company",
+         "updated_at" : "2017-09-05T19:17:00.868Z",
+         "created_at" : "2017-09-05T19:17:00.868Z",
+         "address" : "NO IDEA"
+      },
+      "pk" : 4
+   },
+   {
+      "model" : "ninetofiver.company",
+      "fields" : {
+         "created_at" : "2017-09-05T19:17:42.326Z",
+         "address" : "1 more 1 more\r\nyeah\r\nyeah",
+         "updated_at" : "2017-09-05T19:17:42.326Z",
+         "name" : "ONEMORE",
+         "vat_identification_number" : "BE00",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "company"
+         ],
+         "internal" : false,
+         "country" : "BE"
+      },
+      "pk" : 5
+   },
+   {
+      "fields" : {
+         "monday" : "8.00",
+         "wednesday" : "8.00",
+         "tuesday" : "8.00",
+         "created_at" : "2017-09-05T19:26:41.223Z",
+         "updated_at" : "2017-09-05T19:26:48.111Z",
+         "thursday" : "8.00",
+         "friday" : "0.00",
+         "sunday" : "0.00",
+         "label" : "ONE FIFTH NO FRIDAY",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "workschedule"
+         ],
+         "saturday" : "0.00"
+      },
+      "model" : "ninetofiver.workschedule",
+      "pk" : 1
+   },
+   {
+      "pk" : 1,
+      "fields" : {
+         "created_at" : "2017-09-05T19:29:44.061Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "employmentcontracttype"
+         ],
+         "label" : "almost full",
+         "updated_at" : "2017-09-05T19:29:44.061Z"
+      },
+      "model" : "ninetofiver.employmentcontracttype"
+   },
+   {
+      "model" : "ninetofiver.employmentcontract",
+      "fields" : {
+         "updated_at" : "2017-09-05T19:29:55.352Z",
+         "started_at" : "2017-07-09",
+         "created_at" : "2017-09-05T19:29:55.352Z",
+         "ended_at" : null,
+         "work_schedule" : 1,
+         "user" : [
+            "user"
+         ],
+         "employment_contract_type" : 1,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "employmentcontract"
+         ],
+         "company" : 1
+      },
+      "pk" : 1
+   },
+   {
+      "pk" : 1,
+      "fields" : {
+         "updated_at" : "2017-09-05T19:26:11.485Z",
+         "created_at" : "2017-09-05T19:25:37.281Z",
+         "redmine_id" : "None",
+         "user" : [
+            "user"
+         ],
+         "birth_date" : "1996-09-15",
+         "gender" : "m",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "userinfo"
+         ],
+         "country" : "BE"
+      },
+      "model" : "ninetofiver.userinfo"
+   },
+   {
+      "pk" : 1,
+      "model" : "ninetofiver.timesheet",
+      "fields" : {
+         "month" : 8,
+         "status" : "ACTIVE",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "timesheet"
+         ],
+         "updated_at" : "2017-09-05T19:06:53.881Z",
+         "created_at" : "2017-09-05T19:06:53.881Z",
+         "user" : [
+            "user"
+         ],
+         "year" : 2017
+      }
+   },
+   {
+      "pk" : 2,
+      "model" : "ninetofiver.timesheet",
+      "fields" : {
+         "month" : 9,
+         "status" : "ACTIVE",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "timesheet"
+         ],
+         "updated_at" : "2017-09-05T19:24:35.848Z",
+         "created_at" : "2017-09-05T19:24:35.848Z",
+         "user" : [
+            "user"
+         ],
+         "year" : 2017
+      }
+   },
+   {
+      "model" : "ninetofiver.holiday",
+      "fields" : {
+         "country" : "BE",
+         "name" : "Thirtheen day off",
+         "date" : "2017-09-13",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "holiday"
+         ],
+         "updated_at" : "2017-09-05T19:28:38.078Z",
+         "created_at" : "2017-09-05T19:28:38.078Z"
+      },
+      "pk" : 1
+   },
+   {
+      "model" : "ninetofiver.leavetype",
+      "fields" : {
+         "label" : "NORMAL",
+         "updated_at" : "2017-09-05T19:22:32.253Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "leavetype"
+         ],
+         "created_at" : "2017-09-05T19:22:32.253Z",
+         "description" : ""
+      },
+      "pk" : 1
+   },
+   {
+      "pk" : 2,
+      "fields" : {
+         "description" : "",
+         "created_at" : "2017-09-05T19:22:45.362Z",
+         "label" : "NOT PAID",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "leavetype"
+         ],
+         "updated_at" : "2017-09-05T19:22:45.362Z"
+      },
+      "model" : "ninetofiver.leavetype"
+   },
+   {
+      "fields" : {
+         "created_at" : "2017-09-05T19:23:02.379Z",
+         "label" : "sick :(",
+         "updated_at" : "2017-09-05T19:23:02.380Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "leavetype"
+         ],
+         "description" : ""
+      },
+      "model" : "ninetofiver.leavetype",
+      "pk" : 3
+   },
+   {
+      "fields" : {
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "leave"
+         ],
+         "user" : [
+            "user"
+         ],
+         "leave_type" : 1,
+         "description" : "",
+         "status" : "APPROVED",
+         "updated_at" : "2017-09-05T19:24:38.157Z",
+         "created_at" : "2017-09-05T19:24:38.157Z",
+         "attachments" : []
+      },
+      "model" : "ninetofiver.leave",
+      "pk" : 1
+   },
+   {
+      "pk" : 1,
+      "fields" : {
+         "starts_at" : "2017-09-05T06:00:00Z",
+         "created_at" : "2017-09-05T19:24:38.159Z",
+         "ends_at" : "2017-09-05T14:00:00Z",
+         "timesheet" : 2,
+         "leave" : 1,
+         "updated_at" : "2017-09-05T19:24:38.159Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "leavedate"
+         ]
+      },
+      "model" : "ninetofiver.leavedate"
+   },
+   {
+      "pk" : 1,
+      "fields" : {
+         "description" : "",
+         "multiplier" : "1.00",
+         "created_at" : "2017-09-05T19:18:58.789Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "performancetype"
+         ],
+         "label" : "normal",
+         "updated_at" : "2017-09-05T19:18:58.789Z"
+      },
+      "model" : "ninetofiver.performancetype"
+   },
+   {
+      "pk" : 2,
+      "fields" : {
+         "description" : "",
+         "multiplier" : "1.50",
+         "created_at" : "2017-09-05T19:19:10.246Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "performancetype"
+         ],
+         "label" : "middle",
+         "updated_at" : "2017-09-05T19:19:10.246Z"
+      },
+      "model" : "ninetofiver.performancetype"
+   },
+   {
+      "model" : "ninetofiver.performancetype",
+      "fields" : {
+         "description" : "",
+         "multiplier" : "3.00",
+         "label" : "hard work",
+         "updated_at" : "2017-09-05T19:32:23.001Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "performancetype"
+         ],
+         "created_at" : "2017-09-05T19:19:16.975Z"
+      },
+      "pk" : 3
+   },
+   {
+      "fields" : {
+         "label" : "Webby",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "projectcontract"
+         ],
+         "company" : 1,
+         "active" : true,
+         "description" : "",
+         "performance_types" : [
+            1,
+            2,
+            3
+         ],
+         "updated_at" : "2017-09-05T19:19:46.668Z",
+         "created_at" : "2017-09-05T19:19:46.668Z",
+         "starts_at": "2016-01-01",
+         "attachments" : [],
+         "customer" : 4,
+         "redmine_id" : "None",
+         "contract_groups" : []
+      },
+      "model" : "ninetofiver.contract",
+      "pk" : 1
+   },
+   {
+      "model" : "ninetofiver.contract",
+      "fields" : {
+         "description" : "KIU",
+         "performance_types" : [
+            1,
+            2,
+            3
+         ],
+         "company" : 1,
+         "label" : "keep it up!!",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "supportcontract"
+         ],
+         "active" : true,
+         "redmine_id" : "None",
+         "contract_groups" : [],
+         "created_at" : "2017-09-05T19:20:42.630Z",
+         "starts_at": "2016-07-01",
+         "updated_at" : "2017-09-05T19:20:42.630Z",
+         "customer" : 5,
+         "attachments" : []
+      },
+      "pk" : 2
+   },
+   {
+      "pk" : 3,
+      "model" : "ninetofiver.contract",
+      "fields" : {
+         "label" : "Consult",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "consultancycontract"
+         ],
+         "company" : 1,
+         "active" : true,
+         "description" : "",
+         "performance_types" : [
+            1,
+            2,
+            3
+         ],
+         "updated_at" : "2017-09-05T19:21:45.684Z",
+         "created_at" : "2017-09-05T19:21:45.684Z",
+         "starts_at": "2017-03-29",
+         "customer" : 2,
+         "attachments" : [],
+         "redmine_id" : "",
+         "contract_groups" : []
+      }
+   },
+   {
+      "fields" : {
+         "performance_types" : [
+            1,
+            2,
+            3
+         ],
+         "contract_groups" : [],
+         "starts_at" : "2017-09-03",
+         "attachments" : [],
+         "ends_at" : "2017-09-21",
+         "fixed_fee" : "5000.00"
+      },
+      "model" : "ninetofiver.projectcontract",
+      "pk" : 1
+   },
+   {
+      "pk" : 3,
+      "fields" : {
+         "ends_at" : null,
+         "duration" : null,
+         "attachments" : [],
+         "starts_at" : "2015-09-05",
+         "contract_groups" : [],
+         "day_rate" : "300.00",
+         "performance_types" : [
+            1,
+            2,
+            3
+         ]
+      },
+      "model" : "ninetofiver.consultancycontract"
+   },
+   {
+      "model" : "ninetofiver.supportcontract",
+      "fields" : {
+         "fixed_fee" : "300.00",
+         "ends_at" : null,
+         "starts_at" : "2017-06-04",
+         "day_rate" : "200.00",
+         "performance_types" : [
+            1,
+            2,
+            3
+         ],
+         "fixed_fee_period" : "MONTHLY",
+         "attachments" : [],
+         "contract_groups" : []
+      },
+      "pk" : 2
+   },
+   {
+      "fields" : {
+         "description" : "",
+         "updated_at" : "2017-09-05T19:19:43.082Z",
+         "label" : "dev",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "contractrole"
+         ],
+         "created_at" : "2017-09-05T19:19:43.082Z"
+      },
+      "model" : "ninetofiver.contractrole",
+      "pk" : 1
+   },
+   {
+      "fields" : {
+         "created_at" : "2017-09-05T19:19:46.676Z",
+         "contract_role" : 1,
+         "updated_at" : "2017-09-05T19:19:46.676Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "contractuser"
+         ],
+         "user" : [
+            "user"
+         ],
+         "contract" : 1
+      },
+      "model" : "ninetofiver.contractuser",
+      "pk" : 1
+   },
+   {
+      "fields" : {
+         "user" : [
+            "user"
+         ],
+         "contract" : 2,
+         "contract_role" : 1,
+         "created_at" : "2017-09-05T19:20:42.635Z",
+         "updated_at" : "2017-09-05T19:20:42.635Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "contractuser"
+         ]
+      },
+      "model" : "ninetofiver.contractuser",
+      "pk" : 2
+   },
+   {
+      "model" : "ninetofiver.contractuser",
+      "fields" : {
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "contractuser"
+         ],
+         "updated_at" : "2017-09-05T19:21:45.690Z",
+         "contract_role" : 1,
+         "created_at" : "2017-09-05T19:21:45.690Z",
+         "contract" : 3,
+         "user" : [
+            "user"
+         ]
+      },
+      "pk" : 3
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:32:24.925Z",
+         "created_at" : "2017-09-05T19:32:24.925Z",
+         "contract" : 3,
+         "day" : 4,
+         "redmine_id" : null
+      },
+      "pk" : 1
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "updated_at" : "2017-09-05T19:32:32.303Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:32:32.303Z",
+         "contract" : 3,
+         "day" : 6
+      },
+      "pk" : 2
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "contract" : 3,
+         "day" : 7,
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:32:38.229Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:32:38.229Z"
+      },
+      "pk" : 3
+   },
+   {
+      "pk" : 4,
+      "fields" : {
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "updated_at" : "2017-09-05T19:32:52.662Z",
+         "created_at" : "2017-09-05T19:32:52.662Z",
+         "contract" : 1,
+         "day" : 10,
+         "redmine_id" : null
+      },
+      "model" : "ninetofiver.performance"
+   },
+   {
+      "fields" : {
+         "day" : 11,
+         "contract" : 1,
+         "created_at" : "2017-09-05T19:33:12.120Z",
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:33:12.120Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "redmine_id" : null
+      },
+      "model" : "ninetofiver.performance",
+      "pk" : 5
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "contract" : 1,
+         "day" : 12,
+         "updated_at" : "2017-09-05T19:33:24.012Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:33:24.012Z",
+         "redmine_id" : null
+      },
+      "pk" : 6
+   },
+   {
+      "pk" : 7,
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "contract" : 2,
+         "day" : 12,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:34:12.887Z",
+         "created_at" : "2017-09-05T19:34:12.887Z"
+      }
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "created_at" : "2017-09-05T19:34:23.758Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:34:23.758Z",
+         "day" : 14,
+         "contract" : 1,
+         "redmine_id" : null
+      },
+      "pk" : 8
+   },
+   {
+      "fields" : {
+         "redmine_id" : null,
+         "day" : 28,
+         "contract" : 1,
+         "created_at" : "2017-09-05T19:34:36.575Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "updated_at" : "2017-09-05T19:34:36.575Z"
+      },
+      "model" : "ninetofiver.performance",
+      "pk" : 9
+   },
+   {
+      "fields" : {
+         "updated_at" : "2017-09-05T19:34:41.233Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:34:41.233Z",
+         "contract" : 1,
+         "day" : 27,
+         "redmine_id" : null
+      },
+      "model" : "ninetofiver.performance",
+      "pk" : 10
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "created_at" : "2017-09-05T19:34:45.519Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:34:45.519Z",
+         "day" : 25,
+         "contract" : 1
+      },
+      "pk" : 11
+   },
+   {
+      "pk" : 12,
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "contract" : 3,
+         "day" : 25,
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:35:07.421Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:35:07.421Z"
+      }
+   },
+   {
+      "pk" : 14,
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "created_at" : "2017-09-05T19:35:15.631Z",
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:35:15.632Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "day" : 26,
+         "contract" : 3,
+         "redmine_id" : null
+      }
+   },
+   {
+      "fields" : {
+         "contract" : 3,
+         "day" : 25,
+         "updated_at" : "2017-09-05T19:35:31.026Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:35:31.026Z",
+         "redmine_id" : null
+      },
+      "model" : "ninetofiver.performance",
+      "pk" : 15
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:35:37.836Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:35:37.836Z",
+         "contract" : 3,
+         "day" : 21
+      },
+      "pk" : 16
+   },
+   {
+      "pk" : 17,
+      "fields" : {
+         "redmine_id" : null,
+         "created_at" : "2017-09-05T19:35:41.955Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "updated_at" : "2017-09-05T19:35:41.955Z",
+         "day" : 20,
+         "contract" : 3
+      },
+      "model" : "ninetofiver.performance"
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "updated_at" : "2017-09-05T19:35:46.129Z",
+         "created_at" : "2017-09-05T19:35:46.129Z",
+         "contract" : 3,
+         "day" : 17
+      },
+      "pk" : 18
+   },
+   {
+      "model" : "ninetofiver.performance",
+      "fields" : {
+         "redmine_id" : null,
+         "timesheet" : 2,
+         "updated_at" : "2017-09-05T19:35:53.626Z",
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "created_at" : "2017-09-05T19:35:53.626Z",
+         "contract" : 3,
+         "day" : 18
+      },
+      "pk" : 19
+   },
+   {
+      "fields" : {
+         "redmine_id" : null,
+         "contract" : 3,
+         "day" : 19,
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "updated_at" : "2017-09-05T19:35:56.643Z",
+         "created_at" : "2017-09-05T19:35:56.643Z"
+      },
+      "model" : "ninetofiver.performance",
+      "pk" : 20
+   },
+   {
+      "fields" : {
+         "day" : 27,
+         "contract" : 3,
+         "created_at" : "2017-09-05T19:37:15.772Z",
+         "timesheet" : 2,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "activityperformance"
+         ],
+         "updated_at" : "2017-09-05T19:37:15.772Z",
+         "redmine_id" : null
+      },
+      "model" : "ninetofiver.performance",
+      "pk" : 21
+   },
+   {
+      "pk" : 1,
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "contract_role" : null,
+         "duration" : "8.00"
+      },
+      "model" : "ninetofiver.activityperformance"
+   },
+   {
+      "pk" : 2,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "duration" : "8.00",
+         "contract_role" : null
+      }
+   },
+   {
+      "pk" : 3,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "contract_role" : null,
+         "duration" : "8.00"
+      }
+   },
+   {
+      "pk" : 4,
+      "fields" : {
+         "contract_role" : null,
+         "duration" : "8.00",
+         "description" : "",
+         "performance_type" : 1
+      },
+      "model" : "ninetofiver.activityperformance"
+   },
+   {
+      "pk" : 5,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "contract_role" : null,
+         "duration" : "8.00"
+      }
+   },
+   {
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "duration" : "8.00",
+         "contract_role" : null
+      },
+      "model" : "ninetofiver.activityperformance",
+      "pk" : 6
+   },
+   {
+      "pk" : 7,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "contract_role" : null,
+         "duration" : "8.00"
+      }
+   },
+   {
+      "pk" : 8,
+      "fields" : {
+         "duration" : "8.00",
+         "contract_role" : null,
+         "description" : "",
+         "performance_type" : 1
+      },
+      "model" : "ninetofiver.activityperformance"
+   },
+   {
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "duration" : "8.00",
+         "contract_role" : null
+      },
+      "model" : "ninetofiver.activityperformance",
+      "pk" : 9
+   },
+   {
+      "pk" : 10,
+      "fields" : {
+         "duration" : "4.00",
+         "contract_role" : null,
+         "performance_type" : 1,
+         "description" : ""
+      },
+      "model" : "ninetofiver.activityperformance"
+   },
+   {
+      "pk" : 11,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "contract_role" : null,
+         "duration" : "4.00"
+      }
+   },
+   {
+      "pk" : 12,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "performance_type" : 1,
+         "description" : "",
+         "contract_role" : null,
+         "duration" : "4.00"
+      }
+   },
+   {
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "contract_role" : null,
+         "duration" : "4.00",
+         "performance_type" : 1,
+         "description" : ""
+      },
+      "pk" : 14
+   },
+   {
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "performance_type" : 1,
+         "description" : "",
+         "contract_role" : null,
+         "duration" : "12.00"
+      },
+      "pk" : 15
+   },
+   {
+      "fields" : {
+         "contract_role" : null,
+         "duration" : "3.00",
+         "description" : "",
+         "performance_type" : 1
+      },
+      "model" : "ninetofiver.activityperformance",
+      "pk" : 16
+   },
+   {
+      "pk" : 17,
+      "fields" : {
+         "duration" : "8.00",
+         "contract_role" : null,
+         "performance_type" : 1,
+         "description" : ""
+      },
+      "model" : "ninetofiver.activityperformance"
+   },
+   {
+      "fields" : {
+         "description" : "",
+         "performance_type" : 1,
+         "contract_role" : null,
+         "duration" : "8.00"
+      },
+      "model" : "ninetofiver.activityperformance",
+      "pk" : 18
+   },
+   {
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "performance_type" : 1,
+         "description" : "",
+         "contract_role" : null,
+         "duration" : "8.00"
+      },
+      "pk" : 19
+   },
+   {
+      "fields" : {
+         "contract_role" : null,
+         "duration" : "8.00",
+         "performance_type" : 1,
+         "description" : ""
+      },
+      "model" : "ninetofiver.activityperformance",
+      "pk" : 20
+   },
+   {
+      "pk" : 21,
+      "model" : "ninetofiver.activityperformance",
+      "fields" : {
+         "description" : "YES",
+         "performance_type" : 1,
+         "duration" : "4.00",
+         "contract_role" : null
+      }
+   }
+]
