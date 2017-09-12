@@ -39,7 +39,7 @@ func (pr *PerformanceRatesList) apiURL() string {
 }
 
 func (pr *PerformanceRatesList) slug() string {
-	return "performance_types"
+	return "rates"
 }
 
 func (pr *PerformanceRatesList) augment() error {
@@ -119,4 +119,5 @@ func (p *PerformanceRate) PrettyPrint() {
 
 func init() {
 	cache.register(PerformancesRates)
+	Models.register(PerformancesRates)
 }

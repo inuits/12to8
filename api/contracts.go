@@ -102,4 +102,5 @@ func (c *Contract) PrettyPrint() {
 
 func init() {
 	cache.register(Contracts)
+	Models.register(Contracts)
 }

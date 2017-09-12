@@ -96,4 +96,5 @@ func (c *Company) PrettyPrint() {
 
 func init() {
 	cache.register(Companies)
+	Models.register(Companies)
 }

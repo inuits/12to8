@@ -31,6 +31,7 @@ type modelList interface {
 	slug() string
 	augment() error
 	isEmpty() bool
+	PrettyPrint()
 }
 
 type modelsCache struct {
@@ -138,6 +139,17 @@ func (c *Client) FetchList(m modelList) error {
 	err = json.NewDecoder(resp.Body).Decode(m)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+// FetchIfNeeded fetches a list if it is empty
+func (c *Client) FetchIfNeeded(m modelList) error {
+	if m.isEmpty() {
+		err := c.FetchList(m)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
