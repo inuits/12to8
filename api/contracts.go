@@ -69,7 +69,7 @@ func (cs *ContractsList) GetByLabel(label string) *Contract {
 func (cs *ContractsList) augment() error {
 	for i := range cs.Contracts {
 		co := &cs.Contracts[i]
-		for _, customer := range companies.Companies {
+		for _, customer := range Companies.Companies {
 			if customer.ID == co.CustomerID {
 				co.Customer = &customer
 				break
