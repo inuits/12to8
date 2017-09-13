@@ -1,209 +1,211 @@
 [
    {
-      "pk" : 1,
       "model" : "ninetofiver.company",
       "fields" : {
-         "address" : "Gone Street\r\nBye avenue",
          "updated_at" : "2017-09-02T17:48:44.918Z",
          "name" : "Golang Tech",
-         "internal" : true,
          "vat_identification_number" : "GT001",
+         "internal" : true,
          "polymorphic_ctype" : [
             "ninetofiver",
             "company"
          ],
-         "country" : "US",
-         "created_at" : "2017-09-02T17:48:44.918Z"
-      }
+         "address" : "Gone Street\r\nBye avenue",
+         "created_at" : "2017-09-02T17:48:44.918Z",
+         "country" : "US"
+      },
+      "pk" : 1
    },
    {
       "pk" : 2,
-      "model" : "ninetofiver.company",
       "fields" : {
-         "updated_at" : "2017-09-02T17:49:20.167Z",
+         "country" : "LU",
+         "created_at" : "2017-09-02T17:49:20.167Z",
          "address" : "PyCo Main Street\r\nBoa City",
-         "name" : "Python & Co",
          "polymorphic_ctype" : [
             "ninetofiver",
             "company"
          ],
-         "vat_identification_number" : "BYTECH",
          "internal" : false,
-         "created_at" : "2017-09-02T17:49:20.167Z",
-         "country" : "LU"
-      }
+         "vat_identification_number" : "BYTECH",
+         "name" : "Python & Co",
+         "updated_at" : "2017-09-02T17:49:20.167Z"
+      },
+      "model" : "ninetofiver.company"
    },
    {
+      "pk" : 3,
+      "model" : "ninetofiver.company",
       "fields" : {
-         "country" : "HK",
-         "created_at" : "2017-09-02T17:50:00.499Z",
+         "updated_at" : "2017-09-02T17:50:00.499Z",
+         "name" : "PhPhew",
          "vat_identification_number" : "PP394585",
-         "internal" : false,
          "polymorphic_ctype" : [
             "ninetofiver",
             "company"
          ],
-         "name" : "PhPhew",
+         "internal" : false,
          "address" : "Elefant square\r\nBrackets",
-         "updated_at" : "2017-09-02T17:50:00.499Z"
-      },
-      "model" : "ninetofiver.company",
-      "pk" : 3
+         "country" : "HK",
+         "created_at" : "2017-09-02T17:50:00.499Z"
+      }
    },
    {
       "pk" : 1,
       "fields" : {
+         "description" : "",
+         "multiplier" : "1.00",
+         "created_at" : "2017-09-02T17:50:53.176Z",
+         "updated_at" : "2017-09-02T17:50:53.176Z",
          "polymorphic_ctype" : [
             "ninetofiver",
             "performancetype"
          ],
-         "updated_at" : "2017-09-02T17:50:53.176Z",
-         "multiplier" : "1.00",
-         "created_at" : "2017-09-02T17:50:53.176Z",
-         "description" : "",
          "label" : "Normal Hours"
       },
       "model" : "ninetofiver.performancetype"
    },
    {
-      "pk" : 2,
       "fields" : {
-         "multiplier" : "2.00",
+         "updated_at" : "2017-09-02T17:51:03.619Z",
          "polymorphic_ctype" : [
             "ninetofiver",
             "performancetype"
          ],
-         "updated_at" : "2017-09-02T17:51:03.619Z",
+         "label" : "Double",
          "description" : "",
          "created_at" : "2017-09-02T17:51:03.619Z",
-         "label" : "Double"
+         "multiplier" : "2.00"
       },
-      "model" : "ninetofiver.performancetype"
+      "model" : "ninetofiver.performancetype",
+      "pk" : 2
    },
    {
-      "model" : "ninetofiver.contract",
+      "pk" : 1,
       "fields" : {
+         "active" : true,
+         "label" : "Go Consultancy",
+         "updated_at" : "2017-09-02T17:52:13.247Z",
+         "redmine_id" : "",
+         "attachments" : [],
+         "company" : 1,
          "performance_types" : [
             1,
             2
          ],
-         "updated_at" : "2017-09-02T17:52:13.247Z",
-         "redmine_id" : "",
-         "description" : "",
-         "active" : true,
-         "label" : "Go Consultancy",
-         "customer" : 2,
+         "created_at" : "2017-09-02T17:52:13.247Z",
+         "starts_at" : "2017-01-01",
          "contract_groups" : [],
+         "description" : "",
          "polymorphic_ctype" : [
             "ninetofiver",
             "consultancycontract"
          ],
-         "created_at" : "2017-09-02T17:52:13.247Z",
-         "attachments" : [],
-         "company" : 1
+         "customer" : 2
       },
-      "pk" : 1
+      "model" : "ninetofiver.contract"
    },
    {
-      "model" : "ninetofiver.contract",
+      "pk" : 2,
       "fields" : {
+         "customer" : 1,
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "consultancycontract"
+         ],
+         "contract_groups" : [],
+         "description" : "",
+         "company" : 1,
+         "created_at" : "2017-09-02T17:52:56.208Z",
          "performance_types" : [
             1,
             2
          ],
          "updated_at" : "2017-09-02T17:52:56.208Z",
-         "active" : true,
-         "description" : "",
-         "redmine_id" : "",
-         "contract_groups" : [],
-         "customer" : 1,
-         "label" : "Internal Stuff (c)",
-         "polymorphic_ctype" : [
-            "ninetofiver",
-            "consultancycontract"
-         ],
          "attachments" : [],
-         "created_at" : "2017-09-02T17:52:56.208Z",
-         "company" : 1
+         "starts_at" : "2015-01-01",
+         "redmine_id" : "",
+         "label" : "Internal Stuff (c)",
+         "active" : true
       },
-      "pk" : 2
+      "model" : "ninetofiver.contract"
    },
    {
       "pk" : 1,
       "fields" : {
          "contract_groups" : [],
          "duration" : null,
-         "attachments" : [],
          "ends_at" : null,
-         "day_rate" : "1000.00",
-         "starts_at" : "2001-01-01",
          "performance_types" : [
             1,
             2
-         ]
+         ],
+         "starts_at" : "2001-01-01",
+         "attachments" : [],
+         "day_rate" : "1000.00"
       },
       "model" : "ninetofiver.consultancycontract"
    },
    {
+      "pk" : 2,
       "model" : "ninetofiver.consultancycontract",
       "fields" : {
-         "contract_groups" : [],
-         "duration" : null,
+         "starts_at" : "2007-09-01",
          "attachments" : [],
          "day_rate" : "0.00",
-         "starts_at" : "2007-09-01",
+         "contract_groups" : [],
          "ends_at" : null,
+         "duration" : null,
          "performance_types" : [
             1,
             2
          ]
-      },
-      "pk" : 2
+      }
    },
    {
-      "pk" : 1,
       "fields" : {
-         "updated_at" : "2017-09-02T17:52:05.938Z",
+         "created_at" : "2017-09-02T17:52:05.937Z",
+         "description" : "",
          "polymorphic_ctype" : [
             "ninetofiver",
             "contractrole"
          ],
          "label" : "Doer",
-         "created_at" : "2017-09-02T17:52:05.937Z",
-         "description" : ""
+         "updated_at" : "2017-09-02T17:52:05.938Z"
       },
-      "model" : "ninetofiver.contractrole"
-   },
-   {
-      "fields" : {
-         "created_at" : "2017-09-02T17:52:13.253Z",
-         "updated_at" : "2017-09-02T17:52:13.253Z",
-         "polymorphic_ctype" : [
-            "ninetofiver",
-            "contractuser"
-         ],
-         "contract_role" : 1,
-         "user" : [
-            "user"
-         ],
-         "contract" : 1
-      },
-      "model" : "ninetofiver.contractuser",
+      "model" : "ninetofiver.contractrole",
       "pk" : 1
    },
    {
-      "model" : "ninetofiver.contractuser",
+      "pk" : 1,
       "fields" : {
-         "created_at" : "2017-09-02T17:52:56.214Z",
-         "updated_at" : "2017-09-02T17:52:56.214Z",
+         "created_at" : "2017-09-02T17:52:13.253Z",
+         "user" : [
+            "user"
+         ],
+         "contract_role" : 1,
+         "contract" : 1,
          "polymorphic_ctype" : [
             "ninetofiver",
             "contractuser"
          ],
-         "contract_role" : 1,
+         "updated_at" : "2017-09-02T17:52:13.253Z"
+      },
+      "model" : "ninetofiver.contractuser"
+   },
+   {
+      "model" : "ninetofiver.contractuser",
+      "fields" : {
+         "polymorphic_ctype" : [
+            "ninetofiver",
+            "contractuser"
+         ],
+         "updated_at" : "2017-09-02T17:52:56.214Z",
          "user" : [
             "user"
          ],
+         "created_at" : "2017-09-02T17:52:56.214Z",
+         "contract_role" : 1,
          "contract" : 2
       },
       "pk" : 2

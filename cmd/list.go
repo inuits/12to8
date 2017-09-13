@@ -15,13 +15,33 @@
 package cmd
 
 import (
+	"errors"
+
+	"github.com/inuits/12to8/api"
 	"github.com/spf13/cobra"
 )
 
 // timesheetCmd represents the timesheet command
 var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "Create timesheets, performances, leaves...",
+	Use:       "list [models]",
+	Short:     "lists timesheets, performances, leaves...",
+	ValidArgs: api.Models.List(),
+	Args: func(cmd *cobra.Command, args []string) error {
+		err := cobra.OnlyValidArgs(cmd, args)
+		if err != nil {
+			return err
+		}
+		if len(args) < 1 {
+			return errors.New("requires at least one arg")
+		}
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		m := api.Models.GetBySlug(args[0])
+		c := NewAPIClient()
+		c.FetchIfNeeded(m)
+		m.PrettyPrint()
+	},
 }
 
 func init() {

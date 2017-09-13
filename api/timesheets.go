@@ -21,6 +21,8 @@ import (
 	"time"
 )
 
+var timesheets = &TimesheetsList{}
+
 // Timesheet represents a ninetofiver timesheet
 type Timesheet struct {
 	ID           int    `json:"id"`
@@ -127,4 +129,8 @@ func (t *Timesheet) Name() string {
 // PrettyPrint prints timesheet in a nice way to the console
 func (t *Timesheet) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", t.Name(), t.Status)
+}
+
+func init() {
+	Models.register(timesheets)
 }

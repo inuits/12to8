@@ -19,7 +19,8 @@ import (
 	"fmt"
 )
 
-var companies = &CompaniesList{}
+// Companies stores the companies we have in cache or fetched from the server.
+var Companies = &CompaniesList{}
 
 // Company is a company as seen in the ninetofiver api
 type Company struct {
@@ -94,5 +95,6 @@ func (c *Company) PrettyPrint() {
 }
 
 func init() {
-	cache.register(companies)
+	cache.register(Companies)
+	Models.register(Companies)
 }
