@@ -42,7 +42,7 @@ func (pr *PerformanceRatesList) slug() string {
 	return "rates"
 }
 
-func (pr *PerformanceRatesList) augment() error {
+func (pr *PerformanceRatesList) augment(c *Client) error {
 	return nil
 }
 
@@ -94,7 +94,7 @@ func (pr *PerformanceRatesList) PrettyList() string {
 }
 
 // PrettyPrint prints the performances rates in a nice way.
-func (pr *PerformanceRatesList) PrettyPrint() {
+func (pr *PerformanceRatesList) PrettyPrint(columns []string) {
 	for _, p := range pr.PerformanceRates {
 		p.PrettyPrint()
 	}
@@ -115,6 +115,30 @@ func (p *PerformanceRate) ShortPrint() {
 // PrettyPrint prints the performance rate in a nice way.
 func (p *PerformanceRate) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", p.Multiplier, p.Label)
+}
+
+func (pr *PerformanceRatesList) extraFetchParameters(c Client, args []string) string {
+	return ""
+}
+
+// HasPorcelain returns false because performances rates do not support PorcelainPrettyPrint
+func (pr *PerformanceRatesList) HasPorcelain() bool {
+	return false
+}
+
+// GetColumns returns an empty list because performances rates are not displayed as a table
+func (pr *PerformanceRatesList) GetColumns() []string {
+	return *new([]string)
+}
+
+// GetDefaultColumns returns an empty list because Performance rates are not displayed as a table
+func (pr *PerformanceRatesList) GetDefaultColumns() []string {
+	return *new([]string)
+}
+
+// PorcelainPrettyPrint does nothing for this model
+func (pr *PerformanceRatesList) PorcelainPrettyPrint() {
+	return
 }
 
 func init() {

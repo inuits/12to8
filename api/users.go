@@ -18,6 +18,9 @@ import (
 	"fmt"
 )
 
+// Users is used to cache the list of Users
+var Users = &UsersList{}
+
 // User represents a ninetofiver user
 type User struct {
 	ID           int
@@ -48,7 +51,7 @@ func (users *UsersList) apiURL() string {
 	return "v1/users"
 }
 
-func (users *UsersList) augment() error {
+func (users *UsersList) augment(c *Client) error {
 	return nil
 }
 
@@ -56,14 +59,42 @@ func (users *UsersList) isEmpty() bool {
 	return len(users.Users) == 0
 }
 
+func (users *UsersList) extraFetchParameters(c Client, args []string) string {
+	return ""
+}
+
 // PrettyPrint prints users in a nice way to the console
-func (users *UsersList) PrettyPrint() {
+func (users *UsersList) PrettyPrint(columns []string) {
 	for _, u := range users.Users {
 		u.PrettyPrint()
 	}
 }
 
+// HasPorcelain returns false because users do not support PorcelainPrettyPrint
+func (users *UsersList) HasPorcelain() bool {
+	return false
+}
+
+// GetColumns returns an empty list because users are not displayed as a table
+func (users *UsersList) GetColumns() []string {
+	return *new([]string)
+}
+
+// GetDefaultColumns returns an empty list because users are not displayed as a table
+func (users *UsersList) GetDefaultColumns() []string {
+	return *new([]string)
+}
+
+// PorcelainPrettyPrint does nothing for this model
+func (users *UsersList) PorcelainPrettyPrint() {
+	return
+}
+
 // PrettyPrint prints user in a nice way to the console
 func (u *User) PrettyPrint() {
 	fmt.Printf("%s \"%s\" %s\n", u.FirstName, u.Username, u.LastName)
+}
+
+func init() {
+	Models.register(Users)
 }

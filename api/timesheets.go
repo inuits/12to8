@@ -37,6 +37,16 @@ type TimesheetsList struct {
 	Timesheets []Timesheet `json:"results"`
 }
 
+// GetByID returns the timesheet with the given id
+func (ts *TimesheetsList) GetByID(id int) *Timesheet {
+	for _, t := range ts.Timesheets {
+		if t.ID == id {
+			return &t
+		}
+	}
+	return nil
+}
+
 // New creates a new timesheet on the server
 func (t *Timesheet) New(c Client) error {
 	resp, err := c.PostRequest(fmt.Sprintf("%s/v1/my_timesheets/", c.Endpoint), t)
@@ -58,7 +68,7 @@ func (ts *TimesheetsList) slug() string {
 	return "timesheets"
 }
 
-func (ts *TimesheetsList) augment() error {
+func (ts *TimesheetsList) augment(c *Client) error {
 	return nil
 }
 
@@ -115,7 +125,7 @@ func (t *Timesheet) Release(c Client) error {
 }
 
 // PrettyPrint prints timesheets in a nice way to the console
-func (ts *TimesheetsList) PrettyPrint() {
+func (ts *TimesheetsList) PrettyPrint(columns []string) {
 	for _, t := range ts.Timesheets {
 		t.PrettyPrint()
 	}
@@ -129,6 +139,30 @@ func (t *Timesheet) Name() string {
 // PrettyPrint prints timesheet in a nice way to the console
 func (t *Timesheet) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", t.Name(), t.Status)
+}
+
+func (ts *TimesheetsList) extraFetchParameters(c Client, args []string) string {
+	return ""
+}
+
+// GetDefaultColumns returns an empty list because timesheets are not displayed as a table
+func (ts *TimesheetsList) GetDefaultColumns() []string {
+	return *new([]string)
+}
+
+// GetColumns returns an empty list because timesheets are not displayed as a table
+func (ts *TimesheetsList) GetColumns() []string {
+	return *new([]string)
+}
+
+// HasPorcelain returns false because timesheets do not support PorcelainPrettyPrint
+func (ts *TimesheetsList) HasPorcelain() bool {
+	return false
+}
+
+// PorcelainPrettyPrint does nothing for this model
+func (ts *TimesheetsList) PorcelainPrettyPrint() {
+	return
 }
 
 func init() {

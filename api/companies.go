@@ -42,12 +42,32 @@ func (cs *CompaniesList) slug() string {
 	return "companies"
 }
 
-func (cs *CompaniesList) augment() error {
+func (cs *CompaniesList) augment(c *Client) error {
 	return nil
 }
 
 func (cs *CompaniesList) isEmpty() bool {
 	return len(cs.Companies) == 0
+}
+
+// HasPorcelain returns false because companies do not support PorcelainPrettyPrint
+func (cs *CompaniesList) HasPorcelain() bool {
+	return false
+}
+
+// GetColumns returns an empty list because companies are not displayed as a table
+func (cs *CompaniesList) GetColumns() []string {
+	return *new([]string)
+}
+
+// GetDefaultColumns returns an empty list because companies are not displayed as a table
+func (cs *CompaniesList) GetDefaultColumns() []string {
+	return *new([]string)
+}
+
+// PorcelainPrettyPrint does nothing for this model
+func (cs *CompaniesList) PorcelainPrettyPrint() {
+	return
 }
 
 // Get returns the Company from the server
@@ -83,7 +103,7 @@ func (c *Company) GetByID(client Client) error {
 }
 
 // PrettyPrint prints companies in a nice way to the console
-func (cs *CompaniesList) PrettyPrint() {
+func (cs *CompaniesList) PrettyPrint(columns []string) {
 	for _, c := range cs.Companies {
 		c.PrettyPrint()
 	}
@@ -92,6 +112,10 @@ func (cs *CompaniesList) PrettyPrint() {
 // PrettyPrint prints company in a nice way to the console
 func (c *Company) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", c.Name, c.Country)
+}
+
+func (cs *CompaniesList) extraFetchParameters(c Client, args []string) string {
+	return ""
 }
 
 func init() {

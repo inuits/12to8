@@ -36,7 +36,7 @@ func ExampleCompaniesList_PrettyPrint() {
 			},
 		},
 	}
-	t.PrettyPrint()
+	t.PrettyPrint(*new([]string))
 	// Output:
 	// Inuits [BE]
 	// Eskimo [NL]

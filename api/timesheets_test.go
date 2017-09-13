@@ -39,7 +39,7 @@ func ExampleTimesheetsList_PrettyPrint() {
 			},
 		},
 	}
-	t.PrettyPrint()
+	t.PrettyPrint(*new([]string))
 	// Output:
 	// August 2007 [APPROVED]
 	// July 2016 [PENDING]
