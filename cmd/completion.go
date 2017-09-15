@@ -144,7 +144,7 @@ func bashComplete() {
 // listContractsCmd represents the list contracts command
 func contractsComplete() {
 	NewAPIClient()
-	api.Contracts.PrettyPrint()
+	api.Contracts.PrettyPrint(*new([]string))
 }
 
 func init() {
@@ -153,11 +153,6 @@ func init() {
 
 // listRatesCmd represents the list rates command
 func ratesComplete() {
-	pr := &api.PerformanceRatesList{}
-	c := NewAPIClient()
-	err := c.FetchList(pr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	pr.ShortPrint()
+	NewAPIClient()
+	api.PerformancesRates.ShortPrint()
 }

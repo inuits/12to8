@@ -17,13 +17,17 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"sort"
 	"strconv"
-	"strings"
 
+	"github.com/inuits/12to8/helpers"
 	"github.com/olekukonko/tablewriter"
 )
+
+// Performances stores the performances as we get them from the ninetofiver server
+var Performances = &PerformancesList{}
 
 // PerformancesColumns are all the columns we can show for performances.
 var PerformancesColumns = []string{"day", "contract", "description", "duration", "multiplier", "type", "id"}
@@ -47,16 +51,25 @@ type Performance struct {
 	Rate        *PerformanceRate
 }
 
-// GetDefaultPerformancesColumns returns the columns to be printed by default
-// for performances.
-func GetDefaultPerformancesColumns() string {
+// HasPorcelain returns true because contracts do support PorcelainPrettyPrint
+func (ps *PerformancesList) HasPorcelain() bool {
+	return true
+}
+
+// GetColumns returns all the available columns in the performances tabular
+func (ps *PerformancesList) GetColumns() []string {
+	return PerformancesColumns
+}
+
+// GetDefaultColumns returns the list of default columns for performances
+func (ps *PerformancesList) GetDefaultColumns() []string {
 	var columns []string
 	for i, defValue := range PerformancesColumnsDefault {
 		if defValue {
 			columns = append(columns, PerformancesColumns[i])
 		}
 	}
-	return strings.Join(columns, ",")
+	return columns
 }
 
 // PerformancesList represents a list of performances we get from the ninetofiver server
@@ -64,25 +77,20 @@ type PerformancesList struct {
 	Performances []Performance `json:"results"`
 }
 
-// Fetch fetches the performances from the server for a given timesheet, then augment it.
-func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/v1/my_performances?timesheet=%d&page_size=9999", c.Endpoint, t.ID))
-	if err != nil {
-		return err
-	}
-	err = json.NewDecoder(resp.Body).Decode(ps)
-	if err != nil {
-		return err
-	}
+func (ps *PerformancesList) apiURL() string {
+	return "v1/my_performances"
+}
 
+func (ps *PerformancesList) augment(c *Client) error {
 	for i := range ps.Performances {
 		p := &ps.Performances[i]
-		p.Timesheet = &t
+		c.FetchIfNeeded(timesheets, *new([]string))
+		p.Timesheet = timesheets.GetByID(p.TimesheetID)
 		p.Contract = Contracts.GetByID(p.ContractID)
 		p.Rate = PerformancesRates.GetByID(p.RateID)
-		if err != nil {
-			return err
-		}
+		// if err != nil {
+		// return err
+		// }
 	}
 
 	sort.SliceStable(ps.Performances, func(i, j int) bool {
@@ -91,7 +99,17 @@ func (ps *PerformancesList) Fetch(c Client, t Timesheet) error {
 		}
 		return ps.Performances[i].Day < ps.Performances[j].Day
 	})
+
 	return nil
+
+}
+
+func (ps *PerformancesList) isEmpty() bool {
+	return len(ps.Performances) == 0
+}
+
+func (ps *PerformancesList) slug() string {
+	return "performances"
 }
 
 // New creates a new performance on the server
@@ -152,8 +170,8 @@ func (p *Performance) FetchTimesheet(c Client) error {
 	return nil
 }
 
-// Porcelain prints out the porcelain version of the performances
-func (ps *PerformancesList) Porcelain() {
+// PorcelainPrettyPrint prints out the porcelain version of the performances
+func (ps *PerformancesList) PorcelainPrettyPrint() {
 	for _, p := range ps.Performances {
 		p.Porcelain()
 	}
@@ -172,9 +190,9 @@ func (p *Performance) Porcelain() {
 	fmt.Println(p.Sporcelain())
 }
 
-// PrettyPrintWithColumns prints a list of performances as a table
+// PrettyPrint prints a list of performances as a table
 // which columns specified as parameter
-func (ps *PerformancesList) PrettyPrintWithColumns(columns []string) {
+func (ps *PerformancesList) PrettyPrint(columns []string) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetColWidth(60)
 	var header []string
@@ -232,4 +250,28 @@ func (p *Performance) GetColumn(name string) string {
 		return p.Type.String()
 	}
 	return ""
+}
+
+func (ps *PerformancesList) extraFetchParameters(c Client, args []string) string {
+	monthSpec := ""
+	if len(args) == 1 {
+		monthSpec = args[0]
+	}
+	month, year, err := helpers.GetMonthYearFromArg(monthSpec)
+	if err != nil {
+		log.Fatal(err)
+	}
+	timesheet := &Timesheet{
+		Month: month,
+		Year:  year,
+	}
+	err = timesheet.Get(c)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return fmt.Sprintf("&timesheet=%d", timesheet.ID)
+}
+
+func init() {
+	Models.register(Performances)
 }

@@ -5,13 +5,14 @@ import (
 	"crypto/sha1"
 	"encoding/json"
 	"fmt"
-	"github.com/mitchellh/go-homedir"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
 	"runtime"
+
+	"github.com/mitchellh/go-homedir"
 )
 
 var cache = &modelsCache{}
@@ -29,9 +30,14 @@ type Client struct {
 type modelList interface {
 	apiURL() string
 	slug() string
-	augment() error
+	augment(*Client) error
 	isEmpty() bool
-	PrettyPrint()
+	GetColumns() []string
+	GetDefaultColumns() []string
+	extraFetchParameters(Client, []string) string
+	PrettyPrint([]string)
+	HasPorcelain() bool
+	PorcelainPrettyPrint()
 }
 
 type modelsCache struct {
@@ -48,7 +54,8 @@ func (c *modelsCache) fetchRemotely(client *Client) error {
 			// We aready have it
 			continue
 		}
-		err := client.FetchList(m)
+		var args []string
+		err := client.FetchList(m, args)
 		if err != nil {
 			return err
 		}
@@ -112,7 +119,7 @@ func (c *modelsCache) fetch(client *Client) error {
 	c.fetchLocally(client)
 	c.fetchRemotely(client)
 	for _, m := range c.models {
-		err := m.augment()
+		err := m.augment(client)
 		if err != nil {
 			return err
 		}
@@ -131,8 +138,9 @@ func (c *Client) FetchCache() error {
 }
 
 // FetchList fetches a list of objects from the backend
-func (c *Client) FetchList(m modelList) error {
-	resp, err := c.GetRequest(fmt.Sprintf("%s/%s/?page_size=9999", c.Endpoint, m.apiURL()))
+func (c *Client) FetchList(m modelList, args []string) error {
+	extraArgs := m.extraFetchParameters(*c, args)
+	resp, err := c.GetRequest(fmt.Sprintf("%s/%s/?page_size=9999%s", c.Endpoint, m.apiURL(), extraArgs))
 	if err != nil {
 		return err
 	}
@@ -140,13 +148,14 @@ func (c *Client) FetchList(m modelList) error {
 	if err != nil {
 		return err
 	}
+	m.augment(c)
 	return nil
 }
 
 // FetchIfNeeded fetches a list if it is empty
-func (c *Client) FetchIfNeeded(m modelList) error {
-	if m.isEmpty() {
-		err := c.FetchList(m)
+func (c *Client) FetchIfNeeded(m modelList, args []string) error {
+	if m.isEmpty() || len(args) > 0 {
+		err := c.FetchList(m, args)
 		if err != nil {
 			return err
 		}

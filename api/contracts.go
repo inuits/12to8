@@ -66,7 +66,7 @@ func (cs *ContractsList) GetByLabel(label string) *Contract {
 	return nil
 }
 
-func (cs *ContractsList) augment() error {
+func (cs *ContractsList) augment(c *Client) error {
 	for i := range cs.Contracts {
 		co := &cs.Contracts[i]
 		for _, customer := range Companies.Companies {
@@ -80,7 +80,7 @@ func (cs *ContractsList) augment() error {
 }
 
 // PrettyPrint prints contracts in a nice way to the console
-func (cs *ContractsList) PrettyPrint() {
+func (cs *ContractsList) PrettyPrint(columns []string) {
 	for _, c := range cs.Contracts {
 		c.PrettyPrint()
 	}
@@ -98,6 +98,30 @@ func (c *Contract) PrettyLabel() string {
 // PrettyPrint prints contract in a nice way to the console
 func (c *Contract) PrettyPrint() {
 	fmt.Println(c.PrettyLabel())
+}
+
+func (cs *ContractsList) extraFetchParameters(c Client, args []string) string {
+	return ""
+}
+
+// HasPorcelain returns false because contracts do not support PorcelainPrettyPrint
+func (cs *ContractsList) HasPorcelain() bool {
+	return false
+}
+
+// GetColumns returns an empty list because contracts are not displayed as a table
+func (cs *ContractsList) GetColumns() []string {
+	return *new([]string)
+}
+
+// GetDefaultColumns returns an empty list because contracts are not displayed as a table
+func (cs *ContractsList) GetDefaultColumns() []string {
+	return *new([]string)
+}
+
+// PorcelainPrettyPrint does nothing for this model
+func (cs *ContractsList) PorcelainPrettyPrint() {
+	return
 }
 
 func init() {
