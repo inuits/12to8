@@ -38,7 +38,8 @@ func (cs *CompaniesList) apiURL() string {
 	return "v1/companies"
 }
 
-func (cs *CompaniesList) slug() string {
+// Slug is used to represent the model in cli
+func (cs *CompaniesList) Slug() string {
 	return "companies"
 }
 

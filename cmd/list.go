@@ -15,9 +15,7 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/inuits/12to8/api"
@@ -29,72 +27,62 @@ var porcelain bool
 
 // timesheetCmd represents the timesheet command
 var listCmd = &cobra.Command{
-	Use:       "list MODEL [args...]",
-	Short:     "lists timesheets, performances, leaves...",
-	ValidArgs: api.Models.List(),
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return errors.New("requires at least one arg")
-		}
-		found := false
-		for _, model := range api.Models.List() {
-			if model == args[0] {
-				found = true
-			}
-		}
-		if !found {
-			return fmt.Errorf("Not a model: %s", args[0])
-		}
-		var invalidColumns []string
-		for _, column := range strings.Split(columns, ",") {
-			if column == "" {
-				continue
-			}
-			found := false
-			for _, validColumn := range api.PerformancesColumns {
-				if validColumn == column {
-					found = true
-				}
-			}
-			if !found {
-				invalidColumns = append(invalidColumns, column)
-			}
-		}
-		if len(invalidColumns) > 0 {
-			return fmt.Errorf("invalid columns: %s", strings.Join(invalidColumns, ", "))
-		}
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		m := api.Models.GetBySlug(args[0])
-		c := NewAPIClient()
-		var model string
-		if len(args) > 0 {
-			model = args[0]
-			args = args[1:]
-		}
-		c.FetchIfNeeded(m, args)
-		if porcelain {
-			if !m.HasPorcelain() {
-				log.Fatalf("%s do not support porcelain", model)
-			}
-			m.PorcelainPrettyPrint()
-			return
-		}
-		if columns != "" {
-			if len(m.GetColumns()) == 0 {
-				log.Fatalf("%s do not support columns", model)
-			}
-			cols := strings.Split(columns, ",")
-			m.PrettyPrint(cols)
-			return
-		}
-		m.PrettyPrint(m.GetDefaultColumns())
-	},
+	Use:   "list",
+	Short: "list timesheets, performances, leaves...",
 }
 
 func init() {
 	RootCmd.AddCommand(listCmd)
-	listCmd.Flags().StringVarP(&columns, "columns", "C", "", "comma-separated columns to be displayed")
-	listCmd.Flags().BoolVarP(&porcelain, "porcelain", "P", false, "porcelain (usable in scripts) output")
+	for i, m := range api.Models.Models {
+		mCmd := &cobra.Command{
+			Use:   fmt.Sprintf("%s", api.Models.Models[i].Slug()),
+			Short: fmt.Sprintf("list the %s", api.Models.Models[i].Slug()),
+			Args: func(cmd *cobra.Command, args []string) error {
+				var invalidColumns []string
+				for _, column := range strings.Split(columns, ",") {
+					if column == "" {
+						continue
+					}
+					found := false
+					for _, validColumn := range api.PerformancesColumns {
+						if validColumn == column {
+							found = true
+						}
+					}
+					if !found {
+						invalidColumns = append(invalidColumns, column)
+					}
+				}
+				if len(invalidColumns) > 0 {
+					return fmt.Errorf("invalid columns: %s", strings.Join(invalidColumns, ", "))
+				}
+				return nil
+			},
+			Run: listRun(m),
+		}
+		listCmd.AddCommand(mCmd)
+		if m.HasPorcelain() {
+			mCmd.Flags().BoolVarP(&porcelain, "porcelain", "P", false, "porcelain (usable in scripts) output")
+		}
+		if len(m.GetColumns()) > 0 {
+			mCmd.Flags().StringVarP(&columns, "columns", "C", "", "comma-separated columns to be displayed")
+		}
+	}
+
+}
+
+func listRun(m api.ModelList) func(*cobra.Command, []string) {
+	return func(cmd *cobra.Command, args []string) {
+		c := NewAPIClient()
+		c.FetchIfNeeded(m, args)
+		if porcelain {
+			m.PorcelainPrettyPrint()
+			return
+		}
+		if columns != "" {
+			m.PrettyPrint(strings.Split(columns, ","))
+			return
+		}
+		m.PrettyPrint(m.GetDefaultColumns())
+	}
 }

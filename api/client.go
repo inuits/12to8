@@ -27,9 +27,10 @@ type Client struct {
 	NoCache  bool
 }
 
-type modelList interface {
+// ModelList is an interface shared by all the models that behave the same way
+type ModelList interface {
 	apiURL() string
-	slug() string
+	Slug() string
 	augment(*Client) error
 	isEmpty() bool
 	GetColumns() []string
@@ -41,10 +42,10 @@ type modelList interface {
 }
 
 type modelsCache struct {
-	models []modelList
+	models []ModelList
 }
 
-func (c *modelsCache) register(m modelList) {
+func (c *modelsCache) register(m ModelList) {
 	c.models = append(c.models, m)
 }
 
@@ -82,7 +83,7 @@ func (c *modelsCache) fetchLocally(client *Client) error {
 	}
 	dir := client.getCacheDir()
 	for _, m := range c.models {
-		modelPath := path.Join(dir, fmt.Sprintf("%s.json", m.slug()))
+		modelPath := path.Join(dir, fmt.Sprintf("%s.json", m.Slug()))
 		_, err := os.Stat(modelPath)
 		if os.IsNotExist(err) {
 			continue
@@ -105,7 +106,7 @@ func (c *modelsCache) save(client *Client) error {
 	}
 	dir := client.getCacheDir()
 	for _, m := range c.models {
-		modelPath := path.Join(dir, fmt.Sprintf("%s.json", m.slug()))
+		modelPath := path.Join(dir, fmt.Sprintf("%s.json", m.Slug()))
 		modelsData, _ := json.Marshal(m)
 		err := ioutil.WriteFile(modelPath, modelsData, 0600)
 		if err != nil {
@@ -138,7 +139,7 @@ func (c *Client) FetchCache() error {
 }
 
 // FetchList fetches a list of objects from the backend
-func (c *Client) FetchList(m modelList, args []string) error {
+func (c *Client) FetchList(m ModelList, args []string) error {
 	extraArgs := m.extraFetchParameters(*c, args)
 	resp, err := c.GetRequest(fmt.Sprintf("%s/%s/?page_size=9999%s", c.Endpoint, m.apiURL(), extraArgs))
 	if err != nil {
@@ -153,7 +154,7 @@ func (c *Client) FetchList(m modelList, args []string) error {
 }
 
 // FetchIfNeeded fetches a list if it is empty
-func (c *Client) FetchIfNeeded(m modelList, args []string) error {
+func (c *Client) FetchIfNeeded(m ModelList, args []string) error {
 	if m.isEmpty() || len(args) > 0 {
 		err := c.FetchList(m, args)
 		if err != nil {
