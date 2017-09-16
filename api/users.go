@@ -43,7 +43,8 @@ type UsersList struct {
 	Users []User `json:"results"`
 }
 
-func (users *UsersList) slug() string {
+// Slug is used to represent the model in cli
+func (users *UsersList) Slug() string {
 	return "users"
 }
 

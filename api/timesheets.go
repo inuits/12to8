@@ -64,7 +64,8 @@ func (ts *TimesheetsList) apiURL() string {
 	return "v1/my_timesheets"
 }
 
-func (ts *TimesheetsList) slug() string {
+// Slug is used to represent the model in cli
+func (ts *TimesheetsList) Slug() string {
 	return "timesheets"
 }
 

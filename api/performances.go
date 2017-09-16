@@ -108,7 +108,8 @@ func (ps *PerformancesList) isEmpty() bool {
 	return len(ps.Performances) == 0
 }
 
-func (ps *PerformancesList) slug() string {
+// Slug is used to represent the model in cli
+func (ps *PerformancesList) Slug() string {
 	return "performances"
 }
 

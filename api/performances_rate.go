@@ -38,7 +38,8 @@ func (pr *PerformanceRatesList) apiURL() string {
 	return "v1/performance_types"
 }
 
-func (pr *PerformanceRatesList) slug() string {
+// Slug is used to represent the model in cli
+func (pr *PerformanceRatesList) Slug() string {
 	return "rates"
 }
 

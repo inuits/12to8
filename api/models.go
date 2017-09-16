@@ -5,26 +5,17 @@ package api
 var Models = &models{}
 
 type models struct {
-	models []modelList
+	Models []ModelList
 }
 
-func (c *models) register(m modelList) {
-	c.models = append(c.models, m)
-}
-
-// List return the list of models
-func (c *models) List() []string {
-	var r []string
-	for _, m := range c.models {
-		r = append(r, m.slug())
-	}
-	return r
+func (c *models) register(m ModelList) {
+	c.Models = append(c.Models, m)
 }
 
 // List return the models that match the slug
-func (c *models) GetBySlug(slug string) modelList {
-	for _, m := range c.models {
-		if m.slug() == slug {
+func (c *models) GetBySlug(slug string) ModelList {
+	for _, m := range c.Models {
+		if m.Slug() == slug {
 			return m
 		}
 	}

@@ -99,11 +99,11 @@ func TestListPerformanceWithWrongColumns(t *testing.T) {
 		ErrLines:      17,
 		ErrText: `Error: invalid columns: nonexisting, extra
 Usage:
-  12to8 list MODEL [args...] [flags]
+  12to8 list performances [flags]
 
 Flags:
   -C, --columns string   comma-separated columns to be displayed
-  -h, --help             help for list
+  -h, --help             help for performances
   -P, --porcelain        porcelain (usable in scripts) output
 
 Global Flags:
