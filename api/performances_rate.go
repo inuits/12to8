@@ -17,6 +17,7 @@ package api
 import (
 	"bytes"
 	"fmt"
+	"strconv"
 )
 
 // PerformancesRates stores the performances rates we get from the cache or the remote server
@@ -34,6 +35,10 @@ type PerformanceRatesList struct {
 	PerformanceRates []PerformanceRate `json:"results"`
 }
 
+func (p *PerformanceRate) apiURL() string {
+	return "v1/performance_types"
+}
+
 func (pr *PerformanceRatesList) apiURL() string {
 	return "v1/performance_types"
 }
@@ -41,6 +46,31 @@ func (pr *PerformanceRatesList) apiURL() string {
 // Slug is used to represent the model in cli
 func (pr *PerformanceRatesList) Slug() string {
 	return "rates"
+}
+
+// SetID sets the ID of the perf rate
+func (p *PerformanceRate) SetID(i int) {
+	p.ID = i
+}
+
+// GetID returns the ID of the perf rate
+func (p *PerformanceRate) GetID() int {
+	return p.ID
+}
+
+// DeleteArg returns what is required on the api side to delete a performance rate
+func (p *PerformanceRate) DeleteArg() string {
+	return strconv.Itoa(p.ID)
+}
+
+// Augment populates extra fields of a perf rate
+func (p *PerformanceRate) Augment(c *Client) {
+	return
+}
+
+// Slug is used to represent the model in cli
+func (p *PerformanceRate) Slug() string {
+	return "rate"
 }
 
 func (pr *PerformanceRatesList) augment(c *Client) error {
@@ -144,5 +174,5 @@ func (pr *PerformanceRatesList) PorcelainPrettyPrint() {
 
 func init() {
 	cache.register(PerformancesRates)
-	Models.register(PerformancesRates)
+	Models.register(PerformancesRates, &PerformanceRate{})
 }

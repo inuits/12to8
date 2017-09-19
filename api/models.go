@@ -5,11 +5,13 @@ package api
 var Models = &models{}
 
 type models struct {
-	Models []ModelList
+	Models           []ModelList
+	IndividualModels []Model
 }
 
-func (c *models) register(m ModelList) {
+func (c *models) register(m ModelList, i Model) {
 	c.Models = append(c.Models, m)
+	c.IndividualModels = append(c.IndividualModels, i)
 }
 
 // List return the models that match the slug

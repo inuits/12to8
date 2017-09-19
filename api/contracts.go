@@ -16,6 +16,7 @@ package api
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // Contracts stores the contracts we have in cache or fetched from the server.
@@ -35,6 +36,10 @@ type ContractsList struct {
 }
 
 func (cs *ContractsList) apiURL() string {
+	return "v1/my_contracts"
+}
+
+func (c *Contract) apiURL() string {
 	return "v1/my_contracts"
 }
 
@@ -96,9 +101,39 @@ func (c *Contract) PrettyLabel() string {
 	return fmt.Sprintf("%s [%s]", c.Label, c.Customer.Name)
 }
 
+// Slug returns the slug for the contract model.
+func (c *Contract) Slug() string {
+	return "contract"
+}
+
+// SetID sets the ID of a contract
+func (c *Contract) SetID(i int) {
+	c.ID = i
+}
+
+// GetID returns the ID of a contract
+func (c *Contract) GetID() int {
+	return c.ID
+}
+
+// DeleteArg returns the arg that is needed in url to delete the contract
+func (c *Contract) DeleteArg() string {
+	return strconv.Itoa(c.ID)
+}
+
 // PrettyPrint prints contract in a nice way to the console
 func (c *Contract) PrettyPrint() {
 	fmt.Println(c.PrettyLabel())
+}
+
+// Augment populates extra fields of a contract
+func (c *Contract) Augment(cl *Client) {
+	for _, customer := range Companies.Companies {
+		if customer.ID == c.CustomerID {
+			c.Customer = &customer
+			break
+		}
+	}
 }
 
 func (cs *ContractsList) extraFetchParameters(c Client, args []string) string {
@@ -127,5 +162,5 @@ func (cs *ContractsList) PorcelainPrettyPrint() {
 
 func init() {
 	cache.register(Contracts)
-	Models.register(Contracts)
+	Models.register(Contracts, &Contract{})
 }

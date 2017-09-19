@@ -15,7 +15,7 @@ func TestDeletePerformance(t *testing.T) {
 		Args:          []string{"delete", "performance", "2"},
 		OutLines:      2,
 		ExpectFailure: true,
-		OutText: `Performance: 2,06/09/2017,,Consult,8.00,1.00,activity.
+		OutText: `2 - 06/09/2017 8.00h  [Consult]
 Are you sure you want to delete that performance? [y/N] Aborted by user
 `,
 	}).Run(t)
@@ -32,7 +32,7 @@ func TestDeletePerformanceY(t *testing.T) {
 		Input:    "y",
 		Args:     []string{"delete", "performance", "2"},
 		OutLines: 1,
-		OutText: `Performance: 2,06/09/2017,,Consult,8.00,1.00,activity.
+		OutText: `2 - 06/09/2017 8.00h  [Consult]
 Are you sure you want to delete that performance? [y/N] `,
 	}).Run(t)
 	(&CmdTestCase{
@@ -56,7 +56,7 @@ func TestDeletePerformanceYes(t *testing.T) {
 		Input:    "yes",
 		Args:     []string{"delete", "performance", "2"},
 		OutLines: 1,
-		OutText: `Performance: 2,06/09/2017,,Consult,8.00,1.00,activity.
+		OutText: `2 - 06/09/2017 8.00h  [Consult]
 Are you sure you want to delete that performance? [y/N] `,
 	}).Run(t)
 	(&CmdTestCase{
@@ -81,7 +81,7 @@ func TestDeletePerformanceNo(t *testing.T) {
 		Args:          []string{"delete", "performance", "2"},
 		OutLines:      2,
 		ExpectFailure: true,
-		OutText: `Performance: 2,06/09/2017,,Consult,8.00,1.00,activity.
+		OutText: `2 - 06/09/2017 8.00h  [Consult]
 Are you sure you want to delete that performance? [y/N] Aborted by user
 `,
 	}

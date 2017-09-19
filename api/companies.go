@@ -17,6 +17,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 )
 
 // Companies stores the companies we have in cache or fetched from the server.
@@ -89,6 +90,35 @@ func (c *Company) Get(client Client) error {
 	return nil
 }
 
+// Slug returns the short name for the company model
+func (c *Company) Slug() string {
+	return "company"
+}
+
+func (c *Company) apiURL() string {
+	return "v1/companies"
+}
+
+// SetID sets the ID of a company
+func (c *Company) SetID(i int) {
+	c.ID = i
+}
+
+// Augment populates extra fields for a company
+func (c *Company) Augment(cl *Client) {
+	return
+}
+
+// GetID returns the ID of a company
+func (c *Company) GetID() int {
+	return c.ID
+}
+
+// DeleteArg returns the arg needed to delete the company
+func (c *Company) DeleteArg() string {
+	return strconv.Itoa(c.ID)
+}
+
 // GetByID returns the Company from the server
 func (c *Company) GetByID(client Client) error {
 	resp, err := client.GetRequest(fmt.Sprintf("%s/v1/companies/%d/", client.Endpoint, c.ID))
@@ -121,5 +151,5 @@ func (cs *CompaniesList) extraFetchParameters(c Client, args []string) string {
 
 func init() {
 	cache.register(Companies)
-	Models.register(Companies)
+	Models.register(Companies, &Company{})
 }

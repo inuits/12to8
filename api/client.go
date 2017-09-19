@@ -27,7 +27,7 @@ type Client struct {
 	NoCache  bool
 }
 
-// ModelList is an interface shared by all the models that behave the same way
+// ModelList is an interface shared by all the models lists
 type ModelList interface {
 	apiURL() string
 	Slug() string
@@ -39,6 +39,17 @@ type ModelList interface {
 	PrettyPrint([]string)
 	HasPorcelain() bool
 	PorcelainPrettyPrint()
+}
+
+// Model is an interface shared by all the models
+type Model interface {
+	SetID(int)
+	GetID() int
+	DeleteArg() string
+	Augment(*Client)
+	PrettyPrint()
+	apiURL() string
+	Slug() string
 }
 
 type modelsCache struct {
@@ -136,6 +147,28 @@ func (c *Client) FetchCache() error {
 		return err
 	}
 	return cache.save(c)
+}
+
+// GetByID returns the model from the server by its id
+func (c *Client) GetByID(m Model) error {
+	resp, err := c.GetRequest(fmt.Sprintf("%s/%s/%d/", c.Endpoint, m.apiURL(), m.GetID()))
+	if err != nil {
+		return err
+	}
+	err = json.NewDecoder(resp.Body).Decode(m)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteByID returns the model from the server
+func (c *Client) DeleteByID(m Model) error {
+	_, err := c.DeleteRequest(fmt.Sprintf("%s/%s/%s/", c.Endpoint, m.apiURL(), m.DeleteArg()))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // FetchList fetches a list of objects from the backend

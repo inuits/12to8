@@ -81,6 +81,10 @@ func (ps *PerformancesList) apiURL() string {
 	return "v1/my_performances"
 }
 
+func (p *Performance) apiURL() string {
+	return "v1/my_performances"
+}
+
 func (ps *PerformancesList) augment(c *Client) error {
 	for i := range ps.Performances {
 		p := &ps.Performances[i]
@@ -113,6 +117,34 @@ func (ps *PerformancesList) Slug() string {
 	return "performances"
 }
 
+// Slug is used to represent the model in cli
+func (p *Performance) Slug() string {
+	return "performance"
+}
+
+// SetID sets the id of the performance
+func (p *Performance) SetID(i int) {
+	p.ID = i
+}
+
+// GetID returns the id of the performance
+func (p *Performance) GetID() int {
+	return p.ID
+}
+
+// DeleteArg returns the args needed to delete a performance
+func (p *Performance) DeleteArg() string {
+	return fmt.Sprintf("%s/%d", p.Type.String(), p.ID)
+}
+
+// Augment populates extra fields of a performance
+func (p *Performance) Augment(c *Client) {
+	c.FetchIfNeeded(timesheets, *new([]string))
+	p.Timesheet = timesheets.GetByID(p.TimesheetID)
+	p.Contract = Contracts.GetByID(p.ContractID)
+	p.Rate = PerformancesRates.GetByID(p.RateID)
+}
+
 // New creates a new performance on the server
 func (p *Performance) New(c Client) error {
 	resp, err := c.PostRequest(fmt.Sprintf("%s/v1/my_performances/%s/", c.Endpoint, p.Type.String()), p)
@@ -133,15 +165,6 @@ func (p *Performance) GetByID(c Client) error {
 		return err
 	}
 	err = json.NewDecoder(resp.Body).Decode(p)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// DeleteByID deletes this performance from the server
-func (p *Performance) DeleteByID(c Client) error {
-	_, err := c.DeleteRequest(fmt.Sprintf("%s/v1/my_performances/%s/%d/", c.Endpoint, p.Type.String(), p.ID))
 	if err != nil {
 		return err
 	}
@@ -232,6 +255,13 @@ func (ps *PerformancesList) GetColumn(name string) string {
 	return ""
 }
 
+// PrettyPrint prints the performance
+func (p *Performance) PrettyPrint() {
+	fmt.Printf("%d - %02d/%02d/%d %sh %s [%s]\n",
+		p.ID, p.Day, p.Timesheet.Month, p.Timesheet.Year, p.Duration, p.Description,
+		p.Contract.Label)
+}
+
 // GetColumn returns the content of a column for a performance
 func (p *Performance) GetColumn(name string) string {
 	switch name {
@@ -274,5 +304,5 @@ func (ps *PerformancesList) extraFetchParameters(c Client, args []string) string
 }
 
 func init() {
-	Models.register(Performances)
+	Models.register(Performances, &Performance{})
 }
