@@ -27,7 +27,7 @@ const (
 	bashCompletionFunc = `
 __12to8_new_timesheet_comp(){
     if [[ ${#nouns[@]} -eq 0 ]]; then
-        COMPREPLY=( $( compgen -W "$(date -d "$(date -d "$(date +%Y-%m-01) - 1 day")" +%m/%Y) $(date +%m/%Y) $(date -d "$(date +"%Y-%m-01") 31 days" +%m/%Y)" -- "$cur" ) )
+        COMPREPLY=( $( compgen -W "$(date -d "$(date +%Y-%m-01) - 1 day" +%m/%Y) $(date +%m/%Y) $(date -d "$(date +"%Y-%m-01") 31 days" +%m/%Y)" -- "$cur" ) )
         return 0
     fi
     if [[ ${#nouns[@]} -ge 1 ]]; then
