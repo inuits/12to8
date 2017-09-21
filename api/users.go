@@ -16,6 +16,7 @@ package api
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // Users is used to cache the list of Users
@@ -46,6 +47,35 @@ type UsersList struct {
 // Slug is used to represent the model in cli
 func (users *UsersList) Slug() string {
 	return "users"
+}
+
+// Slug is used to represent the model in cli
+func (u *User) Slug() string {
+	return "user"
+}
+
+func (u *User) apiURL() string {
+	return "v1/users"
+}
+
+// SetID sets the ID of a user
+func (u *User) SetID(i int) {
+	u.ID = i
+}
+
+// GetID returns the ID of a user
+func (u *User) GetID() int {
+	return u.ID
+}
+
+// DeleteArg returns what is needed in the API url to delete a user
+func (u *User) DeleteArg() string {
+	return strconv.Itoa(u.ID)
+}
+
+// Augment populates extra fields of a user
+func (u *User) Augment(c *Client) {
+	return
 }
 
 func (users *UsersList) apiURL() string {
@@ -97,5 +127,5 @@ func (u *User) PrettyPrint() {
 }
 
 func init() {
-	Models.register(Users)
+	Models.register(Users, &User{})
 }

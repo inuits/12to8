@@ -18,6 +18,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -64,9 +65,33 @@ func (ts *TimesheetsList) apiURL() string {
 	return "v1/my_timesheets"
 }
 
+func (t *Timesheet) apiURL() string {
+	return "v1/my_timesheets"
+}
+
 // Slug is used to represent the model in cli
 func (ts *TimesheetsList) Slug() string {
 	return "timesheets"
+}
+
+// Slug is used to represent the model in cli
+func (t *Timesheet) Slug() string {
+	return "timesheet"
+}
+
+// SetID sets the ID of the timesheet
+func (t *Timesheet) SetID(i int) {
+	t.ID = i
+}
+
+// GetID returns the ID of the timesheet
+func (t *Timesheet) GetID() int {
+	return t.ID
+}
+
+// DeleteArg returns what is required in the url to delete the timesheet
+func (t *Timesheet) DeleteArg() string {
+	return strconv.Itoa(t.ID)
 }
 
 func (ts *TimesheetsList) augment(c *Client) error {
@@ -142,6 +167,11 @@ func (t *Timesheet) PrettyPrint() {
 	fmt.Printf("%s [%s]\n", t.Name(), t.Status)
 }
 
+// Augment populates extra fields for the timesheet
+func (t *Timesheet) Augment(c *Client) {
+	return
+}
+
 func (ts *TimesheetsList) extraFetchParameters(c Client, args []string) string {
 	return ""
 }
@@ -167,5 +197,5 @@ func (ts *TimesheetsList) PorcelainPrettyPrint() {
 }
 
 func init() {
-	Models.register(timesheets)
+	Models.register(timesheets, &Timesheet{})
 }
